@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3001"], //included origin as true
+    origin: ["https://obligr.onrender.com"], //included origin as true
     credentials: true, //included credentials as true
   })
 );
@@ -24,9 +24,9 @@ app.use("/api/v1", user);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+});
 
 // Middleware for Errors
 app.use(errorMiddleware);
