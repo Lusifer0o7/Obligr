@@ -10,6 +10,7 @@ const sendToken = (user, statusCode, res) => {
     ),
     httpOnly: true,
     sameSite: "none",
+    secure,
   };
 
   res.status(statusCode).cookie("token", token, options).json({
