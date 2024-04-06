@@ -216,7 +216,7 @@ export const getAllUsers = () => async (dispatch) => {
     dispatch({ type: ALL_USERS_REQUEST });
 
     const { data } = await axios.get(
-      `https://obligrbe.onrender.com/admin/users`
+      `https://obligrbe.onrender.com/api/v1/admin/users`
     );
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
