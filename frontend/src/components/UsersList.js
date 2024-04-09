@@ -44,26 +44,23 @@ const UsersList = () => {
   }, [dispatch, alert, error, deleteError, isDeleted, message]);
 
   const columns = [
-    { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
+    { field: "id", headerName: "User ID", flex: 0.5 },
 
     {
       field: "email",
       headerName: "Email",
-      minWidth: 200,
-      flex: 1,
+      flex: 0.4,
     },
     {
       field: "name",
       headerName: "Name",
-      minWidth: 150,
-      flex: 0.5,
+      flex: 0.3,
     },
 
     {
       field: "role",
       headerName: "Role",
       type: "number",
-      minWidth: 150,
       flex: 0.3,
       // cellClassName: (params) => {
       //   return params.getValue(params.id, "role") === "admin"
@@ -74,29 +71,32 @@ const UsersList = () => {
 
     {
       field: "actions",
-      flex: 0.3,
+      flex: 0.7,
       headerName: "Actions",
-      minWidth: 150,
       type: "number",
       sortable: false,
       renderCell: (params) => {
         return (
           <Fragment>
-            <Link
-              to={`/admin/users/${params.api.getCellValue(params.id, "id")}`}
-            >
-              Edit
-            </Link>
+            <Button>
+              <Link
+                to={`/admin/users/${params.api.getCellValue(params.id, "id")}`}
+              >
+                Edit
+              </Link>
+            </Button>
 
-            <Link
-              target="_blank"
-              to={`/admin/impersonate/${params.api.getCellValue(
-                params.id,
-                "id"
-              )}`}
-            >
-              Imp
-            </Link>
+            <Button>
+              <Link
+                target="_blank"
+                to={`/admin/impersonate/${params.api.getCellValue(
+                  params.id,
+                  "id"
+                )}`}
+              >
+                Imp
+              </Link>
+            </Button>
 
             <Button
               onClick={() =>
