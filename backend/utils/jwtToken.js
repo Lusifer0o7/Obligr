@@ -13,19 +13,12 @@ const sendToken = (user, statusCode, res, isImpersonate = false) => {
     secure: true,
   };
 
-  if (isImpersonate == false) {
-    res.status(statusCode).cookie("token", token, options).json({
-      success: true,
-      user,
-      token,
-    });
-  } else {
-    res.status(statusCode).cookie("impersonateToken", token, options).json({
-      success: true,
-      impUser: user,
-      token,
-    });
-  }
+  const cookieName = isImpersonate ? "impersonateToken" : "token";
+  const responseData = isImpersonate
+    ? { success: true, impUser: user, token }
+    : { success: true, user, token };
+
+  res.status(statusCode).cookie(cookieName, token, options).json(responseData);
 };
 
 module.exports = sendToken;

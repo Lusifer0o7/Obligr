@@ -123,7 +123,6 @@ export const loadImpersonatedUser = (id) => async (dispatch) => {
       `${BASE_URL}/api/v1/admin/impersonate/${id}`
     );
 
-    console.log(data.impUser);
     dispatch({
       type: IMP_USER_DETAILS_SUCCESS,
       payload: data.impUser,
