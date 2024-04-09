@@ -30,7 +30,7 @@ const UsersList = () => {
     }
 
     if (deleteError) {
-      alert.error(deleteError);
+      alert(deleteError);
       dispatch(clearErrors());
     }
 
@@ -85,7 +85,17 @@ const UsersList = () => {
             <Link
               to={`/admin/users/${params.api.getCellValue(params.id, "id")}`}
             >
-              EditIcon
+              Edit
+            </Link>
+
+            <Link
+              target="_blank"
+              to={`/admin/impersonate/${params.api.getCellValue(
+                params.id,
+                "id"
+              )}`}
+            >
+              Imp
             </Link>
 
             <Button
@@ -93,7 +103,7 @@ const UsersList = () => {
                 deleteUserHandler(params.api.getCellValue(params.id, "id"))
               }
             >
-              DeleteIcon
+              Delete
             </Button>
           </Fragment>
         );
@@ -126,6 +136,7 @@ const UsersList = () => {
             disableSelectionOnClick
             className="productListTable"
             autoHeight
+            autoWidth
           />
         </div>
       </div>

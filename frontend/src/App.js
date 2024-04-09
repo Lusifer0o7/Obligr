@@ -9,6 +9,7 @@ import UsersList from "./components/UsersList";
 import ProtectedRoute from "./ProtectedRoute";
 import UpdateUser from "./components/UpdateUser";
 import Profile from "./components/Profile";
+import Impersonate from "./components/impersonate";
 import { useSelector } from "react-redux";
 import Loader from "./components/Loader";
 import CustomizedSteppers from "./components/demo";
@@ -100,6 +101,11 @@ function App() {
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route
+              exact
+              path="/admin/impersonate/:id"
+              element={<Impersonate />}
+            />
 
             <Route
               path="/admin/users"

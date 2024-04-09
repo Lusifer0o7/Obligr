@@ -1,6 +1,6 @@
 // Create Token and saving in cookie
 
-const sendToken = (user, statusCode, res) => {
+const sendToken = (user, statusCode, res, isImpersonate = false) => {
   const token = user.getJWTToken();
 
   // options for cookie
@@ -13,11 +13,19 @@ const sendToken = (user, statusCode, res) => {
     secure: true,
   };
 
-  res.status(statusCode).cookie("token", token, options).json({
-    success: true,
-    user,
-    token,
-  });
+  if (isImpersonate == false) {
+    res.status(statusCode).cookie("token", token, options).json({
+      success: true,
+      user,
+      token,
+    });
+  } else {
+    res.status(statusCode).cookie("impersonateToken", token, options).json({
+      success: true,
+      impUser: user,
+      token,
+    });
+  }
 };
 
 module.exports = sendToken;

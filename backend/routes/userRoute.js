@@ -13,8 +13,13 @@ const {
   updateUserRole,
   deleteUser,
   registerUserAdmin,
+  impersonateUser,
 } = require("../controllers/userController");
-const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
+const {
+  isAuthenticatedUser,
+  authorizeRoles,
+  impersonateUserAuth,
+} = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -46,5 +51,9 @@ router
   .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
   .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+router
+  .route("/admin/impersonate/:id")
+  .get(isAuthenticatedUser, authorizeRoles("admin"), impersonateUser);
 
 module.exports = router;

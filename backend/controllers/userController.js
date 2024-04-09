@@ -1,7 +1,7 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const User = require("../models/userModel");
-const sendToken = require("../utils/jwtToken");
+const { sendToken, sendImpersonateToken } = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 
@@ -55,6 +55,18 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   sendToken(user, 200, res);
+});
+
+exports.impersonateUser = catchAsyncErrors(async (req, res, next) => {
+  const impersonateUserId = req.params.id;
+
+  const impersonateUser = await User.findById(impersonateUserId);
+
+  if (!impersonateUser) {
+    return next(new ErrorHander("User not found", 401));
+  }
+
+  sendToken(impersonateUser, 200, res, true);
 });
 
 // Logout User
