@@ -66,11 +66,13 @@ export default function Login() {
         <Loader />
       ) : (
         <Grid container component="main" sx={{ height: "100vh" }}>
+          <Grid></Grid>
           <Grid
             item
             xs={false}
             sm={4}
             md={7}
+            pt={10}
             sx={{
               backgroundImage:
                 "url(https://source.unsplash.com/random?wallpapers)",

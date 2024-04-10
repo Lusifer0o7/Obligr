@@ -86,14 +86,14 @@ export const register = (userData) => async (dispatch) => {
 
 export const registeruseradmin = (userData) => async (dispatch) => {
   try {
-    // dispatch({ type: REGISTER_USER_REQUEST });
+    //dispatch({ type: REGISTER_USER_REQUEST });
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
       `${BASE_URL}/api/v1/registeruseradmin`,
       userData
     );
 
-    // dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
+    //dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
   } catch (error) {
     // dispatch({
     //   type: REGISTER_USER_FAIL,

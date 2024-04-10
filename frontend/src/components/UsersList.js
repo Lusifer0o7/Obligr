@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getAllUsers, clearErrors, deleteUser } from "../actions/userAction";
 import { DELETE_USER_RESET } from "../constants/userConstants";
+import EditIcon from "@mui/icons-material/Edit";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -62,11 +65,11 @@ const UsersList = () => {
       headerName: "Role",
       type: "number",
       flex: 0.3,
-      // cellClassName: (params) => {
-      //   return params.getValue(params.id, "role") === "admin"
-      //     ? "greenColor"
-      //     : "redColor";
-      // },
+      cellClassName: (params) => {
+        return params.api.getCellValue(params.id, "role") === "admin"
+          ? "greenColor"
+          : "redColor";
+      },
     },
 
     {
@@ -82,7 +85,7 @@ const UsersList = () => {
               <Link
                 to={`/admin/users/${params.api.getCellValue(params.id, "id")}`}
               >
-                Edit
+                <EditIcon />
               </Link>
             </Button>
 
@@ -94,7 +97,7 @@ const UsersList = () => {
                   "id"
                 )}`}
               >
-                Imp
+                <ManageAccountsIcon />
               </Link>
             </Button>
 
@@ -103,7 +106,7 @@ const UsersList = () => {
                 deleteUserHandler(params.api.getCellValue(params.id, "id"))
               }
             >
-              Delete
+              <DeleteIcon />
             </Button>
           </Fragment>
         );

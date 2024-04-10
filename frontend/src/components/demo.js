@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../actions/userAction";
 import { registeruseradmin } from "../actions/userAction";
+import UsersList from "./UsersList";
+
 function Copyright(props) {
   return (
     <Typography
@@ -105,7 +107,7 @@ export default function Dashboard() {
     setAdminUser({ ...adminuser, [e.target.name]: e.target.value });
   };
 
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -226,6 +228,7 @@ export default function Dashboard() {
                             gap: "5px",
                           }}
                         >
+                          <h3>Create User</h3>
                           <input
                             name="name"
                             placeholder="name"
@@ -266,12 +269,16 @@ export default function Dashboard() {
                   {/* Recent Orders */}
                   <Grid item xs={12}>
                     <Paper
-                      sx={{ p: 2, display: "flex", flexDirection: "column" }}
+                      sx={{
+                        p: 2,
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "100%",
+                      }}
                     >
                       {user.role === "admin" ? (
-                        <Button onClick={() => navigate("/admin/users")}>
-                          see users
-                        </Button>
+                        // <Button onClick={() => navigate("/admin/users")}></Button>
+                        <UsersList />
                       ) : (
                         ""
                       )}
