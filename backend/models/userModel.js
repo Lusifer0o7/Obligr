@@ -3,6 +3,9 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const { type } = require("os");
+const { Role } = require("./roleModel");
+const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,19 +26,12 @@ const userSchema = new mongoose.Schema({
     minLength: [8, "Password should be greater than 8 characters"],
     select: false,
   },
-  // avatar: {
-  //   public_id: {
-  //     type: String,
-  //     required: true,
-  //   },
-  //   url: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
-  role: {
+  address: {
     type: String,
-    default: "user",
+  },
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Role",
   },
   createdAt: {
     type: Date,
@@ -44,6 +40,21 @@ const userSchema = new mongoose.Schema({
 
   resetPasswordToken: String,
   resetPasswordExpire: Date,
+});
+
+userSchema.pre("save", async function (next) {
+  if (!this.role) {
+    try {
+      // Fetch role dynamically
+      const role = await Role.findOne({ name: "user" });
+
+      this.role = role._id;
+      next();
+    } catch (error) {
+      console.error("Error fetching Role:", error);
+      next();
+    }
+  }
 });
 
 userSchema.pre("save", async function (next) {

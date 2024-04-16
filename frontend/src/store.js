@@ -24,6 +24,8 @@ import {
   ImpUserReducer,
 } from "./reducers/userReducer";
 
+import { roleReducer } from "reducers/roleReducer";
+
 // import { cartReducer } from "./reducers/cartReducer";
 // import {
 //   allOrdersReducer,
@@ -51,6 +53,7 @@ const reducer = combineReducers({
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
   impUser: ImpUserReducer,
+  role: roleReducer,
   //   productReviews: productReviewsReducer,
   //   review: reviewReducer,
 });

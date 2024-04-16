@@ -151,7 +151,6 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   user.password = req.body.password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
-
   await user.save();
 
   sendToken(user, 200, res);
@@ -159,7 +158,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user.id).populate("role");
 
   res.status(200).json({
     success: true,
@@ -193,6 +192,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
+    role: req.body.role,
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
@@ -208,7 +208,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 
 // Get all users(admin)
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.find();
+  const users = await User.find().populate({ path: "role", select: "name" });
 
   res.status(200).json({
     success: true,
@@ -218,7 +218,7 @@ exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
 
 // Get single user (admin)
 exports.getSingleUser = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).populate("role");
 
   if (!user) {
     return next(

@@ -18,22 +18,31 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
   const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
-  req.user = await User.findById(decodedData.id);
+  req.user = await User.findById(decodedData.id).populate({
+    path: "role",
+    populate: { path: "permissions", select: "name" },
+  });
 
   next();
 });
 
-exports.authorizeRoles = (...roles) => {
+exports.authorize = (routeName) => {
   return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
+    const permissions = req.user.role.permissions;
+
+    // Check if any permission matches the given route name
+    const permissionFound = permissions.some(
+      (permission) => permission.name === routeName
+    );
+
+    if (!permissionFound) {
       return next(
         new ErrorHander(
-          `Role: ${req.user.role} is not allowed to access this resouce `,
+          `Role: ${req.user.role.name} is not allowed to access this resource`,
           403
         )
       );
     }
-
     next();
   };
 };

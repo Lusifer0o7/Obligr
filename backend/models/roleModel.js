@@ -1,22 +1,23 @@
 const mongoose = require("mongoose");
 
+// Define MongoDB schemas
 const RoleSchema = new mongoose.Schema({
-  roleId: {
-    type: String,
-    unique: true,
-    required: [true, "Role Id required"],
-  },
-  type: {
-    type: String,
-    unique: true,
-    required: [true, "Role type is required"],
-  },
-  rights: [
+  name: { type: String, required: true, unique: true },
+  permissions: [
     {
-      name: String,
-      path: String,
-      url: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Permission",
     },
   ],
 });
-module.exports = Role = mongoose.model("role", RoleSchema);
+
+const PermissionSchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  path: { type: String, required: true },
+});
+
+// Define MongoDB models
+const Role = mongoose.model("Role", RoleSchema);
+const Permission = mongoose.model("Permission", PermissionSchema);
+
+module.exports = { Role, Permission };

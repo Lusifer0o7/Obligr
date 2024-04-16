@@ -4,8 +4,8 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-
 const errorMiddleware = require("./middleware/error");
+const getRoutes = require("./utils/routeUtils");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -19,8 +19,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Route Imports
 const user = require("./routes/userRoute");
+const role = require("./routes/roleRoute");
+const { appendFileSync } = require("fs");
 
 app.use("/api/v1", user);
+app.use("/api/v1", role);
+
+//getRoutes(app);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 

@@ -17,43 +17,66 @@ const {
 } = require("../controllers/userController");
 const {
   isAuthenticatedUser,
-  authorizeRoles,
+  authorize,
   impersonateUserAuth,
 } = require("../middleware/auth");
 
 const router = express.Router();
 
-router.route("/register").post(registerUser);
+router.route("/register").post(registerUser).name = "Register User";
+
 router
   .route("/registeruseradmin")
-  .post(isAuthenticatedUser, authorizeRoles("admin"), registerUserAdmin);
+  .post(isAuthenticatedUser, authorize("Create User"), registerUserAdmin).name =
+  "Create User";
 
-router.route("/login").post(loginUser);
+router.route("/login").post(loginUser).name = "Login User";
 
-router.route("/password/forgot").post(forgotPassword);
+router.route("/password/forgot").post(forgotPassword).name = "Forgot Password";
 
-router.route("/password/reset/:token").put(resetPassword);
+router.route("/password/reset/:token").put(resetPassword).name =
+  "Reset Password";
 
-router.route("/logout").get(logout);
+router.route("/logout").get(logout).name = "Logout";
 
-router.route("/me").get(isAuthenticatedUser, getUserDetails);
+router.route("/me").get(isAuthenticatedUser, getUserDetails).name =
+  "Show Profile";
 
-router.route("/password/update").put(isAuthenticatedUser, updatePassword);
+router.route("/password/update").put(isAuthenticatedUser, updatePassword).name =
+  "Update Password";
 
-router.route("/me/update").put(isAuthenticatedUser, updateProfile);
+router.route("/me/update").put(isAuthenticatedUser, updateProfile).name =
+  "Update Profile";
 
 router
   .route("/admin/users")
-  .get(isAuthenticatedUser, authorizeRoles("admin", "reseller"), getAllUser);
+  .get(isAuthenticatedUser, authorize("Get All Users"), getAllUser).name =
+  "Get All Users";
 
 router
   .route("/admin/user/:id")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
-  .put(isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
-  .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+  .get(isAuthenticatedUser, authorize("Get Single User"), getSingleUser).name =
+  "Get Single User";
+
+router
+  .route("/admin/user/:id")
+  .put(
+    isAuthenticatedUser,
+    authorize("Update User Role"),
+    updateUserRole
+  ).name = "Update User Role";
+
+router
+  .route("/admin/user/:id")
+  .delete(isAuthenticatedUser, authorize("Delete User"), deleteUser).name =
+  "Delete User";
 
 router
   .route("/admin/impersonate/:id")
-  .get(isAuthenticatedUser, authorizeRoles("admin"), impersonateUser);
+  .get(
+    isAuthenticatedUser,
+    authorize("Impersonate User"),
+    impersonateUser
+  ).name = "Impersonate User";
 
 module.exports = router;
