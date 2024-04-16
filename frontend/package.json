@@ -64,7 +64,8 @@
     "reactstrap": "8.10.1"
   },
   "devDependencies": {
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
   "overrides": {
     "svgo": "3.0.2"
