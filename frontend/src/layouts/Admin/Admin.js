@@ -33,6 +33,7 @@ import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 import axios from "axios";
 import UpdateUser from "views/UpdateUser";
+import LoginSignUp from "views/LoginSignUp";
 
 var ps;
 
@@ -107,23 +108,29 @@ function Admin(props) {
       {({ color, changeColor }) => (
         <React.Fragment>
           <div className="wrapper">
-            <Sidebar
-              routes={routes}
-              logo={{
-                outterLink: "https://www.creative-tim.com/",
-                text: "Obligr",
-                imgSrc: logo,
-              }}
-              toggleSidebar={toggleSidebar}
-            />
-            <div className="main-panel" ref={mainPanelRef} data={color}>
-              <AdminNavbar
-                brandText={getBrandText(location.pathname)}
+            {location.pathname !== "/admin/login" && (
+              <Sidebar
+                routes={routes}
+                logo={{
+                  outterLink: "https://www.creative-tim.com/",
+                  text: "Obligr",
+                  imgSrc: logo,
+                }}
                 toggleSidebar={toggleSidebar}
-                sidebarOpened={sidebarOpened}
               />
+            )}
+            <div className="main-panel" ref={mainPanelRef} data={color}>
+              {location.pathname !== "/admin/login" && (
+                <AdminNavbar
+                  brandText={getBrandText(location.pathname)}
+                  toggleSidebar={toggleSidebar}
+                  sidebarOpened={sidebarOpened}
+                />
+              )}
               <Routes>
                 {getRoutes(routes)}
+
+                <Route path="/login" element={<LoginSignUp />} />
 
                 <Route path="/user/:id" element={<UpdateUser />} />
 
@@ -134,11 +141,16 @@ function Admin(props) {
               </Routes>
               {
                 // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
+                location.pathname === "/admin/maps" ||
+                location.pathname === "/admin/login" ? null : (
+                  <Footer fluid />
+                )
               }
             </div>
           </div>
-          <FixedPlugin bgColor={color} handleBgClick={changeColor} />
+          {location.pathname !== "/admin/login" && (
+            <FixedPlugin bgColor={color} handleBgClick={changeColor} />
+          )}
         </React.Fragment>
       )}
     </BackgroundColorContext.Consumer>

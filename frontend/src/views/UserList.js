@@ -75,7 +75,7 @@ function UserList() {
 
   return (
     <>
-      {loading ? (
+      {Object.keys(users).length === 0 ? (
         <Loader />
       ) : (
         <div className="content">

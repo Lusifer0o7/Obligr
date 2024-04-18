@@ -14,13 +14,13 @@ export const roleReducer = (state = { role: {} }, action) => {
     case ALL_ROLE_REQUEST:
       return {
         loading: true,
-        role: [],
+        roles: [],
       };
 
     case ALL_ROLE_SUCCESS:
       return {
         loading: false,
-        role: action.payload,
+        roles: action.payload,
       };
 
     case ALL_ROLE_FAIL:
