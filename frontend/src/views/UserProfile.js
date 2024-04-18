@@ -190,7 +190,12 @@ function UserProfile() {
                         className="avatar"
                         src={require("assets/img/emilyz.jpg")}
                       />
-                      <h5 className="title">{user.name}</h5>
+                      <h5
+                        className="title"
+                        style={{ textTransform: "capitalize" }}
+                      >
+                        {user.name}
+                      </h5>
                     </a>
                     <p className="description">Ceo/Co-Founder</p>
                   </div>

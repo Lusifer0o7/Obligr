@@ -38,11 +38,21 @@ import {
   NavbarToggler,
   ModalHeader,
 } from "reactstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../../actions/userAction";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("Logout Successfull");
+  };
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -154,7 +164,7 @@ function AdminNavbar(props) {
                     <img alt="..." src={require("assets/img/anime3.png")} />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
-                  <p className="d-lg-none">Log out</p>
+                  <p className="d-lg-none">Logout</p>
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-navbar" right tag="ul">
                   <NavLink tag="li">
@@ -165,7 +175,9 @@ function AdminNavbar(props) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item" onClick={handleLogout}>
+                      Logout
+                    </DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>

@@ -23,6 +23,9 @@ import { DELETE_USER_RESET } from "constants/userConstants";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "../assets/css/UserList.css";
 
 // reactstrap components
@@ -55,27 +58,27 @@ function UserList() {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (deleteError) {
-      alert(deleteError);
+      toast.error(deleteError);
       dispatch(clearErrors());
     }
 
     if (isDeleted) {
-      alert(message);
+      toast.success(message);
       navigate("/admin/users");
       dispatch({ type: DELETE_USER_RESET });
     }
 
     dispatch(getAllUsers());
-  }, []);
+  }, [dispatch, error, isDeleted, deleteError]);
 
   return (
     <>
-      {Object.keys(users).length === 0 ? (
+      {loading ? (
         <Loader />
       ) : (
         <div className="content">
@@ -214,6 +217,18 @@ function UserList() {
               </Card>
             </Col>
           </Row>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </div>
       )}
     </>

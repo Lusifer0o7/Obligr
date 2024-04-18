@@ -31,6 +31,7 @@ import BackgroundColorWrapper from "./components/BackgroundColorWrapper/Backgrou
 
 import { Provider } from "react-redux";
 import store from "store";
+import { ToastContainer } from "react-toastify";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -48,6 +49,18 @@ root.render(
             />
           </Routes>
         </BrowserRouter>
+        <ToastContainer
+          position="bottom-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </BackgroundColorWrapper>
     </Provider>
   </ThemeContextWrapper>

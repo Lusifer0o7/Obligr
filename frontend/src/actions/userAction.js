@@ -143,6 +143,7 @@ export const loadImpersonatedUser = (id) => async (dispatch) => {
 // Logout User
 export const logout = () => async (dispatch) => {
   try {
+    console.log("logout");
     await axios.get(`${BASE_URL}/api/v1/logout`);
 
     dispatch({ type: LOGOUT_SUCCESS });

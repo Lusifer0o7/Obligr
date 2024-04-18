@@ -51,9 +51,10 @@ import {
 } from "variables/charts.js";
 
 import { useSelector, useDispatch } from "react-redux";
-import { loadUser } from "actions/userAction";
+import { clearErrors, loadUser } from "../actions/userAction";
 import { useNavigate } from "react-router-dom";
 import Loader from "components/Loader";
+import { toast } from "react-toastify";
 
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
@@ -61,16 +62,27 @@ function Dashboard(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, isAuthenticated, user } = useSelector((state) => state.user);
+  const { error, loading, isAuthenticated, user } = useSelector(
+    (state) => state.user
+  );
 
   useEffect(() => {
-    if (isAuthenticated === false) {
-      console.log("user not authenticated");
-      //navigate("/login");
-    } else {
-      dispatch(loadUser());
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
     }
-  }, []);
+    console.log("Auth bhr==>", typeof isAuthenticated);
+    if (typeof loading === "boolean" && loading === false) {
+      console.log("Auth==>", typeof isAuthenticated);
+      if (isAuthenticated === false) {
+        console.log("user not authenticated");
+        //navigate("/admin/login");
+      } else {
+        console.log("User Authenticated");
+        dispatch(loadUser());
+      }
+    }
+  }, [error, dispatch]);
 
   const setBgChartData = (name) => {
     setbigChartData(name);
@@ -81,6 +93,8 @@ function Dashboard(props) {
         <Loader />
       ) : (
         <div className="content">
+          {console.log("Auth in cont==>", isAuthenticated)}
+
           <Row>
             <Col xs="12">
               <Card className="card-chart">

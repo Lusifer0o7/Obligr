@@ -34,6 +34,8 @@ import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 import axios from "axios";
 import UpdateUser from "views/UpdateUser";
 import LoginSignUp from "views/LoginSignUp";
+import store from "../../store";
+import { loadUser } from "../../actions/userAction";
 
 var ps;
 
@@ -44,6 +46,10 @@ function Admin(props) {
   const [sidebarOpened, setsidebarOpened] = React.useState(
     document.documentElement.className.indexOf("nav-open") !== -1
   );
+
+  React.useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
 
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {

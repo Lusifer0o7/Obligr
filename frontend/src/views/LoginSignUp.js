@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../actions/userAction";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
+import { toast } from "react-toastify";
 
 function LoginSignUp() {
   const { error, loading, isAuthenticated } = useSelector(
@@ -19,14 +20,14 @@ function LoginSignUp() {
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 
     if (isAuthenticated) {
       navigate("/admin/dashboard");
     }
-  }, [dispatch, error, alert, isAuthenticated]);
+  }, [dispatch, error, toast, isAuthenticated]);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
