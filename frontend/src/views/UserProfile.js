@@ -45,11 +45,15 @@ function UserProfile() {
   useEffect(() => {
     if (isAuthenticated === false) {
       console.log("user not authenticated");
-      //navigate("/login");
+      navigate("/login");
     } else {
       dispatch(loadUser());
     }
   }, []);
+
+  if (typeof isAuthenticated === "undefined") {
+    return <Loader />;
+  }
 
   return (
     <>

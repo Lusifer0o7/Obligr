@@ -20,7 +20,7 @@ function LoginSignUp() {
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
+      //toast.error(error, { toastId: "error" });
       dispatch(clearErrors());
     }
 

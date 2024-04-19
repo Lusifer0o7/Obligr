@@ -68,33 +68,31 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
+      toast.error(error, { toastId: "error" });
       dispatch(clearErrors());
     }
-    console.log("Auth bhr==>", typeof isAuthenticated);
-    if (typeof loading === "boolean" && loading === false) {
-      console.log("Auth==>", typeof isAuthenticated);
-      if (isAuthenticated === false) {
-        console.log("user not authenticated");
-        //navigate("/admin/login");
-      } else {
-        console.log("User Authenticated");
-        dispatch(loadUser());
-      }
+
+    if (isAuthenticated === false) {
+      navigate("/admin/login");
+    } else {
+      dispatch(loadUser());
     }
   }, [error, dispatch]);
 
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
+
+  if (typeof isAuthenticated === "undefined") {
+    return <Loader />;
+  }
+
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
         <div className="content">
-          {console.log("Auth in cont==>", isAuthenticated)}
-
           <Row>
             <Col xs="12">
               <Card className="card-chart">
