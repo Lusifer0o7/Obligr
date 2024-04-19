@@ -6,6 +6,7 @@ import { clearErrors, login, register } from "../actions/userAction";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
+import { Col, Row } from "reactstrap";
 
 function LoginSignUp() {
   const { error, loading, isAuthenticated } = useSelector(
@@ -69,30 +70,41 @@ function LoginSignUp() {
             >
               Sign up
             </label>
-            <input
-              className="loginsignupinput"
-              type="text"
-              name="name"
-              placeholder="Name"
-              required
-              onChange={registerDataChange}
-            />
-            <input
-              className="loginsignupinput"
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              onChange={registerDataChange}
-            />
-            <input
-              className="loginsignupinput"
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              onChange={registerDataChange}
-            />
+
+            <div>
+              <input
+                className="loginsignupinput"
+                type="text"
+                name="name"
+                placeholder="Name"
+                required
+                onChange={registerDataChange}
+              />
+              <input
+                className="loginsignupinput"
+                type="text"
+                name="name"
+                placeholder="Name"
+                required
+                onChange={registerDataChange}
+              />
+              <input
+                className="loginsignupinput"
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                onChange={registerDataChange}
+              />
+              <input
+                className="loginsignupinput"
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                onChange={registerDataChange}
+              />
+            </div>
             <button className="loginsignupbutton" type="submit">
               Sign up
             </button>

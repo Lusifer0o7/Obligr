@@ -48,10 +48,6 @@ function Admin(props) {
   );
 
   React.useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
-
-  React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
       document.documentElement.classList.remove("perfect-scrollbar-off");
