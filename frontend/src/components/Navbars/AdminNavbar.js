@@ -53,7 +53,7 @@ function AdminNavbar(props) {
 
   const handleLogout = () => {
     dispatch(logout());
-    toast.success("Logout Successfull");
+    toast.success("Logout Successfull", { toastId: "success" });
     navigate("/admin/login");
   };
   React.useEffect(() => {
