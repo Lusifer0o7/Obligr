@@ -52,6 +52,7 @@ import {
   SEND_MOBILE_OTP_FAIL,
   CLEAR_EMAIL_OTP_DATA,
   CLEAR_MOBILE_OTP_DATA,
+  LOGOUT_REQUEST,
 } from "../constants/userConstants";
 import { BASE_URL } from "../constants/urlConstants";
 import axios from "axios";
@@ -207,7 +208,8 @@ export const loadImpersonatedUser = (id) => async (dispatch) => {
 // Logout User
 export const logout = () => async (dispatch) => {
   try {
-    console.log("logout");
+    dispatch({ type: LOGOUT_REQUEST });
+
     await axios.get(`${BASE_URL}/api/v1/logout`);
 
     dispatch({ type: LOGOUT_SUCCESS });

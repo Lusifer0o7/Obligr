@@ -45,7 +45,7 @@ function LoginSignUp() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const phoneUtil = PhoneNumberUtil.getInstance();
   const [country_code, setCountry_code] = useState("");
 
@@ -150,8 +150,8 @@ function LoginSignUp() {
 
   const verifyMobile = (event) => {
     const mobileOtp = generateOTP();
+    console.log(mobileOtp);
     dispatch(verifyMobileOtp(mobileOtp));
-    setOtpDigits(["", "", "", "", "", ""]);
   };
 
   const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
