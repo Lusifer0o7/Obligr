@@ -37,7 +37,21 @@ import {
   IMP_USER_DETAILS_REQUEST,
   IMP_USER_DETAILS_SUCCESS,
   IMP_USER_DETAILS_FAIL,
+  SEND_EMAIL_OTP_REQUEST,
+  SEND_EMAIL_OTP_SUCCESS,
+  SEND_EMAIL_OTP_FAIL,
   CLEAR_ERRORS,
+  VERIFY_EMAIL_OTP_REQUEST,
+  VERIFY_EMAIL_OTP_SUCCESS,
+  VERIFY_EMAIL_OTP_FAIL,
+  VERIFY_MOBILE_OTP_REQUEST,
+  VERIFY_MOBILE_OTP_SUCCESS,
+  VERIFY_MOBILE_OTP_FAIL,
+  SEND_MOBILE_OTP_REQUEST,
+  SEND_MOBILE_OTP_SUCCESS,
+  SEND_MOBILE_OTP_FAIL,
+  CLEAR_EMAIL_OTP_DATA,
+  CLEAR_MOBILE_OTP_DATA,
 } from "../constants/userConstants";
 import { BASE_URL } from "../constants/urlConstants";
 import axios from "axios";
@@ -75,7 +89,9 @@ export const register = (userData) => async (dispatch) => {
       config
     );
 
-    dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
+    dispatch({ type: REGISTER_USER_SUCCESS });
+    dispatch({ type: CLEAR_EMAIL_OTP_DATA });
+    dispatch({ type: CLEAR_MOBILE_OTP_DATA });
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
@@ -99,6 +115,54 @@ export const registeruseradmin = (userData) => async (dispatch) => {
     //   type: REGISTER_USER_FAIL,
     //   payload: error.response.data.message,
     // });
+  }
+};
+
+export const sendEmailOtp = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: SEND_EMAIL_OTP_REQUEST });
+    const { data } = await axios.post(`${BASE_URL}/api/v1/send/emailotp`, {
+      email,
+    });
+    dispatch({ type: SEND_EMAIL_OTP_SUCCESS, payload: data.data.success });
+  } catch (error) {
+    dispatch({ type: SEND_EMAIL_OTP_FAIL, payload: "Unable to send OTP" });
+  }
+};
+
+export const verifyEmailOtp = (emailOtp) => async (dispatch) => {
+  try {
+    dispatch({ type: VERIFY_EMAIL_OTP_REQUEST });
+    const { data } = await axios.post(`${BASE_URL}/api/v1/verify/emailotp`, {
+      emailOtp,
+    });
+    dispatch({ type: VERIFY_EMAIL_OTP_SUCCESS, payload: data.data.success });
+  } catch (error) {
+    dispatch({ type: VERIFY_EMAIL_OTP_FAIL, payload: "Invalid OTP !" });
+  }
+};
+
+export const sendMobileOtp = (phone) => async (dispatch) => {
+  try {
+    dispatch({ type: SEND_MOBILE_OTP_REQUEST });
+    const { data } = await axios.post(`${BASE_URL}/api/v1/send/mobileotp`, {
+      phone,
+    });
+    dispatch({ type: SEND_MOBILE_OTP_SUCCESS, payload: data.data.success });
+  } catch (error) {
+    dispatch({ type: SEND_MOBILE_OTP_FAIL, payload: "Unable to send OTP" });
+  }
+};
+
+export const verifyMobileOtp = (mobileOtp) => async (dispatch) => {
+  try {
+    dispatch({ type: VERIFY_MOBILE_OTP_REQUEST });
+    const { data } = await axios.post(`${BASE_URL}/api/v1/verify/mobileotp`, {
+      mobileOtp,
+    });
+    dispatch({ type: VERIFY_MOBILE_OTP_SUCCESS, payload: data.data.success });
+  } catch (error) {
+    dispatch({ type: VERIFY_MOBILE_OTP_FAIL, payload: "Invalid OTP !" });
   }
 };
 

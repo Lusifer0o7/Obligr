@@ -3,22 +3,32 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
-const { type } = require("os");
 const { Role } = require("./roleModel");
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 
 const userSchema = new mongoose.Schema({
-  name: {
+  firstName: {
     type: String,
-    required: [true, "Please Enter Your Name"],
+    required: [true, "Please Enter Your First Name"],
     maxLength: [30, "Name cannot exceed 30 characters"],
-    minLength: [4, "Name should have more than 4 characters"],
+    minLength: [3, "Name should have more than 3 characters"],
+  },
+  lastName: {
+    type: String,
+    required: [true, "Please Enter Your Last Name"],
+    maxLength: [30, "Name cannot exceed 30 characters"],
+    minLength: [3, "Name should have more than 3 characters"],
   },
   email: {
     type: String,
     required: [true, "Please Enter Your Email"],
     unique: true,
     validate: [validator.isEmail, "Please Enter a valid Email"],
+  },
+  phone: {
+    type: String,
+    required: [true, "Please Enter Your Phone Number"],
+    unique: true,
+    validate: [validator.isMobilePhone, "Please Enter a valid Mobile number"],
   },
   password: {
     type: String,

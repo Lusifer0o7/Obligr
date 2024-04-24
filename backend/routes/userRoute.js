@@ -14,6 +14,10 @@ const {
   deleteUser,
   registerUserAdmin,
   impersonateUser,
+  sendEmailOtp,
+  verifyEmailOtp,
+  sendMobileOtp,
+  verifyMobileOtp,
 } = require("../controllers/userController");
 const {
   isAuthenticatedUser,
@@ -33,6 +37,13 @@ router
 router.route("/login").post(loginUser).name = "Login User";
 
 router.route("/password/forgot").post(forgotPassword).name = "Forgot Password";
+
+router.route("/send/emailotp").post(sendEmailOtp).name = "Send Email Otp";
+router.route("/verify/emailotp").post(verifyEmailOtp).name = "Verify Email Otp";
+
+router.route("/send/mobileotp").post(sendMobileOtp).name = "Send Mobile Otp";
+router.route("/verify/mobileotp").post(verifyMobileOtp).name =
+  "Verify Mobile Otp";
 
 router.route("/password/reset/:token").put(resetPassword).name =
   "Reset Password";

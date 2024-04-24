@@ -41,7 +41,21 @@ import {
   IMP_USER_DETAILS_REQUEST,
   IMP_USER_DETAILS_SUCCESS,
   IMP_USER_DETAILS_FAIL,
+  SEND_EMAIL_OTP_REQUEST,
+  SEND_EMAIL_OTP_FAIL,
+  SEND_EMAIL_OTP_SUCCESS,
+  VERIFY_EMAIL_OTP_REQUEST,
+  VERIFY_EMAIL_OTP_SUCCESS,
+  VERIFY_EMAIL_OTP_FAIL,
+  SEND_MOBILE_OTP_REQUEST,
+  SEND_MOBILE_OTP_FAIL,
+  SEND_MOBILE_OTP_SUCCESS,
+  VERIFY_MOBILE_OTP_REQUEST,
+  VERIFY_MOBILE_OTP_SUCCESS,
+  VERIFY_MOBILE_OTP_FAIL,
   CLEAR_ERRORS,
+  CLEAR_EMAIL_OTP_DATA,
+  CLEAR_MOBILE_OTP_DATA,
 } from "../constants/userConstants";
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -61,6 +75,7 @@ export const userReducer = (state = { user: {} }, action) => {
         loading: false,
         isAuthenticated: true,
         user: action.payload,
+        otp: null,
       };
 
     case LOGOUT_SUCCESS:
@@ -167,7 +182,101 @@ export const profileReducer = (state = {}, action) => {
   }
 };
 
-export const forgotPasswordReducer = (state = {}, action) => {
+export const verifyEmailOtpReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SEND_EMAIL_OTP_REQUEST:
+    case VERIFY_EMAIL_OTP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SEND_EMAIL_OTP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        emailOtpSent: action.payload,
+      };
+    case VERIFY_EMAIL_OTP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        emailOtpVerified: action.payload,
+      };
+
+    case SEND_EMAIL_OTP_FAIL:
+    case VERIFY_EMAIL_OTP_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_EMAIL_OTP_DATA:
+      return {
+        ...state,
+        emailOtpSent: null,
+        emailOtpVerified: null,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const verifyMobileOtpReducer = (state = {}, action) => {
+  switch (action.type) {
+    case SEND_MOBILE_OTP_REQUEST:
+    case VERIFY_MOBILE_OTP_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SEND_MOBILE_OTP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        mobileOtpSent: action.payload,
+      };
+    case VERIFY_MOBILE_OTP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        mobileOtpVerified: action.payload,
+      };
+
+    case SEND_MOBILE_OTP_FAIL:
+    case VERIFY_MOBILE_OTP_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_MOBILE_OTP_DATA:
+      return {
+        ...state,
+        mobileOtpSent: null,
+        mobileOtpVerified: null,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const forgotPasswordReducer = (state = { otp: {} }, action) => {
   switch (action.type) {
     case FORGOT_PASSWORD_REQUEST:
     case RESET_PASSWORD_REQUEST:

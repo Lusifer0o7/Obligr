@@ -4,26 +4,33 @@ const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const qs = require("qs");
+const axios = require("axios");
 
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, phone, password } = req.body;
 
   const user = await User.create({
-    name,
+    firstName,
+    lastName,
     email,
+    phone,
     password,
   });
 
   sendToken(user, 201, res);
 });
 
+//Admin -> Create User
 exports.registerUserAdmin = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, phone, password } = req.body;
 
   const user = await User.create({
-    name,
+    firstName,
+    lastName,
     email,
+    phone,
     password,
   });
   res.status(200).json({
@@ -80,6 +87,157 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
     success: true,
     message: "Logged Out",
   });
+});
+
+exports.sendEmailOtp = catchAsyncErrors(async (req, res, next) => {
+  const { email } = req.body;
+  let options = {
+    email_id: email,
+    type: "email",
+    sender_id: "OBLIGR",
+    message:
+      "Dear . @$name .\n\nUse : ##OTP##\nUse it on your Signup Page\n\nValid : 1 Min\n\nWelcome Onboard\nTeam Obligr",
+    dlt_template_id: "1207163870142839117",
+    expire_time: "180",
+    otp_length: "6",
+    country_code: "IN",
+  };
+
+  const config = {
+    data: options,
+    headers: {
+      Authorization:
+        "Bearer pK8K0FHXDVCJSWmLCYQKMugITn3safPWzc9nsTwMa18vBbk5Q9C1SMKwyEV2qShZ",
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+    },
+    withCredentials: true,
+  };
+
+  const { data } = await axios.post(
+    "https://obligr.io/api_v2/tfa/send",
+    options,
+    config
+  );
+
+  if (!data.success) {
+    return next(new ErrorHander(`${data.error}`, 500));
+  } else {
+    res
+      .status(200)
+      .cookie("verify_key", data.data.verify_key, options)
+      .json({ success: true, message: "OTP sent successfully", data });
+  }
+});
+
+exports.verifyEmailOtp = catchAsyncErrors(async (req, res, next) => {
+  const { verify_key } = req.cookies;
+  const { emailOtp } = req.body;
+  let options = {
+    verify_key,
+    otp: emailOtp,
+  };
+
+  const config = {
+    data: options,
+    headers: {
+      Authorization:
+        "Bearer pK8K0FHXDVCJSWmLCYQKMugITn3safPWzc9nsTwMa18vBbk5Q9C1SMKwyEV2qShZ",
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+    },
+    withCredentials: true,
+  };
+
+  const { data } = await axios.post(
+    "https://obligr.io/api_v2/tfa/verify",
+    options,
+    config
+  );
+
+  if (!data.success) {
+    return next(new ErrorHander(`${data.error}`, 500));
+  } else {
+    res
+      .status(200)
+      .json({ success: true, message: `${data.data.message}`, data });
+  }
+});
+
+exports.sendMobileOtp = catchAsyncErrors(async (req, res, next) => {
+  const { phone, country_code } = req.body;
+  let options = {
+    mobile_no: phone,
+    type: "sms,whatsapp",
+    caller_id: "8824401044",
+    sender_id: "OBLIGR",
+    message:
+      "Dear . @$name .\n\nUse : ##OTP##\nUse it on your Signup Page\n\nValid : 1 Min\n\nWelcome Onboard\nTeam Obligr",
+    dlt_template_id: "1207163870142839117",
+    expire_time: "180",
+    otp_length: "6",
+    country_code: country_code,
+  };
+
+  const config = {
+    data: options,
+    headers: {
+      Authorization:
+        "Bearer pK8K0FHXDVCJSWmLCYQKMugITn3safPWzc9nsTwMa18vBbk5Q9C1SMKwyEV2qShZ",
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+    },
+    withCredentials: true,
+  };
+
+  const { data } = await axios.post(
+    "https://obligr.io/api_v2/tfa/send",
+    options,
+    config
+  );
+
+  if (!data.success) {
+    return next(new ErrorHander(`${data.error}`, 500));
+  } else {
+    res
+      .status(200)
+      .cookie("verify_key", data.data.verify_key, options)
+      .json({ success: true, message: "OTP sent successfully", data });
+  }
+});
+
+exports.verifyMobileOtp = catchAsyncErrors(async (req, res, next) => {
+  const { verify_key } = req.cookies;
+  const { mobileOtp } = req.body;
+  let options = {
+    verify_key,
+    otp: mobileOtp,
+  };
+
+  const config = {
+    data: options,
+    headers: {
+      Authorization:
+        "Bearer pK8K0FHXDVCJSWmLCYQKMugITn3safPWzc9nsTwMa18vBbk5Q9C1SMKwyEV2qShZ",
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+    },
+    withCredentials: true,
+  };
+
+  const { data } = await axios.post(
+    "https://obligr.io/api_v2/tfa/verify",
+    options,
+    config
+  );
+
+  if (!data.success) {
+    return next(new ErrorHander(`${data.error}`, 500));
+  } else {
+    res
+      .status(200)
+      .json({ success: true, message: `${data.data.message}`, data });
+  }
 });
 
 // Forgot Password

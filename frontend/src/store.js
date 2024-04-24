@@ -22,9 +22,11 @@ import {
   userDetailsReducer,
   userReducer,
   ImpUserReducer,
+  verifyEmailOtpReducer,
+  verifyMobileOtpReducer,
 } from "./reducers/userReducer";
 
-import { roleReducer } from "reducers/roleReducer";
+import { roleReducer } from "./reducers/roleReducer";
 
 // import { cartReducer } from "./reducers/cartReducer";
 // import {
@@ -53,6 +55,8 @@ const reducer = combineReducers({
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
   impUser: ImpUserReducer,
+  verifyEmailOtp: verifyEmailOtpReducer,
+  verifyMobileOtp: verifyMobileOtpReducer,
   role: roleReducer,
   //   productReviews: productReviewsReducer,
   //   review: reviewReducer,
