@@ -56,6 +56,7 @@ import {
   CLEAR_ERRORS,
   CLEAR_EMAIL_OTP_DATA,
   CLEAR_MOBILE_OTP_DATA,
+  LOGOUT_REQUEST,
 } from "../constants/userConstants";
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -76,6 +77,11 @@ export const userReducer = (state = { user: {} }, action) => {
         isAuthenticated: true,
         user: action.payload,
         otp: null,
+      };
+
+    case LOGOUT_REQUEST:
+      return {
+        loading: true,
       };
 
     case LOGOUT_SUCCESS:
