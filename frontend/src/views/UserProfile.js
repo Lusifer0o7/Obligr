@@ -43,7 +43,7 @@ function UserProfile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated === false || typeof isAuthenticated === "undefined") {
+    if (isAuthenticated === false) {
       console.log("user not authenticated");
       navigate("/login");
     } else {
