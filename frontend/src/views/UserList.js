@@ -58,8 +58,7 @@ function UserList() {
 
   useEffect(() => {
     if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
+      toast.error(error, { toastId: "error" });
     }
 
     if (deleteError) {
@@ -73,7 +72,9 @@ function UserList() {
       dispatch({ type: DELETE_USER_RESET });
     }
 
-    dispatch(getAllUsers());
+    if (!error) {
+      dispatch(getAllUsers());
+    }
   }, [dispatch, error, isDeleted, deleteError]);
 
   return (
@@ -93,8 +94,10 @@ function UserList() {
                     <thead className="text-primary">
                       <tr>
                         <th>_Id</th>
-                        <th>Name</th>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
                         <th>Email</th>
+                        <th>Phone No.</th>
                         <th>Role</th>
                         <th className="text-center">Actions</th>
                       </tr>
@@ -105,76 +108,13 @@ function UserList() {
                           <tr key={user._id}>
                             <td>{user._id}</td>
                             <td style={{ textTransform: "capitalize" }}>
-                              {user.name}
+                              {user.firstName}
                             </td>
-                            <td>{user.email}</td>
-                            <td>{user.role.name}</td>
-                            <td className="text-center">
-                              <span>
-                                <Link to={`/admin/user/${user._id}`}>
-                                  <Button
-                                    className="btn-round btn-icon"
-                                    color="info"
-                                    style={{ margin: "5px" }}
-                                  >
-                                    <i className="fa-regular fa-pen-to-square"></i>
-                                  </Button>
-                                </Link>
-
-                                <Link to={`/admin/impersonate/${user._id}`}>
-                                  <Button
-                                    className="btn-round btn-icon"
-                                    color="primary"
-                                    style={{ margin: "5px" }}
-                                  >
-                                    <i className="fa-solid fa-user-gear"></i>
-                                  </Button>
-                                </Link>
-
-                                <Button
-                                  className="btn-round btn-icon"
-                                  color="danger"
-                                  style={{ margin: "5px" }}
-                                  onClick={() => deleteUserHandler(user._id)}
-                                >
-                                  <i className="fa-solid fa-trash"></i>
-                                </Button>
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md="12">
-              <Card className="card-plain">
-                <CardHeader>
-                  <CardTitle tag="h4">Table on Plain Background</CardTitle>
-                  <p className="category">Here is a subtitle for this table</p>
-                </CardHeader>
-                <CardBody>
-                  <Table className="tablesorter" responsive>
-                    <thead className="text-primary">
-                      <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th className="text-center">Salary</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map((user) => {
-                        return (
-                          <tr key={user._id}>
-                            <td>{user._id}</td>
                             <td style={{ textTransform: "capitalize" }}>
-                              {user.name}
+                              {user.lastName}
                             </td>
                             <td>{user.email}</td>
+                            <td>{user.phone}</td>
                             <td>{user.role.name}</td>
                             <td className="text-center">
                               <span>

@@ -150,7 +150,6 @@ function LoginSignUp() {
 
   const verifyMobile = (event) => {
     const mobileOtp = generateOTP();
-    console.log(mobileOtp);
     dispatch(verifyMobileOtp(mobileOtp));
   };
 
@@ -194,7 +193,6 @@ function LoginSignUp() {
 
     return cleanedNumber;
   };
-  console.log(user.phone);
 
   const renderStep = () => {
     switch (step) {
@@ -239,17 +237,17 @@ function LoginSignUp() {
 
               {emailOtpSent ? (
                 emailOtpVerified ? (
-                  <button className="verify-button" onClick={nextStep}>
+                  <button className="get-otp-button" onClick={nextStep}>
                     <span>Next</span>
                   </button>
                 ) : (
-                  <button disabled="true" className="verify-button">
+                  <button disabled="true" className="get-otp-button">
                     <span>Done.</span>
                   </button>
                 )
               ) : (
                 <button
-                  className="verify-button" //send otp
+                  className="get-otp-button" //send otp
                   onClick={() => dispatch(sendEmailOtp(user.email))}
                 >
                   {emailotpLoading ? (
@@ -322,17 +320,17 @@ function LoginSignUp() {
               />
               {mobileOtpSent ? (
                 mobileOtpVerified ? (
-                  <button className="verify-button" onClick={nextStep}>
+                  <button className="get-otp-button" onClick={nextStep}>
                     <span>Next</span>
                   </button>
                 ) : (
-                  <button disabled="true" className="verify-button">
+                  <button disabled="true" className="get-otp-button">
                     <span>Done.</span>
                   </button>
                 )
               ) : (
                 <button
-                  className="verify-button" //send otp
+                  className="get-otp-button" //send otp
                   disabled={!isValidPhone}
                   onClick={() =>
                     dispatch(
@@ -352,9 +350,7 @@ function LoginSignUp() {
             </div>
 
             {!isValidPhone && (
-              <div style={{ textAlign: "center", color: "#F9694A" }}>
-                Enter Valid phone number
-              </div>
+              <div className="phone-valid">Enter valid phone number.</div>
             )}
 
             {mobileOtpSent && !mobileOtpVerified ? (
