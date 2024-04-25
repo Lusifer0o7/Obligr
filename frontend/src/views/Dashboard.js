@@ -40,6 +40,7 @@ import {
   Row,
   Col,
   UncontrolledTooltip,
+  CardFooter,
 } from "reactstrap";
 
 // core components
@@ -50,8 +51,9 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
+import "../assets/css/Dashboard.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, loadUser } from "../actions/userAction";
+import { clearErrors, loadUser, getUserCount } from "../actions/userAction";
 import { useNavigate } from "react-router-dom";
 import Loader from "components/Loader";
 import { toast } from "react-toastify";
@@ -66,6 +68,12 @@ function Dashboard(props) {
     (state) => state.user
   );
 
+  const {
+    error: userCountError,
+    loading: userCountLoading,
+    userCount,
+  } = useSelector((state) => state.userCount);
+
   useEffect(() => {
     if (error) {
       toast.error(error, { toastId: "error" });
@@ -75,6 +83,7 @@ function Dashboard(props) {
     if (isAuthenticated === false) {
       navigate("/admin/login");
     } else {
+      dispatch(getUserCount());
       dispatch(loadUser());
     }
   }, [error, dispatch]);
@@ -83,7 +92,7 @@ function Dashboard(props) {
     setbigChartData(name);
   };
 
-  if (typeof isAuthenticated === "undefined") {
+  if (typeof isAuthenticated === "undefined" || typeof user === "undefined") {
     return <Loader />;
   }
 
@@ -171,6 +180,190 @@ function Dashboard(props) {
                   </div>
                 </CardBody>
               </Card>
+            </Col>
+          </Row>
+
+          <Row style={{ marginBottom: "20px" }}>
+            <Col>
+              <div
+                className="e-card playing"
+                style={{ color: "rgb(230, 230, 230)" }}
+              >
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+
+                <div className="dash-card-container">
+                  <Row>
+                    <Col className="dash-card">
+                      <div
+                        className="dash-card-icon"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom left, #00f2c3, #0098f0, #00f2c3)",
+                        }}
+                      >
+                        <i
+                          className="tim-icons icon-single-02"
+                          style={{ fontSize: "1.5em" }}
+                        ></i>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <div className="dash-card-title">
+                          <div
+                            style={{
+                              fontSize: "2rem",
+                              textShadow: "2px 2px 5px black",
+                            }}
+                          >
+                            {userCount < 10 && userCount >= 0
+                              ? "0" + userCount
+                              : userCount}
+                          </div>
+                          <span className="dash-card-count">Users</span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </Col>
+
+            <Col>
+              <div
+                className="e-card playing"
+                style={{ color: "rgb(230, 230, 230)" }}
+              >
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+
+                <div className="dash-card-container">
+                  <Row>
+                    <Col className="dash-card">
+                      <div
+                        className="dash-card-icon"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom left, #ff8d72, #ff6491, #ff8d72)",
+                        }}
+                      >
+                        <i
+                          className="tim-icons icon-chat-33"
+                          style={{ fontSize: "1.5em" }}
+                        ></i>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <div className="dash-card-title">
+                          <div
+                            style={{
+                              fontSize: "2rem",
+                              textShadow: "2px 2px 5px black",
+                            }}
+                          >
+                            100
+                          </div>
+                          <span className="dash-card-count">Users</span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </Col>
+
+            <Col>
+              <div
+                className="e-card playing"
+                style={{ color: "rgb(230, 230, 230)" }}
+              >
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+
+                <div className="dash-card-container">
+                  <Row>
+                    <Col className="dash-card">
+                      <div
+                        className="dash-card-icon"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca)",
+                        }}
+                      >
+                        <i
+                          className="tim-icons icon-shape-star"
+                          style={{ fontSize: "1.5em" }}
+                        ></i>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <div className="dash-card-title">
+                          <div
+                            style={{
+                              fontSize: "2rem",
+                              textShadow: "2px 2px 5px black",
+                            }}
+                          >
+                            100
+                          </div>
+                          <span className="dash-card-count">Users</span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </Col>
+
+            <Col>
+              <div
+                className="e-card playing"
+                style={{ color: "rgb(230, 230, 230)" }}
+              >
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+
+                <div className="dash-card-container">
+                  <Row>
+                    <Col className="dash-card">
+                      <div
+                        className="dash-card-icon"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to bottom left, #fd5d93, #ec250d, #fd5d93)",
+                        }}
+                      >
+                        <i
+                          className="tim-icons icon-molecule-40"
+                          style={{ fontSize: "1.5em" }}
+                        ></i>
+                      </div>
+                    </Col>
+                    <Col>
+                      <div>
+                        <div className="dash-card-title">
+                          <div
+                            style={{
+                              fontSize: "2rem",
+                              textShadow: "2px 2px 5px black",
+                            }}
+                          >
+                            100
+                          </div>
+                          <span className="dash-card-count">Users</span>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
             </Col>
           </Row>
 

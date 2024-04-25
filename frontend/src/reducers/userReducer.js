@@ -57,6 +57,9 @@ import {
   CLEAR_EMAIL_OTP_DATA,
   CLEAR_MOBILE_OTP_DATA,
   LOGOUT_REQUEST,
+  USER_COUNT_REQUEST,
+  USER_COUNT_SUCCESS,
+  USER_COUNT_FAIL,
 } from "../constants/userConstants";
 
 export const userReducer = (state = { user: {} }, action) => {
@@ -66,6 +69,7 @@ export const userReducer = (state = { user: {} }, action) => {
     case LOAD_USER_REQUEST:
       return {
         loading: true,
+        isAuthenticated: false,
       };
     case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:
@@ -267,6 +271,38 @@ export const verifyMobileOtpReducer = (state = {}, action) => {
         ...state,
         mobileOtpSent: null,
         mobileOtpVerified: null,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const userCountReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_COUNT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case USER_COUNT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        userCount: action.payload,
+      };
+
+    case USER_COUNT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
 
     case CLEAR_ERRORS:

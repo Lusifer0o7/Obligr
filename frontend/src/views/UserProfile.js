@@ -38,18 +38,19 @@ import { useNavigate } from "react-router-dom";
 import { loadUser } from "actions/userAction";
 
 function UserProfile() {
-  const { user, loading, isAuthenticated } = useSelector((state) => state.user);
+  const { user, loading, isAuthenticated, error } = useSelector(
+    (state) => state.user
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuthenticated === false) {
-      console.log("user not authenticated");
-      navigate("/login");
+    if (error) {
+      //navigate("/login");
     } else {
       dispatch(loadUser());
     }
-  }, [isAuthenticated]);
+  }, []);
 
   if (typeof isAuthenticated === "undefined") {
     return <Loader />;

@@ -24,6 +24,7 @@ import {
   ImpUserReducer,
   verifyEmailOtpReducer,
   verifyMobileOtpReducer,
+  userCountReducer,
 } from "./reducers/userReducer";
 
 import { roleReducer } from "./reducers/roleReducer";
@@ -52,6 +53,7 @@ const reducer = combineReducers({
   //   product: productReducer,
   //   allOrders: allOrdersReducer,
   //   order: orderReducer,
+  userCount: userCountReducer,
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
   impUser: ImpUserReducer,

@@ -53,6 +53,7 @@ var routes = [
   //   component: <Notifications />,
   //   layout: "/admin",
   // },
+
   {
     path: "/user-profile",
     name: "User Profile",

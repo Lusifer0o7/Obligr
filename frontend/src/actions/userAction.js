@@ -53,6 +53,9 @@ import {
   CLEAR_EMAIL_OTP_DATA,
   CLEAR_MOBILE_OTP_DATA,
   LOGOUT_REQUEST,
+  USER_COUNT_REQUEST,
+  USER_COUNT_SUCCESS,
+  USER_COUNT_FAIL,
 } from "../constants/userConstants";
 import { BASE_URL } from "../constants/urlConstants";
 import axios from "axios";
@@ -202,6 +205,18 @@ export const loadImpersonatedUser = (id) => async (dispatch) => {
       type: IMP_USER_DETAILS_FAIL,
       payload: error.response.data.message,
     });
+  }
+};
+
+export const getUserCount = () => async (dispatch) => {
+  try {
+    dispatch({ type: USER_COUNT_REQUEST });
+
+    const { data } = await axios.get(`${BASE_URL}/api/v1/user-count`);
+
+    dispatch({ type: USER_COUNT_SUCCESS, payload: data.userCount });
+  } catch (error) {
+    dispatch({ type: USER_COUNT_FAIL, payload: error.response.data });
   }
 };
 

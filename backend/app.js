@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const user = require("./routes/userRoute");
 const role = require("./routes/roleRoute");
 const { appendFileSync } = require("fs");
+const userModel = require("./models/userModel");
 
 app.use("/api/v1", user);
 app.use("/api/v1", role);

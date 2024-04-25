@@ -61,15 +61,15 @@ function LoginSignUp() {
     if (mobileOtpVerified) {
       toast.success("Mobile number verified Successfully.");
     }
-    // if (error) {
-    //   toast.error(error, { toastId: "error" });
-    //   dispatch(clearErrors());
-    // }
+    if (error) {
+      toast.error(error.message);
+      dispatch(clearErrors());
+    }
 
     if (isAuthenticated) {
       navigate("/admin/dashboard");
     }
-  }, [dispatch, emailotpError, mobileotpError, toast, isAuthenticated]);
+  }, [dispatch, emailotpError, mobileotpError, toast, isAuthenticated, error]);
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();

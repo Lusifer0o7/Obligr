@@ -240,6 +240,15 @@ exports.verifyMobileOtp = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.userCount = catchAsyncErrors(async (req, res, next) => {
+  const userCount = await User.countDocuments();
+
+  res.status(200).json({
+    success: true,
+    userCount,
+  });
+});
+
 // Forgot Password
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });

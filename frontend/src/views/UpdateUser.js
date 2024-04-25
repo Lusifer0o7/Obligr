@@ -109,9 +109,10 @@ const UpdateUser = () => {
     setSelectedRole({ id: _id, name: name });
   };
 
+  console.log(user);
   return (
     <>
-      {user === undefined || roles === undefined ? (
+      {loading ? (
         <Loader />
       ) : (
         <div className="content">
