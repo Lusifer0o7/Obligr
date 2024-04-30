@@ -38,7 +38,7 @@ const UpdateUser = () => {
     loading: roleLoading,
     error: roleError,
     roles,
-  } = useSelector((state) => state.roles);
+  } = useSelector((state) => state.allRoles);
 
   const {
     loading: updateLoading,
@@ -55,6 +55,8 @@ const UpdateUser = () => {
 
   const { id } = useParams();
   const userId = id;
+
+  console.log(roles);
 
   useEffect(() => {
     if (!roles) {
@@ -102,14 +104,14 @@ const UpdateUser = () => {
     dispatch(updateUser(userId, myForm));
   };
 
-  const RoleSelectHandler = (event, _id, name) => {
+  const roleSelectHandler = (event, _id, name) => {
     if (event) {
       event.preventDefault();
     }
     setSelectedRole({ id: _id, name: name });
   };
 
-  if (loading || roleLoading || updateLoading) {
+  if (typeof loading === "undefined") {
     return <Loader />;
   }
 
@@ -137,20 +139,20 @@ const UpdateUser = () => {
                           >
                             {selectedRole.name}
                           </DropdownToggle>
-                          <DropdownMenu>
+                          {/* <DropdownMenu>
                             {roles.map((role) => {
                               return (
                                 <DropdownItem
                                   key={role._id}
                                   onClick={(e) =>
-                                    RoleSelectHandler(e, role._id, role.name)
+                                    roleSelectHandler(e, role._id, role.name)
                                   }
                                 >
                                   {role.name}
                                 </DropdownItem>
                               );
                             })}
-                          </DropdownMenu>
+                          </DropdownMenu> */}
                         </UncontrolledDropdown>
                       </Col>
                     </Row>

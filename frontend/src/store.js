@@ -63,7 +63,7 @@ const reducer = combineReducers({
   impUser: ImpUserReducer,
   verifyEmailOtp: verifyEmailOtpReducer,
   verifyMobileOtp: verifyMobileOtpReducer,
-  roles: allRoleReducer,
+  allRoles: allRoleReducer,
   newRole: createRoleReducer,
   permission: permissionReducer,
   //   productReviews: productReviewsReducer,

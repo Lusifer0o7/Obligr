@@ -32,6 +32,7 @@ export const getAllRoles = () => async (dispatch) => {
     dispatch({ type: ALL_ROLE_REQUEST });
 
     const { data } = await axios.get(`${BASE_URL}/api/v1/admin/get/roles`);
+    console.log("ra", data);
 
     dispatch({ type: ALL_ROLE_SUCCESS, payload: data.roles });
   } catch (error) {

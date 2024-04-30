@@ -412,17 +412,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get all users(admin)
-// exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-//   const users = await User.find().populate({ path: "role", select: "name" });
-
-//   res.status(200).json({
-//     success: true,
-//     users,
-//   });
-// });
-
 exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-  const resultPerPage = 2; // Number of users per page
+  const resultPerPage = 8; // Number of users per page
 
   // Get total count of users
   const usersCount = await User.countDocuments();
