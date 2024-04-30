@@ -483,7 +483,7 @@ function LoginSignUp() {
           </form>
         </div>
       </div>
-      <Map />
+      {/* <Map /> */}
     </div>
   );
 }
