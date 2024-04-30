@@ -79,12 +79,14 @@ exports.impersonateUser = catchAsyncErrors(async (req, res, next) => {
 
 // Logout User
 exports.logout = catchAsyncErrors(async (req, res, next) => {
-  res.cookie("token", null, {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-    sameSite: "None",
-    secure,
-  });
+  // res.cookie("token", null, {
+  //   expires: new Date(Date.now()),
+  //   httpOnly: true,
+  //   sameSite: "None",
+  //   secure,
+  // });
+
+  res.clearCookie("token");
 
   res.status(200).json({
     success: true,
