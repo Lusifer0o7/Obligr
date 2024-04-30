@@ -139,7 +139,7 @@ const UpdateUser = () => {
                           >
                             {selectedRole.name}
                           </DropdownToggle>
-                          {/* <DropdownMenu>
+                          <DropdownMenu>
                             {roles.map((role) => {
                               return (
                                 <DropdownItem
@@ -152,7 +152,7 @@ const UpdateUser = () => {
                                 </DropdownItem>
                               );
                             })}
-                          </DropdownMenu> */}
+                          </DropdownMenu>
                         </UncontrolledDropdown>
                       </Col>
                     </Row>

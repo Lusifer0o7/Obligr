@@ -58,7 +58,7 @@ function UserList() {
     message,
   } = useSelector((state) => state.profile);
 
-  const { keyword: urlKeyword } = useParams(); //if url has keyword it will fetch data accordiglly
+  const { keyword: urlKeyword } = useParams(); //if url has keyword it will fetch data accordingly
 
   const [keyword, setKeyword] = useState(urlKeyword);
 

@@ -52,23 +52,20 @@ export const createRoleReducer = (state = { newRole: {} }, action) => {
   }
 };
 
-export const allRoleReducer = (state = { roles: {} }, action) => {
+export const allRoleReducer = (state = { allRoles: {} }, action) => {
   switch (action.type) {
-    case CREATE_ROLE_REQUEST:
     case ALL_ROLE_REQUEST:
       return {
         loading: true,
         roles: [],
       };
 
-    case CREATE_ROLE_SUCCESS:
     case ALL_ROLE_SUCCESS:
       return {
         loading: false,
         roles: action.payload,
       };
 
-    case CREATE_ROLE_FAIL:
     case ALL_ROLE_FAIL:
       return {
         loading: false,

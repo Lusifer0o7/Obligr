@@ -83,6 +83,7 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
     expires: new Date(Date.now()),
     httpOnly: true,
     sameSite: "None",
+    secure,
   });
 
   res.status(200).json({
