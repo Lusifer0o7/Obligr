@@ -120,7 +120,7 @@ function UserList() {
                     onChange={(e) => setKeyword(e.target.value)}
                   ></Input>
                   <Button
-                    className="search-button btn-icon"
+                    className="search-button btn-link btn btn-primary "
                     color="primary"
                     onClick={() => navigate(`/admin/users/${keyword}`)}
                   >
@@ -132,26 +132,23 @@ function UserList() {
                   <Table className="tablesorter" responsive>
                     <thead className="text-primary">
                       <tr>
-                        <th>_Id</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
+                        <th>id</th>
+                        <th>Name</th>
                         <th>Email</th>
-                        <th>Phone No.</th>
+                        <th>Mobile No.</th>
                         <th>Role</th>
                         <th className="text-center">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {users.map((user) => {
+                      {users.map((user, index) => {
                         return (
-                          <tr key={user._id}>
-                            <td>{user._id}</td>
+                          <tr key={index}>
+                            <td>{index + 1}</td>
                             <td style={{ textTransform: "capitalize" }}>
-                              {user.firstName}
+                              {`${user.firstName} ${user.lastName}`}
                             </td>
-                            <td style={{ textTransform: "capitalize" }}>
-                              {user.lastName}
-                            </td>
+
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>{user.role.name}</td>
