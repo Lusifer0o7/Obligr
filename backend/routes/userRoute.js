@@ -19,6 +19,7 @@ const {
   sendMobileOtp,
   verifyMobileOtp,
   userCount,
+  resendOtp,
 } = require("../controllers/userController");
 const {
   isAuthenticatedUser,
@@ -45,6 +46,8 @@ router.route("/verify/emailotp").post(verifyEmailOtp).name = "Verify Email Otp";
 router.route("/send/mobileotp").post(sendMobileOtp).name = "Send Mobile Otp";
 router.route("/verify/mobileotp").post(verifyMobileOtp).name =
   "Verify Mobile Otp";
+
+router.route("/resend/otp").post(resendOtp).name = "Resend Otp";
 
 router.route("/user-count").get(userCount).name = "Get Users Count";
 

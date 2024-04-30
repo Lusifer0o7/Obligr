@@ -30,6 +30,7 @@ import {
   BackgroundColorContext,
   backgroundColors,
 } from "contexts/BackgroundColorContext";
+import SidebarItem from "./SidebarItem";
 
 var ps;
 
@@ -40,6 +41,7 @@ function Sidebar(props) {
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
   };
+
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(sidebarRef.current, {
@@ -134,11 +136,48 @@ function Sidebar(props) {
                       onClick={props.toggleSidebar}
                     >
                       <i className={prop.icon} />
-                      <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                      <p>{prop.name}</p>
                     </NavLink>
                   </li>
                 );
               })}
+
+              <SidebarItem
+                title="Manage users"
+                icon="fa-solid fa-users-gear"
+                normalText="Manage Users"
+                isActive={false}
+                items={[
+                  {
+                    href: "/admin/users",
+                    miniIcon: "fa-solid fa-list-ul",
+                    normalText: "Users List",
+                  },
+                  {
+                    href: "/admin/extended-forms",
+                    miniIcon: "fa-solid fa-user-tie",
+                    normalText: "Reseller List",
+                  },
+                  // Add more items as needed
+                ]}
+              />
+
+              <SidebarItem
+                title="Roles & Permissions"
+                icon="fa-solid fa-key"
+                normalText="Roles & Permissions"
+                isActive={false}
+                items={[
+                  {
+                    href: "/admin/create/role",
+                    miniIcon: "fa-solid fa-plus",
+                    normalText: "Create Role",
+                  },
+                  // Add more items as needed
+                ]}
+              />
+
+              {/* Add other SidebarItem components here */}
             </Nav>
           </div>
         </div>

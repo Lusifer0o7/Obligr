@@ -183,7 +183,7 @@ function Dashboard(props) {
             </Col>
           </Row>
 
-          <Row style={{ marginBottom: "20px" }}>
+          <Row style={{ margin: "0px 20px 20px 20px" }}>
             <Col>
               <div
                 className="e-card playing"

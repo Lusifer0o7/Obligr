@@ -28,8 +28,15 @@ var routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    icon: "tim-icons icon-chart-pie-36",
+    icon: "fa-solid fa-chart-pie",
     component: <Dashboard />,
+    layout: "/admin",
+  },
+  {
+    path: "/user-profile",
+    name: "Profile",
+    icon: "fa-solid fa-address-card",
+    component: <UserProfile />,
     layout: "/admin",
   },
   // {
@@ -53,30 +60,12 @@ var routes = [
   //   component: <Notifications />,
   //   layout: "/admin",
   // },
-
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    icon: "tim-icons icon-single-02",
-    component: <UserProfile />,
-    layout: "/admin",
-  },
-  {
-    path: "/users",
-    name: "User List",
-
-    icon: "tim-icons icon-puzzle-10",
-    component: <UserList />,
-    layout: "/admin",
-  },
-
-  {
-    path: "/typography",
-    name: "Typography",
-
-    icon: "tim-icons icon-align-center",
-    component: <Typography />,
-    layout: "/admin",
-  },
+  //{
+  //   path: "/typography",
+  //   name: "Typography",
+  //   icon: "tim-icons icon-align-center",
+  //   component: <Typography />,
+  //   layout: "/admin",
+  // },
 ];
 export default routes;

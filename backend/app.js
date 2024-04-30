@@ -20,11 +20,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Route Imports
 const user = require("./routes/userRoute");
 const role = require("./routes/roleRoute");
+const permission = require("./routes/permissionsRoute");
 const { appendFileSync } = require("fs");
 const userModel = require("./models/userModel");
 
 app.use("/api/v1", user);
 app.use("/api/v1", role);
+app.use("/api/v1", permission);
 
 //getRoutes(app);
 

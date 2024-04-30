@@ -56,6 +56,8 @@ import {
   USER_COUNT_REQUEST,
   USER_COUNT_SUCCESS,
   USER_COUNT_FAIL,
+  RESEND_OTP_REQUEST,
+  RESEND_OTP_FAIL,
 } from "../constants/userConstants";
 import { BASE_URL } from "../constants/urlConstants";
 import axios from "axios";
@@ -169,6 +171,19 @@ export const verifyMobileOtp = (mobileOtp) => async (dispatch) => {
     dispatch({ type: VERIFY_MOBILE_OTP_FAIL, payload: "Invalid OTP !" });
   }
 };
+
+// export const resendOtp = (emailOtp) => async (dispatch) => {
+//   try {
+//     dispatch({ type: RESEND_OTP_REQUEST });
+//     const { data } = await axios.post(`${BASE_URL}/api/v1/resend/otp`, {
+//       email_id,
+//       mobile_no,
+//     });
+//     dispatch({ type: RESET_PASSWORD_SUCCESS, payload: data.data.success }); //yha se resend ka baki h
+//   } catch (error) {
+//     dispatch({ type: RESEND_OTP_FAIL, payload: "Invalid OTP !" });
+//   }
+// };
 
 // Load User
 export const loadUser = () => async (dispatch) => {
@@ -322,17 +337,23 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
 };
 
 // get All Users
-export const getAllUsers = () => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_USERS_REQUEST });
+export const getAllUsers =
+  (keyword = "", currentPage = "1") =>
+  async (dispatch) => {
+    console.log(keyword);
+    try {
+      dispatch({ type: ALL_USERS_REQUEST });
 
-    const { data } = await axios.get(`${BASE_URL}/api/v1/admin/users`);
+      let link = `/api/v1/admin/users?keyword=${keyword}&page=${currentPage}`;
+      console.log(link);
 
-    dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
-  } catch (error) {
-    dispatch({ type: ALL_USERS_FAIL, payload: error.response.data.message });
-  }
-};
+      const { data } = await axios.get(`${BASE_URL}${link}`);
+
+      dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
+    } catch (error) {
+      dispatch({ type: ALL_USERS_FAIL, payload: error.response.data.message });
+    }
+  };
 
 // get  User Details
 export const getUserDetails = (id) => async (dispatch) => {

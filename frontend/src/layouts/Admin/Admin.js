@@ -34,8 +34,8 @@ import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 import axios from "axios";
 import UpdateUser from "views/UpdateUser";
 import LoginSignUp from "views/LoginSignUp";
-import store from "../../store";
-import { loadUser } from "../../actions/userAction";
+import UserList from "views/UserList";
+import CreateRole from "views/RoleViews/CreateRole";
 
 var ps;
 
@@ -114,7 +114,7 @@ function Admin(props) {
               <Sidebar
                 routes={routes}
                 logo={{
-                  outterLink: "https://www.creative-tim.com/",
+                  outterLink: "",
                   text: "Obligr",
                   imgSrc: logo,
                 }}
@@ -135,6 +135,11 @@ function Admin(props) {
                 <Route path="/login" element={<LoginSignUp />} />
 
                 <Route path="/user/:id" element={<UpdateUser />} />
+
+                <Route path="/users/:keyword" element={<UserList />} />
+                <Route path="/users" element={<UserList />} />
+
+                <Route path="/create/role" element={<CreateRole />} />
 
                 <Route
                   path="/"

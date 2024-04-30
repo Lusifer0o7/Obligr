@@ -16,11 +16,10 @@ import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import { Col, Row } from "reactstrap";
 import { PhoneInput } from "react-international-phone";
-
 import "react-international-phone/style.css";
-
 import { PhoneNumberUtil } from "google-libphonenumber";
 import Spinner from "components/Spinner";
+import Map from "components/Map";
 
 function LoginSignUp() {
   const { error, loading, isAuthenticated } = useSelector(
@@ -45,7 +44,7 @@ function LoginSignUp() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const phoneUtil = PhoneNumberUtil.getInstance();
   const [country_code, setCountry_code] = useState("");
 
@@ -429,7 +428,6 @@ function LoginSignUp() {
         return null;
     }
   };
-
   return (
     <div className="loginsignup">
       <div className="loginsignupmain">
@@ -451,72 +449,6 @@ function LoginSignUp() {
             </label>
 
             <div>{renderStep()}</div>
-
-            {/* <div style={{ display: "flex" }}>
-              <div style={{ width: "100%" }}>
-                <input
-                  className="loginsignupinput"
-                  type="text"
-                  name="fname"
-                  placeholder="First name"
-                  required
-                  onChange={registerDataChange}
-                />
-                <input
-                  className="loginsignupinput"
-                  type="lname"
-                  name="lname"
-                  placeholder="Last name"
-                  required
-                  onChange={registerDataChange}
-                />
-              </div>
-
-              <div>
-                <input
-                  className="loginsignupinput"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  onChange={registerDataChange}
-                />
-              </div>
-
-              <div>
-                <input
-                  className="loginsignupinput"
-                  type="number"
-                  name="phone"
-                  placeholder="Mobile Number"
-                  required
-                  onChange={registerDataChange}
-                />
-              </div>
-
-              <div>
-                <input
-                  className="loginsignupinput"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  onChange={registerDataChange}
-                />
-                <input
-                  className="loginsignupinput"
-                  type="confirmpassword"
-                  name="confirmpassword"
-                  placeholder="Confirm Password"
-                  required
-                  onChange={registerDataChange}
-                />
-              </div>
-            </div> */}
-
-            {/* <button className="loginsignupbutton" type="submit">
-              Sign up
-            </button> */}
           </form>
         </div>
 
@@ -551,6 +483,7 @@ function LoginSignUp() {
           </form>
         </div>
       </div>
+      <Map />
     </div>
   );
 }

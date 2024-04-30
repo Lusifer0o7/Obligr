@@ -38,7 +38,7 @@ const UpdateUser = () => {
     loading: roleLoading,
     error: roleError,
     roles,
-  } = useSelector((state) => state.role);
+  } = useSelector((state) => state.roles);
 
   const {
     loading: updateLoading,
@@ -109,7 +109,10 @@ const UpdateUser = () => {
     setSelectedRole({ id: _id, name: name });
   };
 
-  console.log(user);
+  if (loading || roleLoading || updateLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       {loading ? (

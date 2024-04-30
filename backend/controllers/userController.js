@@ -6,6 +6,7 @@ const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const qs = require("qs");
 const axios = require("axios");
+const ApiFeatures = require("../utils/apifeatures");
 
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -240,6 +241,43 @@ exports.verifyMobileOtp = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+exports.resendOtp = catchAsyncErrors(async (req, res, next) => {
+  const { verify_key } = req.cookies;
+  const { email } = req.body;
+  const { phone } = req.body;
+
+  let options = {
+    verify_key,
+    email_id: email,
+    mobile_no: phone,
+  };
+
+  const config = {
+    data: options,
+    headers: {
+      Authorization:
+        "Bearer pK8K0FHXDVCJSWmLCYQKMugITn3safPWzc9nsTwMa18vBbk5Q9C1SMKwyEV2qShZ",
+      "Content-Type": "application/json",
+      "Cache-Control": "no-cache",
+    },
+    withCredentials: true,
+  };
+
+  const { data } = await axios.post(
+    "https://obligr.io/api_v2/tfa/send?mobile",
+    options,
+    config
+  );
+
+  if (!data.success) {
+    return next(new ErrorHander(`${data.error}`, 500));
+  } else {
+    res
+      .status(200)
+      .json({ success: true, message: `${data.data.message}`, data });
+  }
+});
+
 exports.userCount = catchAsyncErrors(async (req, res, next) => {
   const userCount = await User.countDocuments();
 
@@ -374,12 +412,39 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Get all users(admin)
-exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.find().populate({ path: "role", select: "name" });
+// exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
+//   const users = await User.find().populate({ path: "role", select: "name" });
 
+//   res.status(200).json({
+//     success: true,
+//     users,
+//   });
+// });
+
+exports.getAllUser = catchAsyncErrors(async (req, res, next) => {
+  const resultPerPage = 2; // Number of users per page
+
+  // Get total count of users
+  const usersCount = await User.countDocuments();
+
+  // Create an instance of ApiFeatures for User model
+  const apiFeature = new ApiFeatures(User, req.query).search();
+
+  // Apply pagination
+  apiFeature.pagination(resultPerPage);
+
+  // Execute the query with pagination
+  const users = await apiFeature.query.populate({
+    path: "role",
+    select: "name",
+  });
+
+  // Send response
   res.status(200).json({
     success: true,
     users,
+    usersCount,
+    resultPerPage,
   });
 });
 
