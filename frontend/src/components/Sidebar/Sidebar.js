@@ -163,6 +163,26 @@ function Sidebar(props) {
               />
 
               <SidebarItem
+                title="Website"
+                icon="fa-solid fa-globe"
+                normalText="Website"
+                isActive={false}
+                items={[
+                  {
+                    href: "/admin/create/website",
+                    miniIcon: "fa-solid fa-wand-magic-sparkles",
+                    normalText: "Create New Website",
+                  },
+                  {
+                    href: "/admin/websites",
+                    miniIcon: "fa-solid fa-list",
+                    normalText: "Website List",
+                  },
+                  // Add more items as needed
+                ]}
+              />
+
+              <SidebarItem
                 title="Roles & Permissions"
                 icon="fa-solid fa-key"
                 normalText="Roles & Permissions"
@@ -172,6 +192,11 @@ function Sidebar(props) {
                     href: "/admin/create/role",
                     miniIcon: "fa-solid fa-plus",
                     normalText: "Create Role",
+                  },
+                  {
+                    href: "/admin/update/role",
+                    miniIcon: "fa-solid fa-file-pen",
+                    normalText: "Update Roles",
                   },
                   // Add more items as needed
                 ]}

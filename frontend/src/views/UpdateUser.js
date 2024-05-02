@@ -56,8 +56,6 @@ const UpdateUser = () => {
   const { id } = useParams();
   const userId = id;
 
-  console.log(roles);
-
   useEffect(() => {
     if (!roles) {
       dispatch(getAllRoles());

@@ -10,6 +10,7 @@ import {
   verifyEmailOtp,
   sendMobileOtp,
   verifyMobileOtp,
+  loadUser,
 } from "../actions/userAction";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
@@ -44,13 +45,16 @@ function LoginSignUp() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const phoneUtil = PhoneNumberUtil.getInstance();
   const [country_code, setCountry_code] = useState("");
 
   useEffect(() => {
-    if (emailotpError || mobileotpError) {
+    if (mobileotpError) {
       toast.error(emailotpError, { toastId: "error" });
+      dispatch(clearErrors());
+    }
+    if (mobileotpError) {
       toast.error(mobileotpError, { toastId: "error" });
       dispatch(clearErrors());
     }
@@ -428,6 +432,7 @@ function LoginSignUp() {
         return null;
     }
   };
+
   return (
     <div className="loginsignup">
       <div className="loginsignupmain">

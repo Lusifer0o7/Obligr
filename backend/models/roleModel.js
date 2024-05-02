@@ -1,19 +1,33 @@
 const mongoose = require("mongoose");
 
 // Define MongoDB schemas
-const RoleSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  permissions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Permission",
+const RoleSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
     },
-  ],
-});
+    permissions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Permission",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 const PermissionSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
-  path: { type: String, required: true },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  path: {
+    type: String,
+    required: true,
+  },
 });
 
 // Define MongoDB models

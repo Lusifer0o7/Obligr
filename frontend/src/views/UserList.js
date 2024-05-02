@@ -66,6 +66,10 @@ function UserList() {
     dispatch(deleteUser(id));
   };
 
+  const createdAt = (date) => {
+    date.toISOString().substring(0, 10);
+  };
+
   useEffect(() => {
     if (error) {
       toast.error(error, { toastId: "error" });
@@ -137,6 +141,7 @@ function UserList() {
                         <th>Email</th>
                         <th>Mobile No.</th>
                         <th>Role</th>
+                        <th>Created At</th>
                         <th className="text-center">Actions</th>
                       </tr>
                     </thead>
@@ -152,6 +157,13 @@ function UserList() {
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>{user.role.name}</td>
+                            <td>
+                              {user.createdAt
+                                .substring(0, 10)
+                                .split("-")
+                                .reverse()
+                                .join("-")}
+                            </td>
                             <td
                               className="text-center"
                               style={{ width: "11em", textAlign: "right" }}
@@ -189,6 +201,9 @@ function UserList() {
                                       margin: "auto 0.2em",
                                       color: "#5e72e4",
                                     }}
+                                    onClick={() =>
+                                      navigate(`/admin/impersonate/${user._id}`)
+                                    }
                                   >
                                     <i className="fa-solid fa-user-gear"></i>
                                   </button>

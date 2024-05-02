@@ -51,7 +51,7 @@ exports.authorize = (routeName) => {
 exports.impersonateUserAuth = catchAsyncErrors(async (req, res, next) => {
   const { impersonateToken } = req.cookies;
   // Check if the authenticated user has permission to impersonate
-  if (req.user.role !== "admin") {
+  if (req.user.role.name !== "admin") {
     return next(
       new ErrorHander(
         `Forbidden: Role: ${req.user.role} is not allowed to access this resouce`,
@@ -64,7 +64,7 @@ exports.impersonateUserAuth = catchAsyncErrors(async (req, res, next) => {
   const impersonateUserId = req.params.id;
 
   // Fetch user information from the database based on impersonatedUserId
-  req.impersonateUser = await User.findById(impersonateUserId);
+  req.impersonateUser = await User.findById(impersonateUserId).populate("role");
 
   next();
 });

@@ -102,6 +102,13 @@ function Dashboard(props) {
         <Loader />
       ) : (
         <div className="content">
+          <button
+            onClick={() => {
+              navigate("/user/users");
+            }}
+          >
+            click me
+          </button>
           <Row>
             <Col xs="12">
               <Card className="card-chart">

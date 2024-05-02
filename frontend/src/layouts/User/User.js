@@ -37,12 +37,11 @@ import LoginSignUp from "views/LoginSignUp";
 import UserList from "views/UserList";
 import CreateRole from "views/RoleViews/CreateRole";
 import UpdateRoles from "views/RoleViews/UpdateRoles";
-import CreateWebsite from "views/WebsiteViews.js/CreateWebsite";
-import WebsiteList from "views/WebsiteViews.js/WebsiteList";
+import ProtectedRoute from "ProtectedRoute";
 
 var ps;
 
-function Admin(props) {
+function User(props) {
   axios.defaults.withCredentials = true;
   const location = useLocation();
   const mainPanelRef = React.useRef(null);
@@ -91,7 +90,7 @@ function Admin(props) {
   };
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
+      if (prop.layout === "/user") {
         return (
           <Route path={prop.path} element={prop.component} key={key} exact />
         );
@@ -113,7 +112,7 @@ function Admin(props) {
       {({ color, changeColor }) => (
         <React.Fragment>
           <div className="wrapper">
-            {location.pathname !== "/admin/login" && (
+            {location.pathname !== "/user/login" && (
               <Sidebar
                 routes={routes}
                 logo={{
@@ -125,44 +124,44 @@ function Admin(props) {
               />
             )}
             <div className="main-panel" ref={mainPanelRef} data={color}>
-              {location.pathname !== "/admin/login" && (
+              {location.pathname !== "/user/login" && (
                 <AdminNavbar
                   brandText={getBrandText(location.pathname)}
                   toggleSidebar={toggleSidebar}
                   sidebarOpened={sidebarOpened}
                 />
               )}
-              <Routes>
-                {getRoutes(routes)}
+              <ProtectedRoute>
+                <Routes>
+                  {getRoutes(routes)}
 
-                <Route path="/login" element={<LoginSignUp />} />
+                  <Route path="/login" element={<LoginSignUp />} />
 
-                <Route path="/user/:id" element={<UpdateUser />} />
+                  <Route path="/user/:id" element={<UpdateUser />} />
 
-                <Route path="/users/:keyword" element={<UserList />} />
-                <Route path="/users" element={<UserList />} />
+                  <Route path="/users/:keyword" element={<UserList />} />
 
-                <Route path="/create/role" element={<CreateRole />} />
-                <Route path="/update/role" element={<UpdateRoles />} />
+                  <Route path="/users" element={<UserList />} />
 
-                <Route path="/create/website" element={<CreateWebsite />} />
-                <Route path="/websites" element={<WebsiteList />} />
+                  <Route path="/create/role" element={<CreateRole />} />
+                  <Route path="/update/role" element={<UpdateRoles />} />
 
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
+                  <Route
+                    path="/"
+                    element={<Navigate to="/user/home" replace />}
+                  />
+                </Routes>
+              </ProtectedRoute>
               {
                 // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ||
-                location.pathname === "/admin/login" ? null : (
+                location.pathname === "/user/maps" ||
+                location.pathname === "/user/login" ? null : (
                   <Footer fluid />
                 )
               }
             </div>
           </div>
-          {location.pathname !== "/admin/login" && (
+          {location.pathname !== "/user/login" && (
             <FixedPlugin bgColor={color} handleBgClick={changeColor} />
           )}
         </React.Fragment>
@@ -171,4 +170,4 @@ function Admin(props) {
   );
 }
 
-export default Admin;
+export default User;

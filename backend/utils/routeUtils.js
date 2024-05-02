@@ -1,3 +1,4 @@
+//getting routes and saving in permissions
 const { Permission } = require("../models/roleModel");
 
 const getRoutes = (app) => {

@@ -20,7 +20,7 @@ exports.updateRole = catchAsyncErrors(async (req, res, next) => {
     permissions: req.body.permissions,
   };
 
-  const role = await Role.findByIdAndUpdate(req.user.role.id, newRoleData, {
+  const role = await Role.findByIdAndUpdate(req.body.roleId, newRoleData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,

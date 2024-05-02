@@ -33,6 +33,11 @@ import {
   createRoleReducer,
 } from "./reducers/roleReducer";
 
+import {
+  allWebsiteReducer,
+  createWebsiteReducer,
+} from "./reducers/websiteReducer";
+
 // import { cartReducer } from "./reducers/cartReducer";
 // import {
 //   allOrdersReducer,
@@ -66,6 +71,8 @@ const reducer = combineReducers({
   allRoles: allRoleReducer,
   newRole: createRoleReducer,
   permission: permissionReducer,
+  newWebsite: createWebsiteReducer,
+  allWebsites: allWebsiteReducer,
   //   productReviews: productReviewsReducer,
   //   review: reviewReducer,
 });

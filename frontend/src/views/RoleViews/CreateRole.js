@@ -54,7 +54,6 @@ export default function CreateRole() {
   const roleSubmitHandler = () => {
     dispatch(createRole(roleData));
   };
-  console.log(roleData);
 
   return (
     <div className="content">
@@ -146,15 +145,16 @@ export default function CreateRole() {
                                   className="card-title"
                                 >
                                   {permission.name}
-                                  <p>
+                                  {/* <p>
                                     <code
                                       style={{
                                         fontSize: "0.8em",
+                                        color: "inherit",
                                       }}
                                     >
                                       path: "{permission.path}"
                                     </code>
-                                  </p>
+                                  </p> */}
                                 </h4>
 
                                 <label

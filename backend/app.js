@@ -21,14 +21,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const user = require("./routes/userRoute");
 const role = require("./routes/roleRoute");
 const permission = require("./routes/permissionsRoute");
+const website = require("./routes/websiteRoute");
 const { appendFileSync } = require("fs");
-const userModel = require("./models/userModel");
 
 app.use("/api/v1", user);
 app.use("/api/v1", role);
 app.use("/api/v1", permission);
+app.use("/api/v1", website);
 
-//getRoutes(app);
+// getRoutes(app);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
