@@ -68,6 +68,7 @@ export const userReducer = (state = { user: {} }, action) => {
     case REGISTER_USER_REQUEST:
     case LOAD_USER_REQUEST:
       return {
+        ...state,
         loading: true,
         isAuthenticated: false,
       };
@@ -78,7 +79,7 @@ export const userReducer = (state = { user: {} }, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload,
+        user: action.payload.user,
       };
 
     case LOGOUT_REQUEST:
@@ -104,6 +105,7 @@ export const userReducer = (state = { user: {} }, action) => {
 
     case LOAD_USER_FAIL:
       return {
+        ...state,
         loading: false,
         isAuthenticated: false,
         user: null,
@@ -433,7 +435,10 @@ export const ImpUserReducer = (state = { impUser: {} }, action) => {
       return {
         ...state,
         loading: false,
-        impUser: action.payload,
+        isAuthenticated: true,
+        role: action.payload.user.role.name,
+        token: action.payload.token,
+        user: action.payload.user,
       };
 
     case IMP_USER_DETAILS_FAIL:

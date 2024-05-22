@@ -4,17 +4,17 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-  const { token, impersonateToken } = req.cookies;
-
-  if (!token) {
-    return next(new ErrorHander("Please Login to access this resource", 401));
+  let { token } = req.cookies;
+  if (req.headers.authorization) {
+    token = req.headers.authorization.substring(
+      7,
+      req.headers.authorization.length
+    );
   }
 
-  // if (impersonateToken) {
-  //   const decodedData = jwt.verify(impersonateToken, process.env.JWT_SECRET);
-  //   req.user = await User.findById(decodedData.id);
-  //   next();
-  // }
+  if (!token || token == "null") {
+    return next(new ErrorHander("Please Login to access this resource", 401));
+  }
 
   const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 

@@ -27,6 +27,13 @@ export default function CreateWebsite() {
 
   const { loading, user, error } = useSelector((state) => state.user);
 
+  const {
+    loading: newWebsiteLoading,
+    newWebsite,
+    isCreated,
+    error: newWebsiteError,
+  } = useSelector((state) => state.newWebsite);
+
   const [websiteData, setWebsiteData] = useState({
     user: "",
     websiteName: "",
@@ -39,16 +46,17 @@ export default function CreateWebsite() {
     if (error) {
       toast.error(error.message);
     }
-    dispatch(loadUser());
-  }, []);
+    if (newWebsiteError) {
+      toast.error(newWebsiteError.message);
+    }
+    if (isCreated) {
+      toast.success("Website created Successfully");
+    }
+  }, [error, newWebsiteError, isCreated]);
 
   const handleCreateWebsite = () => {
     dispatch(createWebsite(websiteData));
   };
-
-  if (typeof loading === "undefined" || loading === true) {
-    return <Loader />;
-  }
 
   return (
     <>
@@ -69,7 +77,8 @@ export default function CreateWebsite() {
                         <FormGroup>
                           <label>User</label>
                           <Input
-                            defaultValue={user.name}
+                            style={{ textTransform: "capitalize" }}
+                            defaultValue={`${user.firstName}  ${user.lastName}`}
                             placeholder="Your Name.."
                             type="text"
                           />
@@ -83,6 +92,7 @@ export default function CreateWebsite() {
                           <Input
                             placeholder="Website Name.."
                             type="text"
+                            defaultValue={websiteData.websiteName}
                             onChange={(e) =>
                               setWebsiteData((prevState) => ({
                                 ...prevState,
@@ -160,6 +170,7 @@ export default function CreateWebsite() {
                           <Input
                             placeholder="Domain name.."
                             type="text"
+                            defaultValue={websiteData.domainName}
                             onChange={(e) =>
                               setWebsiteData((prevState) => ({
                                 ...prevState,

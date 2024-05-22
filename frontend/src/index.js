@@ -20,7 +20,6 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import AdminLayout from "layouts/Admin/Admin.js";
-import UserLayout from "layouts/User/User.js";
 
 import "assets/scss/black-dashboard-react.scss";
 import "assets/demo/demo.css";
@@ -37,18 +36,17 @@ import { ToastContainer } from "react-toastify";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ThemeContextWrapper>
-    <Provider store={store}>
+  <Provider store={store}>
+    <ThemeContextWrapper>
       <BackgroundColorWrapper>
         <BrowserRouter>
           <Routes>
-            <Route path="/admin/*" element={<AdminLayout />} />
-            <Route path="/user/*" element={<UserLayout />} />
+            <Route path="/*" element={<AdminLayout />} />
 
-            <Route
+            {/* <Route
               path="*"
               element={<Navigate to="/admin/dashboard" replace />}
-            />
+            /> */}
           </Routes>
         </BrowserRouter>
         <ToastContainer
@@ -64,6 +62,6 @@ root.render(
           theme="colored"
         />
       </BackgroundColorWrapper>
-    </Provider>
-  </ThemeContextWrapper>
+    </ThemeContextWrapper>
+  </Provider>
 );

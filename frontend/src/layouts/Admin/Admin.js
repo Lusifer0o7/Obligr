@@ -15,8 +15,14 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
@@ -32,13 +38,12 @@ import logo from "assets/img/react-logo.png";
 import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 import axios from "axios";
-import UpdateUser from "views/UpdateUser";
 import LoginSignUp from "views/LoginSignUp";
-import UserList from "views/UserList";
-import CreateRole from "views/RoleViews/CreateRole";
-import UpdateRoles from "views/RoleViews/UpdateRoles";
-import CreateWebsite from "views/WebsiteViews.js/CreateWebsite";
-import WebsiteList from "views/WebsiteViews.js/WebsiteList";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "components/Loader";
+import ProtectedRoute from "ProtectedRoute";
+import { loadUser } from "../../actions/userAction";
+import UpdateUser from "views/UpdateUser";
 
 var ps;
 
@@ -49,28 +54,33 @@ function Admin(props) {
   const [sidebarOpened, setsidebarOpened] = React.useState(
     document.documentElement.className.indexOf("nav-open") !== -1
   );
+  const { isAuthenticated, loading, error, user } = useSelector(
+    (state) => state.user
+  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // React.useEffect(() => {
-  //   if (navigator.platform.indexOf("Win") > -1) {
-  //     document.documentElement.className += " perfect-scrollbar-on";
-  //     document.documentElement.classList.remove("perfect-scrollbar-off");
-  //     ps = new PerfectScrollbar(mainPanelRef.current, {
-  //       suppressScrollX: true,
-  //     });
-  //     let tables = document.querySelectorAll(".table-responsive");
-  //     for (let i = 0; i < tables.length; i++) {
-  //       ps = new PerfectScrollbar(tables[i]);
-  //     }
-  //   }
-  //   // Specify how to clean up after this effect:
-  //   return function cleanup() {
-  //     if (navigator.platform.indexOf("Win") > -1) {
-  //       ps.destroy();
-  //       document.documentElement.classList.add("perfect-scrollbar-off");
-  //       document.documentElement.classList.remove("perfect-scrollbar-on");
-  //     }
-  //   };
-  // });
+  React.useEffect(() => {
+    if (navigator.platform.indexOf("Win") > -1) {
+      document.documentElement.className += " perfect-scrollbar-on";
+      document.documentElement.classList.remove("perfect-scrollbar-off");
+      ps = new PerfectScrollbar(mainPanelRef.current, {
+        suppressScrollX: true,
+      });
+      let tables = document.querySelectorAll(".table-responsive");
+      for (let i = 0; i < tables.length; i++) {
+        ps = new PerfectScrollbar(tables[i]);
+      }
+    }
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      if (navigator.platform.indexOf("Win") > -1) {
+        ps.destroy();
+        document.documentElement.classList.add("perfect-scrollbar-off");
+        document.documentElement.classList.remove("perfect-scrollbar-on");
+      }
+    };
+  });
   React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       let tables = document.querySelectorAll(".table-responsive");
@@ -84,19 +94,36 @@ function Admin(props) {
       mainPanelRef.current.scrollTop = 0;
     }
   }, [location]);
+
+  React.useEffect(() => {
+    if (error) {
+      console.log(error);
+    }
+    if (isAuthenticated) {
+      navigate(`${user.role.name}/dashboard`);
+    }
+    dispatch(loadUser());
+  }, []);
+
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
     setsidebarOpened(!sidebarOpened);
   };
+
   const getRoutes = (routes) => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/admin") {
-        return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
-        );
+      if (prop.subMenu) {
+        return getRoutes(prop.subMenu);
       } else {
-        return null;
+        return (
+          <Route
+            path={`${user.role.name}${prop.path}`}
+            element={prop.component}
+            key={prop.name}
+            exact
+          />
+        );
       }
     });
   };
@@ -108,66 +135,69 @@ function Admin(props) {
     }
     return "Obligr";
   };
+
+  if (loading) {
+    return (
+      <div ref={mainPanelRef}>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
-    <BackgroundColorContext.Consumer>
-      {({ color, changeColor }) => (
-        <React.Fragment>
-          <div className="wrapper">
-            {location.pathname !== "/admin/login" && (
-              <Sidebar
-                routes={routes}
-                logo={{
-                  outterLink: "",
-                  text: "Obligr",
-                  imgSrc: logo,
-                }}
-                toggleSidebar={toggleSidebar}
-              />
-            )}
-            <div className="main-panel" ref={mainPanelRef} data={color}>
-              {location.pathname !== "/admin/login" && (
-                <AdminNavbar
-                  brandText={getBrandText(location.pathname)}
-                  toggleSidebar={toggleSidebar}
-                  sidebarOpened={sidebarOpened}
-                />
-              )}
-              <Routes>
-                {getRoutes(routes)}
+    <>
+      <BackgroundColorContext.Consumer>
+        {({ color, changeColor }) => (
+          <React.Fragment>
+            <div className="wrapper">
+              {location.pathname !== "/login" &&
+                user &&
+                user.role &&
+                user.role.permissions && (
+                  <Sidebar
+                    routes={routes}
+                    logo={{
+                      outterLink: "",
+                      text: "Obligr",
+                      imgSrc: logo,
+                    }}
+                    toggleSidebar={toggleSidebar}
+                  />
+                )}
+              <div className="main-panel" ref={mainPanelRef} data={color}>
+                {location.pathname !== "/login" && (
+                  <AdminNavbar
+                    brandText={getBrandText(location.pathname)}
+                    toggleSidebar={toggleSidebar}
+                    sidebarOpened={sidebarOpened}
+                  />
+                )}
+                <Routes>
+                  {user && user.role && getRoutes(routes)}
+                  <Route path="/login" element={<LoginSignUp />} />
+                  <Route path="/update-user/:id" element={<UpdateUser />} />
 
-                <Route path="/login" element={<LoginSignUp />} />
-
-                <Route path="/user/:id" element={<UpdateUser />} />
-
-                <Route path="/users/:keyword" element={<UserList />} />
-                <Route path="/users" element={<UserList />} />
-
-                <Route path="/create/role" element={<CreateRole />} />
-                <Route path="/update/role" element={<UpdateRoles />} />
-
-                <Route path="/create/website" element={<CreateWebsite />} />
-                <Route path="/websites" element={<WebsiteList />} />
-
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
-              </Routes>
-              {
-                // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ||
-                location.pathname === "/admin/login" ? null : (
-                  <Footer fluid />
-                )
-              }
+                  {/* <Route
+                    path="/"
+                    element={<Navigate to="/admin/dashboard" replace />}
+                  /> */}
+                </Routes>
+                {
+                  // we don't want the Footer to be rendered on map page
+                  location.pathname === "/admin/maps" ||
+                  location.pathname === "/login" ? null : (
+                    <Footer fluid />
+                  )
+                }
+              </div>
             </div>
-          </div>
-          {location.pathname !== "/admin/login" && (
-            <FixedPlugin bgColor={color} handleBgClick={changeColor} />
-          )}
-        </React.Fragment>
-      )}
-    </BackgroundColorContext.Consumer>
+            {location.pathname !== "/login" && (
+              <FixedPlugin bgColor={color} handleBgClick={changeColor} />
+            )}
+          </React.Fragment>
+        )}
+      </BackgroundColorContext.Consumer>
+    </>
   );
 }
 

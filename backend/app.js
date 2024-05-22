@@ -29,7 +29,7 @@ app.use("/api/v1", role);
 app.use("/api/v1", permission);
 app.use("/api/v1", website);
 
-// getRoutes(app);
+//getRoutes(app);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 

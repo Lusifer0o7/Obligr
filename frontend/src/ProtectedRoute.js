@@ -19,44 +19,31 @@
 
 // export default ProtectedRoute;
 
-import { loadUser } from "actions/userAction";
-import React, { Fragment, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const { loading, isAuthenticated, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const location = useLocation();
+
+  const { user } = useSelector((state) => state.user);
+
+  const [auth, setAuth] = useState();
 
   useEffect(() => {
     // If user is not authenticated, redirect to login
-    if (!isAuthenticated) {
-      console.log("not auth");
-      //navigate("/login");
-    }
-    // If user is not an admin, redirect to login
-    if (isAuthenticated && user && user.role.name !== "admin") {
-      console.log("not user");
 
-      //navigate("/login");
-    }
-    if (!user) {
-      console.log("load user");
-      dispatch(loadUser());
-    }
-  }, [user, isAuthenticated, dispatch]);
+    setAuth(localStorage.getItem(`is${user.role.name}Authenticated`));
+  }, []);
 
-  if (!user) {
-    return <>Loading...</>;
-  }
-  console.log(user);
   // Render children only if user is authenticated and is an admin
-  // return isAuthenticated && user && user.role.name === "admin" ? (
-  //   children
-  // ) : (
-  //   <>kuch nhi hua</>
-  // );
+  return (
+    <>
+      {auth ? <>{children}</> : <>{navigate(`${user.role.name}/dashboard`)}</>}
+    </>
+  );
 };
 
 export default ProtectedRoute;

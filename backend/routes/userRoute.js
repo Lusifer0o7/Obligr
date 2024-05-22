@@ -66,17 +66,17 @@ router.route("/me/update").put(isAuthenticatedUser, updateProfile).name =
   "Update Profile";
 
 router
-  .route("/admin/users")
+  .route("/users")
   .get(isAuthenticatedUser, authorize("Get All Users"), getAllUser).name =
   "Get All Users";
 
 router
-  .route("/admin/user/:id")
+  .route("/user/:id")
   .get(isAuthenticatedUser, authorize("Get Single User"), getSingleUser).name =
   "Get Single User";
 
 router
-  .route("/admin/user/:id")
+  .route("/user/:id")
   .put(
     isAuthenticatedUser,
     authorize("Update User Role"),
@@ -84,12 +84,12 @@ router
   ).name = "Update User Role";
 
 router
-  .route("/admin/user/:id")
+  .route("/user/:id")
   .delete(isAuthenticatedUser, authorize("Delete User"), deleteUser).name =
   "Delete User";
 
 router
-  .route("/admin/impersonate/:id")
+  .route("/impersonate/:id")
   .get(
     isAuthenticatedUser,
     authorize("Impersonate User"),

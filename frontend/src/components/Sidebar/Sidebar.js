@@ -16,7 +16,7 @@
 
 */
 /*eslint-disable*/
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
@@ -30,13 +30,16 @@ import {
   BackgroundColorContext,
   backgroundColors,
 } from "contexts/BackgroundColorContext";
-import SidebarItem from "./SidebarItem";
+import { useSelector } from "react-redux";
 
 var ps;
 
 function Sidebar(props) {
   const location = useLocation();
   const sidebarRef = React.useRef(null);
+  let isActive = true;
+
+  const { loading, user } = useSelector((state) => state.user);
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
     return location.pathname === routeName ? "active" : "";
@@ -56,6 +59,15 @@ function Sidebar(props) {
       }
     };
   });
+
+  const [collapse, setcollapse] = useState(false);
+
+  const handleCaretClick = (prop) => {
+    prop.state = prop.state == "show" ? "hide" : "show";
+    setcollapse(!collapse);
+    // setCaretRotation(!caretRotation);
+  };
+
   const linkOnClick = () => {
     document.documentElement.classList.remove("nav-open");
   };
@@ -109,6 +121,15 @@ function Sidebar(props) {
       );
     }
   }
+
+  if (loading) {
+    return (
+      <div ref={mainPanelRef}>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <BackgroundColorContext.Consumer>
       {({ color }) => (
@@ -123,86 +144,100 @@ function Sidebar(props) {
             <Nav>
               {routes.map((prop, key) => {
                 if (prop.redirect) return null;
+
+                const isSubMenu = prop.subMenu;
+
                 return (
-                  <li
-                    className={
-                      activeRoute(prop.path) + (prop.pro ? " active-pro" : "")
-                    }
-                    key={key}
-                  >
-                    <NavLink
-                      to={prop.layout + prop.path}
-                      className="nav-link"
-                      onClick={props.toggleSidebar}
-                    >
-                      <i className={prop.icon} />
-                      <p>{prop.name}</p>
-                    </NavLink>
-                  </li>
+                  <React.Fragment key={key}>
+                    {isSubMenu &&
+                      user &&
+                      user.role &&
+                      user.role.permissions &&
+                      prop.subMenu.some((ele) =>
+                        user.role.permissions.some(
+                          (permission) => permission.path === ele.path
+                        )
+                      ) && (
+                        <li onClick={() => handleCaretClick(prop)}>
+                          <a
+                            data-toggle="collapse"
+                            className={collapse ? "collapsed" : "show"}
+                          >
+                            <i className={prop.icon}></i>
+                            <p>
+                              {prop.name}
+                              <b
+                                className="caret"
+                                style={{
+                                  transform:
+                                    prop.state === "show"
+                                      ? "rotate(180deg)"
+                                      : "rotate(0deg)",
+                                }}
+                              ></b>
+                            </p>
+                          </a>
+                        </li>
+                      )}
+                    <div className={`collapse ${isSubMenu ? prop.state : ""}`}>
+                      <ul style={{ listStyleType: "none" }}>
+                        {isSubMenu &&
+                          prop.subMenu.map(
+                            (ele, subKey) =>
+                              user &&
+                              user.role &&
+                              user.role.permissions &&
+                              user.role.permissions.some(
+                                (permission) => permission.path === ele.path
+                              ) && (
+                                <li
+                                  className={
+                                    activeRoute(ele.path) +
+                                    (prop.pro ? " active-pro" : "")
+                                  }
+                                  key={subKey}
+                                >
+                                  <NavLink
+                                    to={`/${user.role.name}${ele.path}`}
+                                    className="nav-link"
+                                    onClick={props.toggleSidebar}
+                                  >
+                                    <i className={ele.icon} />
+                                    <p>{ele.name}</p>
+                                  </NavLink>
+                                </li>
+                              )
+                          )}
+                      </ul>
+                    </div>
+                    {!isSubMenu && (
+                      <li
+                        className={
+                          activeRoute(prop.path) +
+                          (prop.pro ? " active-pro" : "")
+                        }
+                        key={key}
+                      >
+                        {user &&
+                          user.role &&
+                          user.role.permissions &&
+                          user.role.permissions.some(
+                            (permission) => permission.path === prop.path
+                          ) && (
+                            <NavLink
+                              to={`/${user.role.name}${prop.path}`}
+                              className="nav-link"
+                              onClick={props.toggleSidebar}
+                            >
+                              <i className={prop.icon} />
+                              <p>{prop.name}</p>
+                            </NavLink>
+                          )}
+                      </li>
+                    )}
+                  </React.Fragment>
                 );
               })}
-
-              <SidebarItem
-                title="Manage users"
-                icon="fa-solid fa-users-gear"
-                normalText="Manage Users"
-                isActive={false}
-                items={[
-                  {
-                    href: "/admin/users",
-                    miniIcon: "fa-solid fa-list-ul",
-                    normalText: "Users List",
-                  },
-                  {
-                    href: "/admin/extended-forms",
-                    miniIcon: "fa-solid fa-user-tie",
-                    normalText: "Reseller List",
-                  },
-                  // Add more items as needed
-                ]}
-              />
-
-              <SidebarItem
-                title="Website"
-                icon="fa-solid fa-globe"
-                normalText="Website"
-                isActive={false}
-                items={[
-                  {
-                    href: "/admin/create/website",
-                    miniIcon: "fa-solid fa-wand-magic-sparkles",
-                    normalText: "Create New Website",
-                  },
-                  {
-                    href: "/admin/websites",
-                    miniIcon: "fa-solid fa-list",
-                    normalText: "Website List",
-                  },
-                  // Add more items as needed
-                ]}
-              />
-
-              <SidebarItem
-                title="Roles & Permissions"
-                icon="fa-solid fa-key"
-                normalText="Roles & Permissions"
-                isActive={false}
-                items={[
-                  {
-                    href: "/admin/create/role",
-                    miniIcon: "fa-solid fa-plus",
-                    normalText: "Create Role",
-                  },
-                  {
-                    href: "/admin/update/role",
-                    miniIcon: "fa-solid fa-file-pen",
-                    normalText: "Update Roles",
-                  },
-                  // Add more items as needed
-                ]}
-              />
-
-              {/* Add other SidebarItem components here */}
             </Nav>
           </div>
         </div>
@@ -227,6 +262,7 @@ Sidebar.propTypes = {
     text: PropTypes.node,
     // the image src of the logo
     imgSrc: PropTypes.string,
+    closeSidebar: PropTypes.func,
   }),
 };
 

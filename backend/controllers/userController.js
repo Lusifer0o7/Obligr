@@ -4,15 +4,25 @@ const User = require("../models/userModel");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const multer = require("multer");
 const qs = require("qs");
 const axios = require("axios");
 const ApiFeatures = require("../utils/apifeatures");
 
+const upload = multer({});
+
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   const { firstName, lastName, email, phone, password } = req.body;
+  const { avatar } = req.file;
 
   const user = await User.create({
+    avatar: avatar
+      ? {
+          data: avatar.buffer,
+          contentType: avatar.mimetype,
+        }
+      : null,
     firstName,
     lastName,
     email,
@@ -50,7 +60,12 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHander("Please Enter Email & Password", 400));
   }
 
-  const user = await User.findOne({ email }).select("+password");
+  const user = await User.findOne({ email })
+    .select("+password")
+    .populate({
+      path: "role",
+      populate: { path: "permissions" },
+    });
 
   if (!user) {
     return next(new ErrorHander("Invalid email or password", 401));
@@ -68,7 +83,10 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
 exports.impersonateUser = catchAsyncErrors(async (req, res, next) => {
   const impersonateUserId = req.params.id;
 
-  const impersonateUser = await User.findById(impersonateUserId);
+  const impersonateUser = await User.findById(impersonateUserId).populate({
+    path: "role",
+    populate: { path: "permissions" },
+  });
 
   if (!impersonateUser) {
     return next(new ErrorHander("User not found", 401));
@@ -367,7 +385,10 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id).populate("role");
+  const user = await User.findById(req.user.id).populate({
+    path: "role",
+    populate: { path: "permissions" },
+  });
 
   res.status(200).json({
     success: true,
@@ -399,9 +420,13 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 // update User Profile
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
-    name: req.body.name,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
-    role: req.body.role,
+    phone: req.body.phone,
+    address: req.body.address,
+    city: req.body.city,
+    country: req.body.country,
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {

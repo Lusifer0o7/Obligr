@@ -23,7 +23,7 @@ export const createRole = (roleData) => async (dispatch) => {
     dispatch({ type: CREATE_ROLE_REQUEST });
 
     const { data } = await axios.post(
-      `${BASE_URL}/api/v1/admin/create/roles`,
+      `${BASE_URL}/api/v1/create/roles`,
       roleData
     );
 
@@ -40,7 +40,7 @@ export const updateRole = (roleData) => async (dispatch) => {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.put(
-      `${BASE_URL}/api/v1/admin/update/roles`,
+      `${BASE_URL}/api/v1/update/roles`,
       roleData
     );
 
@@ -57,7 +57,7 @@ export const getAllRoles = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_ROLE_REQUEST });
 
-    const { data } = await axios.get(`${BASE_URL}/api/v1/admin/get/roles`);
+    const { data } = await axios.get(`${BASE_URL}/api/v1/get/roles`);
 
     dispatch({ type: ALL_ROLE_SUCCESS, payload: data.roles });
   } catch (error) {
@@ -69,7 +69,7 @@ export const deleteRole = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ROLE_REQUEST });
 
-    const { data } = await axios.delete(`${BASE_URL}/api/v1/admin/role/${id}`);
+    const { data } = await axios.delete(`${BASE_URL}/api/v1/role/${id}`);
 
     dispatch({ type: DELETE_ROLE_SUCCESS, payload: data });
   } catch (error) {
@@ -84,9 +84,7 @@ export const getAllPermissions = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_PERMISSION_REQUEST });
 
-    const { data } = await axios.get(
-      `${BASE_URL}/api/v1/admin/get/permissions`
-    );
+    const { data } = await axios.get(`${BASE_URL}/api/v1/get/permissions`);
 
     dispatch({ type: ALL_PERMISSION_SUCCESS, payload: data.permissions });
   } catch (error) {

@@ -31,6 +31,7 @@ import {
   allRoleReducer,
   permissionReducer,
   createRoleReducer,
+  RoleReducer,
 } from "./reducers/roleReducer";
 
 import {
@@ -70,6 +71,7 @@ const reducer = combineReducers({
   verifyMobileOtp: verifyMobileOtpReducer,
   allRoles: allRoleReducer,
   newRole: createRoleReducer,
+  Role: RoleReducer,
   permission: permissionReducer,
   newWebsite: createWebsiteReducer,
   allWebsites: allWebsiteReducer,

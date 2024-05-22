@@ -15,17 +15,20 @@ import {
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
-import { Col, Row } from "reactstrap";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { PhoneNumberUtil } from "google-libphonenumber";
 import Spinner from "components/Spinner";
+import Avatar from "boring-avatars";
 import Map from "components/Map";
 
 function LoginSignUp() {
-  const { error, loading, isAuthenticated } = useSelector(
-    (state) => state.user
-  );
+  const {
+    error,
+    loading,
+    isAuthenticated,
+    user: userData,
+  } = useSelector((state) => state.user);
   const {
     error: emailotpError,
     loading: emailotpLoading,
@@ -70,7 +73,7 @@ function LoginSignUp() {
     }
 
     if (isAuthenticated) {
-      navigate("/admin/dashboard");
+      navigate(`/${userData.role.name}/dashboard`);
     }
   }, [dispatch, emailotpError, mobileotpError, toast, isAuthenticated, error]);
 
@@ -81,6 +84,7 @@ function LoginSignUp() {
 
   //signup
   const [user, setUser] = useState({
+    avatar: null,
     firstName: "",
     lastName: "",
     email: "",
@@ -91,6 +95,10 @@ function LoginSignUp() {
 
   const registerDataChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+  const handleAvatarChange = (e) => {
+    setUser({ ...user, avatar: e.target.files[0] });
   };
 
   const handleSignupSubmit = (event) => {
@@ -202,6 +210,20 @@ function LoginSignUp() {
       case 1:
         return (
           <div className="step">
+            {/* <input type="file" accept="image/*" onChange={handleAvatarChange} /> */}
+            <div
+              style={{
+                textAlign: "center",
+                filter: "drop-shadow(0px 0px 5px black)",
+              }}
+            >
+              <Avatar
+                size={60}
+                name={user.firstName}
+                variant="beam"
+                colors={["#00B191", "#49007E", "#FF005B", "#FF7D10", "#FFB238"]}
+              />
+            </div>
             <input
               type="text"
               className="loginsignupinput"

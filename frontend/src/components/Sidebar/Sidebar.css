@@ -1,0 +1,9 @@
+.collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.expanded {
+  height: 1000px; /* Adjust this value as needed */
+}

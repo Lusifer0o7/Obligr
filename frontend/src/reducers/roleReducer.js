@@ -12,6 +12,12 @@ import {
   CREATE_ROLE_SUCCESS,
   CREATE_ROLE_FAIL,
   CREATE_ROLE_RESET,
+  DELETE_ROLE_REQUEST,
+  UPDATE_ROLE_SUCCESS,
+  DELETE_ROLE_SUCCESS,
+  UPDATE_ROLE_FAIL,
+  UPDATE_ROLE_RESET,
+  DELETE_ROLE_RESET,
 } from "../constants/roleConstants";
 
 export const createRoleReducer = (state = { newRole: {} }, action) => {
@@ -39,6 +45,60 @@ export const createRoleReducer = (state = { newRole: {} }, action) => {
       return {
         ...state,
         isCreated: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const RoleReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_ROLE_REQUEST:
+    case DELETE_ROLE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_ROLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+
+    case DELETE_ROLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isDeleted: action.payload.success,
+        message: action.payload.message,
+      };
+
+    case UPDATE_ROLE_FAIL:
+    case DELETE_ROLE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case UPDATE_ROLE_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+      };
+
+    case DELETE_ROLE_RESET:
+      return {
+        ...state,
+        isDeleted: false,
       };
 
     case CLEAR_ERRORS:

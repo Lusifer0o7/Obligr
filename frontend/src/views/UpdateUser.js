@@ -112,7 +112,7 @@ const UpdateUser = () => {
   if (typeof loading === "undefined") {
     return <Loader />;
   }
-
+  console.log("upuser");
   return (
     <>
       {loading ? (

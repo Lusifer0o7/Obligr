@@ -17,7 +17,7 @@
 */
 import { getAllUsers } from "actions/userAction";
 import { clearErrors } from "actions/userAction";
-import { deleteUser } from "actions/userAction";
+import { deleteUser, loadImpersonatedUser } from "actions/userAction";
 import Loader from "components/Loader";
 import { DELETE_USER_RESET } from "constants/userConstants";
 import React, { useEffect, useState } from "react";
@@ -82,7 +82,7 @@ function UserList() {
 
     if (isDeleted) {
       toast.success(message);
-      navigate("/admin/users");
+      navigate("/users");
       dispatch({ type: DELETE_USER_RESET });
     }
 
@@ -106,7 +106,7 @@ function UserList() {
 
   return (
     <>
-      {loading ? (
+      {loading && users ? (
         <Loader />
       ) : (
         <div className="content">
@@ -169,7 +169,7 @@ function UserList() {
                               style={{ width: "11em", textAlign: "right" }}
                             >
                               <span style={{ width: "100%" }}>
-                                <Link to={`/admin/user/${user._id}`}>
+                                <Link to={`/update-user/${user._id}`}>
                                   <button
                                     id="edit"
                                     className="btn-link btn-icon btn btn-info btn-sm"
@@ -191,8 +191,9 @@ function UserList() {
                                 </Link>
 
                                 <Link
-                                  to={`/admin/impersonate/${user._id}`}
+                                  to={`/${user.role.name}/dashboard`}
                                   color="info"
+                                  target="_blank"
                                 >
                                   <button
                                     id="Imp-user"
@@ -202,7 +203,8 @@ function UserList() {
                                       color: "#5e72e4",
                                     }}
                                     onClick={() =>
-                                      navigate(`/admin/impersonate/${user._id}`)
+                                      // navigate(`/admin/impersonate/${user._id}`)
+                                      dispatch(loadImpersonatedUser(user._id))
                                     }
                                   >
                                     <i className="fa-solid fa-user-gear"></i>

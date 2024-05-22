@@ -42,22 +42,28 @@ import {
 import "./AdminNavbar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userAction";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext, themes } from "contexts/ThemeContext";
+import Avatar from "boring-avatars";
 
 function AdminNavbar(props) {
   const [collapseOpen, setcollapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout());
+    if (window.location.pathname) {
+      localStorage.removeItem(`${user.role.name}Token`);
+      localStorage.removeItem(`is${user.role.name}Authenticated`);
+    }
     toast.success("Logout Successfull", { toastId: "success" });
-    navigate("/admin/login");
+    navigate("/login");
   };
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
@@ -169,7 +175,19 @@ function AdminNavbar(props) {
                   onClick={(e) => e.preventDefault()}
                 >
                   <div className="photo">
-                    <img alt="..." src={require("assets/img/anime3.png")} />
+                    {/* <img alt="..." src={require("assets/img/anime3.png")} /> */}
+                    <Avatar
+                      size={30}
+                      name=""
+                      variant="beam"
+                      colors={[
+                        "#00B191",
+                        "#49007E",
+                        "#FF005B",
+                        "#FF7D10",
+                        "#FFB238",
+                      ]}
+                    />
                   </div>
                   <b className="caret d-none d-lg-block d-xl-block" />
                   <p className="d-lg-none">Logout</p>

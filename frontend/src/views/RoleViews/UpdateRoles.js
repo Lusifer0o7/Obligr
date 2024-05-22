@@ -10,9 +10,13 @@ import {
   Label,
   Table,
 } from "reactstrap";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRoles, getAllPermissions } from "actions/roleAction";
 import { updateRole } from "actions/roleAction";
+import { toast } from "react-toastify";
+import { UPDATE_ROLE_RESET } from "constants/roleConstants";
+import Loader from "components/Loader";
 
 export default function UpdateRoles() {
   const dispatch = useDispatch();
@@ -22,12 +26,17 @@ export default function UpdateRoles() {
     roles,
     error: roleError,
   } = useSelector((state) => state.allRoles);
+  const cardBarRef = React.useRef(null);
 
   const {
     loading: permissionLoading,
     permissions,
     error: permissionError,
   } = useSelector((state) => state.permission);
+
+  const { loading, isUpdated, isDeleted, error } = useSelector(
+    (state) => state.Role
+  );
 
   const [checkedPermissions, setCheckedPermissions] = useState([]);
 
@@ -53,15 +62,23 @@ export default function UpdateRoles() {
         setCheckedPermissions(updatedPermissions);
       }
     } else {
+      const role = roles.find((role) => role._id === roleId);
       if (isChecked) {
-        const role = roles.find((role) => role._id === roleId);
-
         setCheckedPermissions((prevPermissions) => [
           ...prevPermissions,
           {
             roleId: roleId,
             name: role.name,
             permissions: [permissions, ...role.permissions],
+          },
+        ]);
+      } else {
+        setCheckedPermissions((prevPermissions) => [
+          ...prevPermissions,
+          {
+            roleId: roleId,
+            name: role.name,
+            permissions: role.permissions.filter((id) => id !== permissions),
           },
         ]);
       }
@@ -74,14 +91,24 @@ export default function UpdateRoles() {
   };
 
   useEffect(() => {
-    if (!roles) {
-      dispatch(getAllRoles());
+    if (error) {
+      toast.error(error.message);
     }
+    if (isUpdated) {
+      dispatch({ type: UPDATE_ROLE_RESET });
+      toast.success(`Role Successfully Updated`);
+    }
+    if (isDeleted) {
+      toast.error(`Role Successfully Deleted`);
+    }
+    dispatch(getAllRoles());
 
     dispatch(getAllPermissions());
-  }, []);
+  }, [isUpdated, error]);
 
-  console.log(checkedPermissions);
+  if (loading || roleLoading || permissionLoading) {
+    return <Loader></Loader>;
+  }
 
   return (
     <div className="content">
@@ -99,11 +126,12 @@ export default function UpdateRoles() {
                 return (
                   <li
                     key={role._id}
-                    class="role-card"
+                    className="role-card"
                     id={`card_${index + 1}`}
                     style={{ "--index": index + 1 }}
+                    ref={cardBarRef}
                   >
-                    <div class="card__content">
+                    <div className="card__content">
                       <div>
                         <h1
                           style={{
@@ -112,11 +140,21 @@ export default function UpdateRoles() {
                           }}
                         >
                           {role.name}
+
+                          <button
+                            className="btn-link btn-icon btn btn-info btn-sm"
+                            style={{
+                              color: "#00f2c3",
+                              margin: "auto 0.5em",
+                            }}
+                          >
+                            <i className="tim-icons icon-pencil"></i>
+                          </button>
                         </h1>
 
                         <p>
                           <button
-                            class="btn btn-primary"
+                            className="btn btn-primary"
                             onClick={() => handleRoleUpdate(role._id)}
                           >
                             Update
@@ -131,7 +169,11 @@ export default function UpdateRoles() {
                             </h4>
                           </CardHeader>
                           <CardBody>
-                            <div className="table-full-width table-responsive">
+                            <div
+                              className="table-full-width table-responsive"
+                              id="adnan"
+                              key={index}
+                            >
                               <Table>
                                 <tbody>
                                   {permissions &&

@@ -45,7 +45,7 @@ function FixedPlugin(props) {
                 onClick={() => {
                   props.handleBgClick(backgroundColors.primary);
                 }}
-              />{" "}
+              />
               <Badge
                 color="info"
                 className={

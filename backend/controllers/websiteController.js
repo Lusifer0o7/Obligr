@@ -43,7 +43,7 @@ exports.updateWebsite = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.getAllWebsites = catchAsyncErrors(async (req, res, next) => {
-  const websites = await Website.find();
+  const websites = await Website.find().populate("user");
 
   res.status(200).json({
     success: true,

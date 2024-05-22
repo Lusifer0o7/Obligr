@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const { Role } = require("./roleModel");
 
 const userSchema = new mongoose.Schema({
+  avatar: { data: Buffer, contentType: String },
   firstName: {
     type: String,
     required: [true, "Please Enter Your First Name"],
@@ -37,6 +38,12 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   address: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  country: {
     type: String,
   },
   role: {

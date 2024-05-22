@@ -9,6 +9,7 @@ import { clearErrors } from "actions/userAction";
 import { createRole } from "actions/roleAction";
 import Spinner from "components/Spinner";
 import { CREATE_ROLE_RESET } from "constants/roleConstants";
+import { BackgroundColorContext } from "contexts/BackgroundColorContext";
 
 export default function CreateRole() {
   const dispatch = useDispatch();
@@ -56,169 +57,167 @@ export default function CreateRole() {
   };
 
   return (
-    <div className="content">
-      <div>
-        <Row>
-          <div className="col-md-4">
-            <div className="card">
-              <div className="card-header">
-                <h4 className="card-title">Create Role.</h4>
-              </div>
-              <div className="card-body">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Give it a name.."
-                  value={roleData.name}
-                  onChange={(e) =>
-                    setRoleData({
-                      ...roleData,
-                      name: e.target.value, // Update the name property
-                    })
-                  }
-                />
-                <button
-                  className="btn-link btn btn-primary"
-                  style={{ float: "right" }}
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-          </div>
-        </Row>
-        <Row>
-          <div className=" card col-md-12">
-            <div className="card-header">
-              <h3 className="card-title">Assign Permissions.</h3>
-            </div>
+    <BackgroundColorContext.Consumer>
+      {({ color }) => (
+        <div className="content">
+          <div>
             <Row>
-              <div className="col-md-6"></div>
-              <div className="col-md-6" style={{ float: "right" }}>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search Permissions.."
-                  value=""
-                />
-                <button
-                  className="btn-link btn btn-primary"
-                  style={{ float: "right" }}
-                >
-                  Search
-                </button>
+              <div className="card col-md-4">
+                <div className="card-header">
+                  <h4 className="card-title">Create Role.</h4>
+                </div>
+                <div className="card-body">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Give it a name.."
+                    value={roleData.name}
+                    onChange={(e) =>
+                      setRoleData({
+                        ...roleData,
+                        name: e.target.value, // Update the name property
+                      })
+                    }
+                  />
+                  <button
+                    className="btn-link btn btn-primary"
+                    style={{ float: "right" }}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
             </Row>
-            <div className="card-body">
-              {permissionLoading || typeof permissionLoading === undefined ? (
-                <div style={{ textAlign: "center" }}>
-                  <Spinner />
+            <Row>
+              <div className=" card col-md-12">
+                <div className="card-header">
+                  <h3 className="card-title">Assign Permissions.</h3>
                 </div>
-              ) : (
-                <Row
-                  style={{
-                    display: " grid",
-                    gridTemplateColumns: " auto auto auto",
-                  }}
-                >
-                  {permissions &&
-                    permissions.map((permission) => {
-                      return (
-                        <Col key={permission._id}>
-                          <div
-                            className="card"
-                            style={{
-                              background:
-                                "linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%)",
-                            }}
-                          >
-                            <div className="card-header">
+                <Row>
+                  <div className="col-md-6"></div>
+                  <div className="col-md-6" style={{ float: "right" }}>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search Permissions.."
+                      value=""
+                    />
+                    <button
+                      className="btn-link btn btn-primary"
+                      style={{ float: "right" }}
+                    >
+                      Search
+                    </button>
+                  </div>
+                </Row>
+                <div className="card-body">
+                  {permissionLoading ||
+                  typeof permissionLoading === undefined ? (
+                    <div style={{ textAlign: "center" }}>
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <Row
+                      style={{
+                        display: " grid",
+                        gridTemplateColumns: " auto auto auto",
+                      }}
+                    >
+                      {permissions &&
+                        permissions.map((permission) => {
+                          return (
+                            <Col key={permission._id}>
                               <div
+                                className="card"
                                 style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
+                                  background:
+                                    "linear-gradient(0deg, #3358f4 0%, #1d8cf8 100%)",
                                 }}
+                                data={color}
                               >
-                                <h4
-                                  style={{ color: "white" }}
-                                  className="card-title"
-                                >
-                                  {permission.name}
-                                  {/* <p>
-                                    <code
-                                      style={{
-                                        fontSize: "0.8em",
-                                        color: "inherit",
-                                      }}
+                                <div style={{ padding: "0.7em" }}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <h4
+                                      style={{ color: "white", margin: 0 }}
+                                      className="card-title"
                                     >
-                                      path: "{permission.path}"
-                                    </code>
-                                  </p> */}
-                                </h4>
+                                      {permission.name}
+                                    </h4>
 
-                                <label
-                                  className="switch-button "
-                                  htmlFor={permission._id}
-                                >
-                                  <div className="switch-outer">
-                                    <input
-                                      id={permission._id}
-                                      type="checkbox"
-                                      onChange={(e) => {
-                                        const id = permission._id;
-                                        setRoleData((prevFormData) => ({
-                                          ...prevFormData, // Keep the rest of the roleData object unchanged
-                                          permissions: e.target.checked
-                                            ? [...prevFormData.permissions, id] // Add the ID if checked
-                                            : prevFormData.permissions.filter(
-                                                (existingId) =>
-                                                  existingId !== id
-                                              ), // Remove the ID if unchecked
-                                        }));
-                                      }}
-                                    />
-                                    <div className="button">
-                                      <span className="button-toggle"></span>
-                                      <span className="button-indicator"></span>
+                                    <div class="checkbox-wrapper">
+                                      <label class="toggleButton">
+                                        <input
+                                          type="checkbox"
+                                          id={permission._id}
+                                          onChange={(e) => {
+                                            const id = permission._id;
+                                            setRoleData((prevFormData) => ({
+                                              ...prevFormData, // Keep the rest of the roleData object unchanged
+                                              permissions: e.target.checked
+                                                ? [
+                                                    ...prevFormData.permissions,
+                                                    id,
+                                                  ] // Add the ID if checked
+                                                : prevFormData.permissions.filter(
+                                                    (existingId) =>
+                                                      existingId !== id
+                                                  ), // Remove the ID if unchecked
+                                            }));
+                                          }}
+                                        />
+                                        <div>
+                                          <svg viewBox="0 0 44 44">
+                                            <path
+                                              transform="translate(-2.000000, -2.000000)"
+                                              d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758"
+                                            ></path>
+                                          </svg>
+                                        </div>
+                                      </label>
                                     </div>
                                   </div>
-                                </label>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </Col>
-                      );
-                    })}
-                </Row>
-              )}
-            </div>
+                            </Col>
+                          );
+                        })}
+                    </Row>
+                  )}
+                </div>
+              </div>
+            </Row>
+            <Row>
+              <Col>
+                <button
+                  className="btn-simple btn btn-primary"
+                  style={{ float: "right" }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn-simple btn btn-primary"
+                  style={{ float: "right" }}
+                >
+                  Reset
+                </button>
+                <button
+                  className="btn-simple btn btn-primary"
+                  style={{ float: "right" }}
+                  onClick={roleSubmitHandler}
+                >
+                  Submit
+                </button>
+              </Col>
+            </Row>
           </div>
-        </Row>
-        <Row>
-          <Col>
-            <button
-              className="btn-simple btn btn-primary"
-              style={{ float: "right" }}
-            >
-              Cancel
-            </button>
-            <button
-              className="btn-simple btn btn-primary"
-              style={{ float: "right" }}
-            >
-              Reset
-            </button>
-            <button
-              className="btn-simple btn btn-primary"
-              style={{ float: "right" }}
-              onClick={roleSubmitHandler}
-            >
-              Submit
-            </button>
-          </Col>
-        </Row>
-      </div>
-    </div>
+        </div>
+      )}
+    </BackgroundColorContext.Consumer>
   );
 }

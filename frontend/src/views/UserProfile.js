@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // reactstrap components
 import {
@@ -36,21 +36,37 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "components/Loader";
 import { useNavigate } from "react-router-dom";
 import { loadUser } from "actions/userAction";
+import Avatar from "boring-avatars";
 
 function UserProfile() {
   const { user, loading, isAuthenticated, error } = useSelector(
     (state) => state.user
   );
+
+  const [userData, setUserData] = useState({});
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (error) {
       //navigate("/login");
-    } else {
-      dispatch(loadUser());
     }
+
+    //dispatch(loadUser());
   }, []);
+
+  console.log(userData);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const updateHandler = () => {
+    // Here you can write code to send formData to your backend for updating the user's profile
+    console.log("usesel==>", user);
+    console.log("Updated data:", userData);
+  };
 
   if (typeof isAuthenticated === "undefined") {
     return <Loader />;
@@ -89,9 +105,12 @@ function UserProfile() {
                         <FormGroup>
                           <label>First Name</label>
                           <Input
-                            defaultValue={user.name}
-                            placeholder="Company"
+                            defaultValue={user.firstName}
+                            placeholder="First Name"
                             type="text"
+                            name="firstName"
+                            value={userData.firstName}
+                            onChange={handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -99,9 +118,12 @@ function UserProfile() {
                         <FormGroup>
                           <label>Last Name</label>
                           <Input
-                            defaultValue="Andrew"
+                            defaultValue={user.lastName}
                             placeholder="Last Name"
                             type="text"
+                            name="lastName"
+                            value={userData.lastName}
+                            onChange={handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -112,7 +134,13 @@ function UserProfile() {
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input defaultValue={user.email} type="email" />
+                          <Input
+                            defaultValue={user.email}
+                            type="email"
+                            name="email"
+                            value={userData.email}
+                            onChange={handleChange}
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -124,6 +152,9 @@ function UserProfile() {
                             defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
                             placeholder="Home Address"
                             type="text"
+                            name="address"
+                            value={userData.address}
+                            onChange={handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -133,9 +164,12 @@ function UserProfile() {
                         <FormGroup>
                           <label>City</label>
                           <Input
-                            defaultValue="Mike"
+                            defaultValue="Delhi"
                             placeholder="City"
                             type="text"
+                            name="city"
+                            value={userData.city}
+                            onChange={handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -143,9 +177,12 @@ function UserProfile() {
                         <FormGroup>
                           <label>Country</label>
                           <Input
-                            defaultValue="Andrew"
+                            defaultValue="India"
                             placeholder="Country"
                             type="text"
+                            name="country"
+                            value={userData.country}
+                            onChange={handleChange}
                           />
                         </FormGroup>
                       </Col>
@@ -174,7 +211,11 @@ function UserProfile() {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className="btn-fill" color="primary" type="submit">
+                  <Button
+                    className="btn-fill"
+                    color="primary"
+                    onClick={updateHandler}
+                  >
                     Save
                   </Button>
                 </CardFooter>
@@ -185,21 +226,41 @@ function UserProfile() {
                 <CardBody>
                   <CardText />
                   <div className="author">
-                    <div className="block block-one" />
+                    {/* <div className="block block-one" />
                     <div className="block block-two" />
                     <div className="block block-three" />
-                    <div className="block block-four" />
+                    <div className="block block-four" /> */}
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
+                      {/* <img
                         alt="..."
                         className="avatar"
                         src={require("assets/img/emilyz.jpg")}
-                      />
+                      /> */}
+                      <div
+                        style={{
+                          margin: "2em auto",
+                          zIndex: 5,
+                        }}
+                      >
+                        <Avatar
+                          size={120}
+                          name={user.name}
+                          variant="beam"
+                          colors={[
+                            "#00B191",
+                            "#49007E",
+                            "#FF005B",
+                            "#FF7D10",
+                            "#FFB238",
+                          ]}
+                        />
+                      </div>
+
                       <h5
                         className="title"
                         style={{ textTransform: "capitalize" }}
                       >
-                        {user.name}
+                        {user.firstName}
                       </h5>
                     </a>
                     <p className="description">Ceo/Co-Founder</p>

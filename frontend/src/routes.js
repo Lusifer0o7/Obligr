@@ -23,6 +23,11 @@ import UserList from "views/UserList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
 import UpdateUser from "views/UpdateUser";
+import CreateWebsite from "views/WebsiteViews.js/CreateWebsite";
+import UpdateRoles from "views/RoleViews/UpdateRoles";
+import WebsiteList from "views/WebsiteViews.js/WebsiteList";
+import CreateRole from "views/RoleViews/CreateRole";
+import ProductList from "views/ProductViews/ProductList";
 
 var routes = [
   {
@@ -30,42 +35,87 @@ var routes = [
     name: "Dashboard",
     icon: "fa-solid fa-chart-pie",
     component: <Dashboard />,
-    layout: "/admin",
+    //layout: "/admin",
   },
   {
-    path: "/user-profile",
+    path: "/me",
     name: "Profile",
     icon: "fa-solid fa-address-card",
     component: <UserProfile />,
-    layout: "/admin",
+    //layout: "/admin",
   },
-  // {
-  //   path: "/icons",
-  //   name: "Icons",
-  //   icon: "tim-icons icon-atom",
-  //   component: <Icons />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/map",
-  //   name: "Map",
-  //   icon: "tim-icons icon-pin",
-  //   component: <Map />,
-  //   layout: "/admin",
-  // },
-  // {
-  //   path: "/notifications",
-  //   name: "Notifications",
-  //   icon: "tim-icons icon-bell-55",
-  //   component: <Notifications />,
-  //   layout: "/admin",
-  // },
-  //{
-  //   path: "/typography",
-  //   name: "Typography",
-  //   icon: "tim-icons icon-align-center",
-  //   component: <Typography />,
-  //   layout: "/admin",
-  // },
+  {
+    name: "Manage User",
+    icon: "fa-solid fa-users-gear",
+    //layout: "/admin",
+    state: "hide",
+    subMenu: [
+      {
+        path: "/users",
+        icon: "fa-solid fa-list-ul",
+        name: "User List",
+        component: <UserList />,
+        //layout: "/admin",
+      },
+    ],
+  },
+  {
+    name: "Website",
+    icon: "fa-solid fa-globe",
+    //layout: "/admin",
+    state: "hide",
+    subMenu: [
+      {
+        path: "/create/website",
+        icon: "fa-solid fa-wand-magic-sparkles",
+        name: "Create Website",
+        component: <CreateWebsite />,
+        // layout: "/admin",
+      },
+      {
+        path: "/get/websites",
+        icon: "fa-solid fa-list",
+        name: "Website List",
+        component: <WebsiteList />,
+
+        layout: "/admin",
+      },
+    ],
+  },
+  {
+    name: "Product",
+    icon: "fa-solid fa-globe",
+    state: "hide",
+    subMenu: [
+      {
+        path: "/products",
+        icon: "fa-solid fa-wand-magic-sparkles",
+        name: "Products",
+        component: <ProductList />,
+      },
+    ],
+  },
+  {
+    name: "Roles & Permissions",
+    icon: "fa-solid fa-key",
+    layout: "/admin",
+    subMenu: [
+      {
+        path: "/create/roles",
+        icon: "fa-solid fa-plus",
+        name: "Create Role",
+        component: <CreateRole />,
+        layout: "/admin",
+      },
+      {
+        path: "/update/roles",
+        icon: "fa-solid fa-file-pen",
+        name: "Update Roles",
+        component: <UpdateRoles />,
+        layout: "/admin",
+      },
+    ],
+  },
 ];
+
 export default routes;
