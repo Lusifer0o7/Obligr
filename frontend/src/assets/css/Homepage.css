@@ -342,6 +342,7 @@ a {
 }  */
 
 @import url("https://fonts.googleapis.com/css2?family=Danfo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Danfo&display=swap");
 
 .danfo-banner-title {
   font-family: "Danfo", serif;
@@ -349,6 +350,12 @@ a {
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "ELSH" 0;
+}
+
+.dancing-script-banner-title {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 .sec2 {

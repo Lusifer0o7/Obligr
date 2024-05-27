@@ -71,25 +71,16 @@ export default function Homepage() {
                   }}
                 >
                   <span
-                    className="danfo-banner-title"
+                    className="dancing-script-banner-title"
                     style={{
                       color: "rgb(0,0,0,0.7)",
-                      fontSize: "3em",
+                      fontSize: "5em",
                       textShadow: "0 0 3px white",
                     }}
                   >
-                    Welcome
+                    Welcome to
                   </span>
-                  <span
-                    className="danfo-banner-title"
-                    style={{
-                      color: "rgb(0,0,0,0.7)",
-                      fontSize: "3em",
-                      textShadow: "0 0 3px white",
-                    }}
-                  >
-                    to
-                  </span>
+
                   <span
                     style={{
                       color: "white",
