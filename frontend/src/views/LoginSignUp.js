@@ -51,6 +51,8 @@ function LoginSignUp() {
   const [step, setStep] = useState(1);
   const phoneUtil = PhoneNumberUtil.getInstance();
   const [country_code, setCountry_code] = useState("");
+  const avatarRef = useRef(null);
+  const [svgData, setSvgData] = useState("");
 
   useEffect(() => {
     if (mobileotpError) {
@@ -77,6 +79,15 @@ function LoginSignUp() {
     }
   }, [dispatch, emailotpError, mobileotpError, toast, isAuthenticated, error]);
 
+  useEffect(() => {
+    if (avatarRef.current) {
+      const svgElement = avatarRef.current.querySelector("svg");
+      if (svgElement) {
+        setSvgData(svgElement.outerHTML);
+      }
+    }
+  }, [avatarRef.current]);
+
   const handleLoginSubmit = (event) => {
     event.preventDefault();
     dispatch(login(email, password));
@@ -97,8 +108,8 @@ function LoginSignUp() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleAvatarChange = (e) => {
-    setUser({ ...user, avatar: e.target.files[0] });
+  const handleAvatarChange = () => {
+    setUser({ ...user, avatar: "" });
   };
 
   const handleSignupSubmit = (event) => {
@@ -217,12 +228,20 @@ function LoginSignUp() {
                 filter: "drop-shadow(0px 0px 5px black)",
               }}
             >
-              <Avatar
-                size={60}
-                name={user.firstName}
-                variant="beam"
-                colors={["#00B191", "#49007E", "#FF005B", "#FF7D10", "#FFB238"]}
-              />
+              <div ref={avatarRef}>
+                <Avatar
+                  size={60}
+                  name={user.firstName}
+                  variant="beam"
+                  colors={[
+                    "#00B191",
+                    "#49007E",
+                    "#FF005B",
+                    "#FF7D10",
+                    "#FFB238",
+                  ]}
+                />
+              </div>
             </div>
             <input
               type="text"
@@ -509,6 +528,11 @@ function LoginSignUp() {
             </button>
           </form>
         </div>
+      </div>
+      <div>
+        <h3>SVG Data:</h3>
+        <pre>{svgData}</pre>
+        {console.log(svgData)}
       </div>
       {/* <Map /> */}
     </div>

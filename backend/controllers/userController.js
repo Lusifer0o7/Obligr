@@ -9,7 +9,7 @@ const qs = require("qs");
 const axios = require("axios");
 const ApiFeatures = require("../utils/apifeatures");
 
-const upload = multer({});
+const upload = multer({ dest: "uploads/" });
 
 // Register a User
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {

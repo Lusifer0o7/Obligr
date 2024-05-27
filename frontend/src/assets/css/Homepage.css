@@ -1,0 +1,538 @@
+/* .home {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.home-header {
+  position: relative;
+  height: 100vh;
+  color: white;
+  text-align: center;
+}
+
+.hero-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hero-section h1 {
+  font-size: 4rem;
+  margin: 0;
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  margin: 20px 0;
+}
+
+.cta-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background: #ff6600;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.features-section {
+  padding: 50px 0;
+  background: #f8f8f8;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.feature {
+  width: 30%;
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.feature img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.parallax-section {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.parallax-section h2 {
+  font-size: 2.5rem;
+}
+
+.footer {
+  padding: 20px 0;
+  background: #333;
+  color: white;
+}
+
+:root {
+  --caro-transition-duration: 250ms;
+  --caro-transition-ease: ease-out;
+  --caro-bg-color-rgb: 0, 0, 0;
+  --caro-shadow-color-rgb: 128, 128, 128;
+  --caro-item-width: 11.5rem;
+  --caro-item-height: 17.5rem;
+  --caro-item-hover-effect: 1.075;
+  --caro-item-reflection-blur: 0.25rem;
+  --caro-item-empty-color-rgb: 255, 255, 255;
+  --caro-item-glow-color-rgb: 255, 255, 255;
+  --caro-item-glow-size: 5rem;
+  --caro-diameter: 50rem;
+  --caro-3d-perspective: 1000px;
+  --caro-3d-perspective-origin: 50% 20%;
+  --caro-control-button-width: 1.25rem;
+  --caro-control-button-height: 4rem;
+  --caro-control-color-rgb: 255, 255, 255;
+  --caro-animation-duration: 25s;
+  --caro-animation-play-state: running;
+  --caro-direction-animation-play-state: paused;
+}
+
+
+
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+.caro {
+  --_diameter: var(--caro-diameter);
+  --_radius: calc(var(--_diameter) / 2);
+  --_item-width: var(--caro-item-width);
+  --_item-height: var(--caro-item-height);
+  perspective: var(--caro-3d-perspective);
+  perspective-origin: var(--caro-3d-perspective-origin);
+  width: var(--_diameter);
+  height: var(--_diameter);
+}
+
+@media only screen and (max-width: 48rem) {
+  .caro {
+    --_diameter: calc(var(--caro-diameter) * 0.75);
+    --_item-width: calc(var(--caro-item-width) * 0.75);
+    --_item-height: calc(var(--caro-item-height) * 0.75);
+  }
+}
+
+@media only screen and (max-width: 32rem) {
+  .caro {
+    --_diameter: calc(var(--caro-diameter) * 0.6);
+    --_item-width: calc(var(--caro-item-width) * 0.6);
+    --_item-height: calc(var(--caro-item-height) * 0.6);
+  }
+}
+
+@media only screen and (max-width: 16rem) {
+  .caro {
+    --_diameter: calc(var(--caro-diameter) * 0.25);
+    --_item-width: calc(var(--caro-item-width) * 0.25);
+    --_item-height: calc(var(--caro-item-height) * 0.25);
+  }
+}
+
+.caro .caro-control-button {
+  --_width: var(--caro-control-button-width);
+  --_height: var(--caro-control-button-height);
+  z-index: 1;
+  width: var(--_width);
+  height: var(--_height);
+  background-color: rgb(var(--caro-control-color-rgb));
+  opacity: 0.2;
+  transition: opacity var(--caro-transition-duration)
+    var(--caro-transition-ease);
+  position: absolute;
+}
+.caro .caro-control-button:hover {
+  opacity: 0.4;
+}
+.caro .caro-control-button:has(input:checked) {
+  opacity: 0.8;
+}
+
+.caro .caro-control-button input {
+  -webkit-appearance: none;
+  appearance: none;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.caro .caro-control-button.left {
+  clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+  top: calc(var(--_radius) - var(--_height) / 2);
+  left: 0;
+}
+.caro:has(.caro-control-button.left input:checked) {
+  --caro-direction-animation-play-state: running;
+}
+
+.caro .caro-control-button.right {
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+  top: calc(var(--_radius) - var(--_height) / 2);
+  right: 0;
+}
+.caro:has(.caro-control-button.right input:checked) {
+  --caro-direction-animation-play-state: paused;
+}
+
+.caro .caro-rotation-direction {
+  --_direction-animation-play-state: var(--caro-direction-animation-play-state);
+  --_z: calc(var(--_radius) * -1);
+  transform: translateZ(var(--_z));
+  transform-style: preserve-3d;
+  animation: caro-rotation-reverse calc(var(--caro-animation-duration) / 2)
+    reverse linear infinite var(--_direction-animation-play-state);
+  transition: all var(--caro-transition-duration) var(--caro-transition-ease);
+}
+
+@keyframes caro-rotation-reverse {
+  from {
+    transform: translateZ(var(--_z)) rotateY(0deg);
+  }
+  to {
+    transform: translateZ(var(--_z)) rotateY(360deg);
+  }
+}
+
+@keyframes caro-rotation-normal {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.caro .caro-item-wrapper {
+  transform-style: inherit;
+  width: inherit;
+  height: inherit;
+  list-style-type: none;
+  position: relative;
+  animation: caro-rotation-normal var(--caro-animation-duration) normal linear
+    infinite var(--caro-animation-play-state);
+  transition: all var(--caro-transition-duration) var(--caro-transition-ease);
+}
+
+.caro .caro-rotation-direction:has(.caro-item:hover) {
+  --caro-animation-play-state: paused;
+  --_direction-animation-play-state: paused;
+}
+
+.caro .caro-item {
+  --_width: var(--_item-width);
+  --_height: var(--_item-height);
+  --_rotation: calc(360 / var(--_num-elements) * var(--_index) * 1deg);
+  left: calc(var(--_radius) - var(--_item-width) / 2);
+  top: calc(var(--_radius) - var(--_item-height) / 2);
+  transform: rotateY(var(--_rotation)) translateZ(var(--_radius));
+  transform-style: inherit;
+  width: var(--_width);
+  height: var(--_height);
+  transition: all var(--caro-transition-duration) var(--caro-transition-ease);
+  box-shadow: 0 0 var(--caro-item-glow-size) transparent;
+  position: absolute;
+}
+
+.caro .caro-item:hover {
+  box-shadow: 0 0 var(--caro-item-glow-size)
+    rgb(var(--caro-item-glow-color-rgb));
+  transform: rotateY(var(--_rotation))
+    translateZ(calc(var(--_radius) * var(--caro-item-hover-effect)));
+}
+
+.caro .caro-item a {
+  display: block;
+  width: inherit;
+  height: inherit;
+  text-indent: -9999px;
+  background-color: rgba(var(--caro-item-empty-color-rgb), 0.5);
+  background-image: var(--_image-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: filter var(--caro-transition-duration) var(--caro-transition-ease);
+  filter: grayscale(100%);
+}
+
+.caro .caro-item:hover a {
+  filter: grayscale(0%);
+}
+
+.caro .caro-item::before {
+  content: "";
+  width: inherit;
+  height: inherit;
+  background-color: rgba(var(--caro-item-empty-color-rgb), 0.5);
+  background-image: linear-gradient(
+      to top,
+      rgba(var(--caro-bg-color-rgb), 0.25) 0%,
+      rgba(var(--caro-bg-color-rgb), 1) 75%
+    ),
+    var(--_image-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+  filter: blur(var(--caro-item-reflection-blur)) grayscale(100%);
+  transition: filter var(--caro-transition-duration) var(--caro-transition-ease);
+  transform-style: inherit;
+  transform-origin: center bottom;
+  transform: rotateX(90deg) rotateZ(180deg) rotateY(180deg);
+  position: absolute;
+}
+
+.caro .caro-item:hover::before {
+  filter: blur(var(--caro-item-reflection-blur)) grayscale(0%);
+}
+
+.caro .caro-ground {
+  --_width: var(--_diameter);
+  --_height: var(--_diameter);
+  --_rotation: 90deg;
+  left: calc(var(--_radius) - var(--_width) / 2);
+  top: calc(var(--_radius) - var(--_height) / 2);
+  transform: rotateX(var(--_rotation))
+    translateZ(calc(var(--_item-height) / -2));
+  width: var(--_width);
+  height: var(--_height);
+  border-radius: 50%;
+  background: radial-gradient(
+    rgba(var(--caro-shadow-color-rgb), 0.75) 15%,
+    rgba(var(--caro-bg-color-rgb), 0) 60%
+  );
+  opacity: 0.5;
+  transition: opacity var(--caro-transition-duration)
+    var(--caro-transition-ease);
+  position: absolute;
+}
+
+.caro .caro-item-wrapper:has(.caro-item:hover) .caro-ground {
+  opacity: 0.75;
+}  */
+
+@import url("https://fonts.googleapis.com/css2?family=Danfo&display=swap");
+
+.danfo-banner-title {
+  font-family: "Danfo", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "ELSH" 0;
+}
+
+.sec2 {
+  padding: 0.4em;
+  width: 350px;
+  height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(255, 255, 255);
+  border-radius: 20px;
+  box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 0 2px hsl(0deg 0% 0% / 0.075),
+    0 0 4px hsl(0deg 0% 0% / 0.075), 0 0 8px hsl(0deg 0% 0% / 0.075),
+    0 0 16px hsl(0deg 0% 0% / 0.075);
+  transform-origin: 10% 60%;
+  margin: 5em;
+}
+
+.sec2-container {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding-top: 20px;
+}
+
+.splash {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  clip-path: path(
+    "M 0 303.5 C 0 292.454 8.995 285.101 20 283.5 L 460 219.5 C 470.085 218.033 480 228.454 480 239.5 L 500 430 C 500 441.046 491.046 450 480 450 L 20 450 C 8.954 450 0 441.046 0 430 Z"
+  );
+}
+
+.fancy {
+  background-color: transparent;
+  border: 2px solid #000;
+  border-radius: 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+  outline: none;
+  overflow: visible;
+  padding: 1.25em 2em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  transition: all 0.3s ease-in-out;
+  user-select: none;
+  font-size: 13px;
+}
+
+.fancy::before {
+  content: " ";
+  width: 1.5625rem;
+  height: 2px;
+  background: black;
+  top: 50%;
+  left: 1.5em;
+  position: absolute;
+  transform: translateY(-50%);
+  transform-origin: center;
+  transition: background 0.3s linear, width 0.3s linear;
+}
+
+.fancy .text {
+  font-size: 1.125em;
+  line-height: 1.33333em;
+  padding-left: 2em;
+  display: block;
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: black;
+}
+
+.fancy .top-key {
+  height: 2px;
+  width: 1.5625rem;
+  top: -2px;
+  left: 0.625rem;
+  position: absolute;
+  background: #e8e8e8;
+  transition: width 0.5s ease-out, left 0.3s ease-out;
+}
+
+.fancy .bottom-key-1 {
+  height: 2px;
+  width: 1.5625rem;
+  right: 1.875rem;
+  bottom: -2px;
+  position: absolute;
+  background: #e8e8e8;
+  transition: width 0.5s ease-out, right 0.3s ease-out;
+}
+
+.fancy .bottom-key-2 {
+  height: 2px;
+  width: 0.625rem;
+  right: 0.625rem;
+  bottom: -2px;
+  position: absolute;
+  background: #e8e8e8;
+  transition: width 0.5s ease-out, right 0.3s ease-out;
+}
+
+.fancy:hover {
+  color: white;
+  background: black;
+}
+
+.fancy:hover::before {
+  width: 0.9375rem;
+  background: white;
+}
+
+.fancy:hover .text {
+  color: white;
+  padding-left: 1.5em;
+}
+
+.fancy:hover .top-key {
+  left: -2px;
+  width: 0px;
+}
+
+.fancy:hover .bottom-key-1,
+.fancy:hover .bottom-key-2 {
+  right: 0;
+  width: 0;
+}
+
+.pro-info {
+  background: rgba(0, 0, 0, 0);
+  margin: 1em;
+  padding: 1em;
+}
+
+.c2a-card {
+  width: 300px;
+  height: 100px;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.c2a-card2 {
+  width: 300px;
+  height: 100px;
+  background-color: #1a1a1a;
+  border-radius: 19px;
+  transition: all 0.2s;
+}
+
+.c2a-card2:hover {
+  transform: scale(0.98);
+  border-radius: 20px;
+}
+
+.c2a-card:hover {
+  box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.3);
+}
+
+.caro-bg {
+  content: "";
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../img/pexels-nietjuh-1906440.jpg);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 2;
+}

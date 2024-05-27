@@ -32,6 +32,7 @@ import BackgroundColorWrapper from "./components/BackgroundColorWrapper/Backgrou
 import { Provider } from "react-redux";
 import store from "store";
 import { ToastContainer } from "react-toastify";
+import Homepage from "views/Homepage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -41,6 +42,7 @@ root.render(
       <BackgroundColorWrapper>
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<Homepage />} exact />
             <Route path="/*" element={<AdminLayout />} />
 
             {/* <Route

@@ -1,0 +1,44 @@
+.vis-section {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  scroll-snap-align: center;
+  perspective: 500px;
+}
+
+.vis-section > div {
+  width: 600px;
+  height: 400px;
+  position: relative;
+  max-height: 90vh;
+
+  overflow: hidden;
+}
+
+.vis-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vis-h2 {
+  color: white;
+  font-size: 3em;
+  width: 400px;
+  margin: 3em;
+}
+
+.progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--accent);
+  bottom: 100px;
+}
