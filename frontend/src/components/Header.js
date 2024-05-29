@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useVelocity } from "framer-motion";
+import { getAllHomeMenus } from "../actions/settingAction";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const slideDistance = 80; // if we are sliding out a nav bar at the top of the screen, this will be it's height
@@ -11,6 +13,10 @@ export default function Header() {
   const [isScrollingBack, setIsScrollingBack] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true); // true if the page is not scrolled or fully scrolled back
   const [isInView, setIsInView] = useState(true);
+
+  const { loading, allhomeMenus, error } = useSelector(
+    (state) => state.allHomeMenus
+  );
 
   useEffect(() => {
     const onChangeVelocity = (latest) => {
@@ -42,6 +48,12 @@ export default function Header() {
   useEffect(() => {
     setIsInView(isScrollingBack || isAtTop);
   }, [isScrollingBack, isAtTop]);
+
+  useEffect(() => {
+    console.log(allhomeMenus);
+    getAllHomeMenus();
+  }, []);
+
   return (
     <motion.div
       animate={{ y: isInView ? 0 : -slideDistance }}
@@ -50,9 +62,9 @@ export default function Header() {
         height: slideDistance,
         position: "fixed",
         top: "0px",
-        background: "rgb(0,0,0,0.5)",
+        background: "rgb(0,0,0,0.4)",
         zIndex: 1,
-
+        backdropFilter: "blur(10px)",
         width: "100vw",
         display: "flex",
         justifyContent: "space-evenly",

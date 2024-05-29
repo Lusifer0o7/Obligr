@@ -62,11 +62,11 @@ function ParallaxText({ children, baseVelocity = 100 }) {
   return (
     <div className="pt-parallax">
       <motion.div className="scroller" style={{ x }}>
-        <span style={{ color: "white" }}>{children} </span>
+        <span style={{ color: "black" }}>{children} </span>
         <span>{children} </span>
-        <span style={{ color: "white" }}>{children} </span>
+        <span style={{ color: "black" }}>{children} </span>
         <span>{children} </span>
-        <span style={{ color: "white" }}>{children} </span>
+        <span style={{ color: "black" }}>{children} </span>
         <span>{children} </span>
       </motion.div>
     </div>

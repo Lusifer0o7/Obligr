@@ -22,18 +22,20 @@ const user = require("./routes/userRoute");
 const role = require("./routes/roleRoute");
 const permission = require("./routes/permissionsRoute");
 const website = require("./routes/websiteRoute");
+const homemenu = require("./routes/settingsRoute");
 
 app.use("/api/v1", user);
 app.use("/api/v1", role);
 app.use("/api/v1", permission);
 app.use("/api/v1", website);
+app.use("/api/v1", homemenu);
 
 //getRoutes(app);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/build/index"));
+  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
 });
 
 // Middleware for Errors

@@ -65,6 +65,29 @@ function CustomImgSlider({ children }) {
             key={index}
           >
             {item}
+            <div className="slider__info">
+              <h1
+                className="danfo-banner-title"
+                style={{
+                  color: "rgb(255,255,255,0.9)",
+                  fontSize: "6em",
+                  textShadow: "5px 5px 5px black",
+                }}
+              >
+                Gloraglam
+              </h1>
+              <p
+                className="dancing-script-banner-title"
+                style={{
+                  color: "rgb(255,255,255,0.9)",
+                  fontSize: "3em",
+                  textShadow: "2px 2px black",
+                }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor
+              </p>
+            </div>
           </div>
         );
       })}
@@ -97,6 +120,7 @@ function CustomImgSlider({ children }) {
       >
         {">"}
       </button>
+
       <button
         className="slider__btn-prev"
         onClick={(e) => {

@@ -1,3 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Danfo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Danfo&display=swap");
+
+.danfo-banner-title {
+  font-family: "Danfo", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "ELSH" 0;
+}
+
+.dancing-script-banner-title {
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 .container__slider {
   position: relative;
   width: 100%;
@@ -17,11 +34,11 @@
   outline: none;
   border: 0;
   color: whitesmoke;
-  font-size: 24px;
+  font-size: 3em;
 }
 
 .container__slider > button:active {
-  color: black;
+  color: rgb(232, 0, 253);
 }
 
 .slider__btn-next {
@@ -29,6 +46,19 @@
   right: 0;
   height: 100%;
   width: 5em;
+}
+
+.slider__info {
+  position: absolute;
+  top: 30em;
+  left: 12em;
+
+  width: 50vw;
+  display: flex;
+  justify-content: end;
+  align-items: start;
+  flex-direction: column;
+  padding: 3em;
 }
 
 .slider__btn-prev {
@@ -43,12 +73,13 @@
   bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 2;
 }
 
 .container__slider__links-small {
   position: relative;
-  width: 8px;
-  height: 8px;
+  width: 15px;
+  height: 15px;
   padding: 0;
   border-radius: 50%;
   outline: none;
@@ -60,7 +91,7 @@
 }
 
 .container__slider__links-small-active {
-  background-color: black;
+  background-color: rgb(232, 0, 253);
 }
 
 .slider__item {

@@ -529,11 +529,7 @@ function LoginSignUp() {
           </form>
         </div>
       </div>
-      <div>
-        <h3>SVG Data:</h3>
-        <pre>{svgData}</pre>
-        {console.log(svgData)}
-      </div>
+
       {/* <Map /> */}
     </div>
   );

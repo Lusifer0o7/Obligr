@@ -39,6 +39,12 @@ import {
   createWebsiteReducer,
 } from "./reducers/websiteReducer";
 
+import {
+  allHomeMenuReducer,
+  createHomeMenuReducer,
+  HomeMenuReducer,
+} from "./reducers/settingsReducer";
+
 // import { cartReducer } from "./reducers/cartReducer";
 // import {
 //   allOrdersReducer,
@@ -75,6 +81,10 @@ const reducer = combineReducers({
   permission: permissionReducer,
   newWebsite: createWebsiteReducer,
   allWebsites: allWebsiteReducer,
+  allHomeMenus: allHomeMenuReducer,
+  newHomeMenu: createHomeMenuReducer,
+  HomeMenu: HomeMenuReducer,
+
   //   productReviews: productReviewsReducer,
   //   review: reviewReducer,
 });
