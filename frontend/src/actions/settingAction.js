@@ -56,7 +56,7 @@ export const updateHomeMenu = (homeMenuData) => async (dispatch) => {
 export const getAllHomeMenus = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_HOME_MENU_REQUEST });
-    console.log("act");
+
     const { data } = await axios.get(`${BASE_URL}/api/v1/get/home-menus`);
 
     dispatch({ type: ALL_HOME_MENU_SUCCESS, payload: data.menus });

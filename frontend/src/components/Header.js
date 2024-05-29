@@ -1,68 +1,73 @@
 import React, { useState, useEffect } from "react";
 import { motion, useScroll, useVelocity } from "framer-motion";
-import { getAllHomeMenus } from "../actions/settingAction";
-import { useSelector } from "react-redux";
+import { getAllHomeMenus } from "../actions/settingAction.js";
+import { useDispatch, useSelector } from "react-redux";
+import Spinner from "./Spinner.js";
+import { UncontrolledTooltip } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
-  const slideDistance = 80; // if we are sliding out a nav bar at the top of the screen, this will be it's height
-  const threshold = 200; // only slide it back when scrolling back at velocity above this positive (or zero) value
-
   const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-
-  const [isScrollingBack, setIsScrollingBack] = useState(false);
-  const [isAtTop, setIsAtTop] = useState(true); // true if the page is not scrolled or fully scrolled back
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [isAtTop, setIsAtTop] = useState(true);
   const [isInView, setIsInView] = useState(true);
 
-  const { loading, allhomeMenus, error } = useSelector(
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [hoveredMenuIndex, setHoveredMenuIndex] = useState(null);
+  const { loading, homeMenus, error } = useSelector(
     (state) => state.allHomeMenus
   );
 
   useEffect(() => {
-    const onChangeVelocity = (latest) => {
-      if (latest > 0) {
-        setIsScrollingBack(false);
-        return;
-      }
-      if (latest < -threshold) {
-        setIsScrollingBack(true);
-        return;
-      }
+    dispatch(getAllHomeMenus());
+  }, []);
+
+  useEffect(() => {
+    let scrollTimeout;
+
+    const handleScroll = () => {
+      setIsScrolling(true);
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        setIsScrolling(false);
+      }, 100); // 100ms delay after user stops scrolling
     };
-    scrollVelocity.onChange(onChangeVelocity);
+
+    scrollY.on("change", handleScroll);
     return () => {
-      scrollVelocity.onChange(onChangeVelocity);
+      scrollY.clearListeners();
+      clearTimeout(scrollTimeout);
     };
-  }, [scrollVelocity, threshold]);
+  }, [scrollY]);
 
   useEffect(() => {
     const onChangeScroll = (latest) => {
       setIsAtTop(latest <= 0);
     };
-    scrollY.onChange(onChangeScroll);
+    scrollY.on("change", onChangeScroll);
     return () => {
-      scrollY.onChange(onChangeScroll);
+      scrollY.clearListeners();
     };
   }, [scrollY]);
 
   useEffect(() => {
-    setIsInView(isScrollingBack || isAtTop);
-  }, [isScrollingBack, isAtTop]);
+    setIsInView(!isScrolling || isAtTop);
+  }, [isScrolling, isAtTop]);
 
-  useEffect(() => {
-    console.log(allhomeMenus);
-    getAllHomeMenus();
-  }, []);
+  if (loading || typeof loading === "undefined" || !homeMenus) {
+    return <></>;
+  }
 
   return (
     <motion.div
-      animate={{ y: isInView ? 0 : -slideDistance }}
+      animate={{ y: isInView ? 0 : "-100vh" }}
       transition={{ duration: 0.2, delay: 0.25, ease: "easeInOut" }}
       style={{
-        height: slideDistance,
+        height: "10vh",
         position: "fixed",
         top: "0px",
-        background: "rgb(0,0,0,0.4)",
+        background: "rgba(0,0,0,0.8)",
         zIndex: 1,
         backdropFilter: "blur(10px)",
         width: "100vw",
@@ -71,6 +76,7 @@ export default function Header() {
         alignItems: "center",
         color: "white",
       }}
+      onMouseLeave={() => setHoveredMenuIndex(null)}
     >
       <div
         style={{
@@ -81,10 +87,70 @@ export default function Header() {
           color: "white",
         }}
       >
-        <div style={{ textTransform: "uppercase" }}>menu</div>
-        <div style={{ textTransform: "uppercase" }}>contact us</div>
-        <div style={{ textTransform: "uppercase" }}>about us</div>
-        <div style={{ textTransform: "uppercase" }}>products</div>
+        {homeMenus.map((menu, index) => {
+          return (
+            <div
+              style={{
+                textTransform: "uppercase",
+                position: "relative",
+                height: "100%",
+                cursor: "pointer",
+                fontSize: "1.2em",
+              }}
+              key={index}
+              onMouseEnter={() => setHoveredMenuIndex(index)}
+            >
+              {menu.title}
+              {hoveredMenuIndex === index && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "3.3vh",
+                    left: "50%",
+                    minWidth: "20vw",
+                    transform: "translateX(-15%)",
+                    background: "rgba(0,0,0,0.8)",
+                    color: "white",
+                    padding: "10px",
+                    marginTop: "3.1vh",
+                    backdropFilter: "blur(10px)",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                  onMouseEnter={() => setHoveredMenuIndex(index)}
+                  onMouseLeave={() => setHoveredMenuIndex(null)}
+                >
+                  {menu.subtitles.map((subtitle, index) => {
+                    return (
+                      <div
+                        style={{
+                          margin: "1.5em",
+                          cursor: "pointer",
+                          fontSize: "0.7em",
+                        }}
+                        key={index}
+                      >
+                        {subtitle}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ marginRight: "3em", display: "flex", gap: "2em" }}>
+        <span onClick={() => navigate("/login")}>
+          <i class="fa-solid fa-right-to-bracket" id="login-btn"></i>
+        </span>
+        <UncontrolledTooltip placement="bottom" target="login-btn" delay={70}>
+          Login
+        </UncontrolledTooltip>
+        <span>
+          <i class="fa-solid fa-gear"></i>
+        </span>
       </div>
     </motion.div>
   );
