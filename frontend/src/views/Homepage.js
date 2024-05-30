@@ -264,6 +264,10 @@ export default function Homepage() {
             style={{
               display: "grid",
               gridTemplateColumns: "auto auto",
+              gridGap: "10px",
+              "@media (max-width: 600px)": {
+                gridTemplateColumns: "auto !important",
+              },
             }}
           >
             <motion.div

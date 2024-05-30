@@ -16,20 +16,25 @@ const HomeMenuSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// const PermissionSchema = new mongoose.Schema({
-//   name: {
-//     type: String,
-//     required: true,
-//     unique: true,
-//   },
-//   path: {
-//     type: String,
-//     required: true,
-//   },
-// });
+const HomeSliderSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+
+    image: {
+      data: Buffer,
+      contentType: String,
+    },
+  },
+  { timestamps: true }
+);
 
 // Define MongoDB models
 const HomeMenu = mongoose.model("HomeMenu", HomeMenuSchema);
-// const Permission = mongoose.model("Permission", PermissionSchema);
+const HomeSlider = mongoose.model("HomeSlider", HomeSliderSchema);
 
-module.exports = { HomeMenu };
+module.exports = { HomeMenu, HomeSlider };
