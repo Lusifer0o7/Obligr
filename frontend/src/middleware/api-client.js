@@ -3,6 +3,10 @@ import { BASE_URL } from "constants/urlConstants";
 
 const api = axios.create({
   baseURL: BASE_URL, // our API base URL
+  // headers: {
+  //   "Content-Type": "multipart/form-data",
+  //   "Access-Control-Allow-Origin": "*",
+  // },
 });
 
 // Request interceptor for adding the bearer token

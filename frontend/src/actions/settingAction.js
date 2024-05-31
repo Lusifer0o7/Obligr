@@ -57,17 +57,7 @@ export const getAllHomeMenus = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_HOME_MENU_REQUEST });
 
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
-
-    const { data } = await axios.get(
-      `${BASE_URL}/api/v1/get/home-menus`,
-      config
-    );
+    const { data } = await axios.get(`${BASE_URL}/api/v1/get/home-menus`);
 
     dispatch({ type: ALL_HOME_MENU_SUCCESS, payload: data.menus });
   } catch (error) {

@@ -63,77 +63,39 @@ export default function Header() {
     <motion.div
       animate={{ y: isInView ? 0 : "-100vh" }}
       transition={{ duration: 0.2, delay: 0.25, ease: "easeInOut" }}
-      style={{
-        height: "80px",
-        position: "fixed",
-        top: "0px",
-        background: "rgba(0,0,0,0.8)",
-        zIndex: 1,
-        backdropFilter: "blur(10px)",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-        color: "white",
-      }}
+      className="h-menu-container"
       onMouseLeave={() => setHoveredMenuIndex(null)}
     >
-      <div
-        style={{
-          width: "100vw",
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          color: "white",
-        }}
-      >
+      <div style={{}}>
+        <label class="hamburger">
+          <input type="checkbox" />
+          <svg viewBox="0 0 32 32">
+            <path
+              class="line line-top-bottom"
+              d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
+            ></path>
+            <path class="line" d="M7 16 27 16"></path>
+          </svg>
+        </label>
+      </div>
+      <div className="h-menu-lwrapper">
         {homeMenus.map((menu, index) => {
           return (
             <div
-              style={{
-                textTransform: "uppercase",
-                position: "relative",
-                height: "100%",
-                cursor: "pointer",
-                fontSize: "1.2em",
-                textShadow: "5px, 5px, blue",
-              }}
+              className="h-menu-title"
               key={index}
               onMouseEnter={() => setHoveredMenuIndex(index)}
             >
               {menu.title}
               {hoveredMenuIndex === index && (
                 <div
-                  style={{
-                    position: "absolute",
-                    top: "113%",
-                    left: "50%",
-                    minWidth: "20vw",
-                    transform: "translateX(-50%)",
-                    background: "rgba(0,0,0,0.8)",
-                    color: "white",
-                    padding: "10px",
-                    marginTop: "3.1vh",
-                    backdropFilter: "blur(10px)",
-                    boxShadow: "2px 2px 5px black",
-
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
+                  className="h-menu-subtitle-wrapper"
                   onMouseEnter={() => setHoveredMenuIndex(index)}
                   onMouseLeave={() => setHoveredMenuIndex(null)}
                 >
                   {menu.subtitles.map((subtitle, index) => {
                     return (
-                      <div
-                        style={{
-                          margin: "1.5em",
-                          cursor: "pointer",
-                          fontSize: "0.7em",
-                        }}
-                        key={index}
-                      >
+                      <div className="h-menu-subtitle" key={index}>
                         {subtitle}
                       </div>
                     );
@@ -145,14 +107,7 @@ export default function Header() {
         })}
       </div>
 
-      <div
-        style={{
-          marginRight: "3em",
-          display: "flex",
-          gap: "2em",
-          alignItems: "center",
-        }}
-      >
+      <div className="h-menu-rwrapper">
         <span>
           {/* <i class="fa-solid fa-magnifying-glass"></i> */}
           <div class="h-search-wrapper">
@@ -198,21 +153,7 @@ export default function Header() {
 
         {hoveredMenuIndex === "account" && (
           <div
-            style={{
-              position: "absolute",
-              top: "70%",
-              right: "0%",
-              minWidth: "20vw",
-
-              background: "rgba(0,0,0,0.8)",
-              color: "white",
-              padding: "5px",
-              marginTop: "3.1vh",
-              boxShadow: "-2px 2px 5px black",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            className="static-panel"
             onMouseEnter={() => setHoveredMenuIndex("account")}
             onMouseLeave={() => setHoveredMenuIndex(null)}
           >
@@ -249,68 +190,19 @@ export default function Header() {
                   display: "grid",
                   gridTemplateColumns: "auto auto ",
                 }}
+                className="static-panel-subtitle"
               >
-                <div
-                  style={{
-                    color: "white",
-                    margin: "15px",
-                    textTransform: "uppercase",
-                    cursor: "pointer",
-                  }}
-                >
-                  Your Account
-                </div>
-                <div
-                  style={{
-                    color: "white",
-                    margin: "15px",
-                    cursor: "pointer",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Your Orders
-                </div>
-                <div
-                  style={{
-                    color: "white",
-                    textTransform: "uppercase",
-                    cursor: "pointer",
-                    margin: "15px",
-                  }}
-                >
-                  Your Wishlist
-                </div>
-                <div
-                  style={{
-                    color: "white",
-                    textTransform: "uppercase",
-                    cursor: "pointer",
-                    margin: "15px",
-                  }}
-                >
-                  Your Favorites
-                </div>
+                <div className="static-panel-subtitle">Your Account</div>
+                <div className="static-panel-subtitle">Your Orders</div>
+                <div className="static-panel-subtitle">Your Wishlist</div>
+                <div className="static-panel-subtitle">Your Favorites</div>
               </div>
             </div>
           </div>
         )}
 
         <span style={{ fontSize: "1.3em" }}>
-          <span
-            style={{
-              width: "1.5em",
-              height: "1.5em",
-              fontSize: "0.8em",
-              position: "absolute",
-              top: "1em",
-              right: "1.7em",
-              background: "rgb(255,69,0)",
-              borderRadius: "50%",
-              textAlign: "center",
-            }}
-          >
-            0
-          </span>
+          <span className="h-cart-count">0</span>
           <i class="fa-solid fa-cart-shopping"></i>
         </span>
       </div>
