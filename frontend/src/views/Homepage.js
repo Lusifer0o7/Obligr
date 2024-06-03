@@ -43,11 +43,11 @@ export default function Homepage() {
       <Header />
       <div className="home">
         <div>
-          <CustomImgSlider>
-            {/* {[1, 2, 3, 4].map((image, index) => {
+          <CustomImgSlider />
+          {/* {[1, 2, 3, 4].map((image, index) => {
               return ()} */}
 
-            <img
+          {/* <img
               alt="img"
               src={require("../assets/img/lorenzo-herrera-p0j-mE6mGo4-unsplash.jpg")}
             />
@@ -62,10 +62,9 @@ export default function Homepage() {
             <img
               alt="img"
               src={require("../assets/img/tomasz-frankowski-kBUfvkbFIoE-unsplash.jpg")}
-            />
-            {/* );
+            /> */}
+          {/* );
             })} */}
-          </CustomImgSlider>
         </div>
 
         <div style={{}}>

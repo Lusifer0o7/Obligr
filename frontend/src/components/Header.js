@@ -15,6 +15,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [hoveredMenuIndex, setHoveredMenuIndex] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const { loading, homeMenus, error } = useSelector(
     (state) => state.allHomeMenus
   );
@@ -22,6 +23,10 @@ export default function Header() {
   useEffect(() => {
     dispatch(getAllHomeMenus());
   }, []);
+
+  useEffect(() => {
+    window.innerWidth > "700" && setIsMenuOpen(false);
+  }, [window.innerWidth]);
 
   useEffect(() => {
     let scrollTimeout;
@@ -60,15 +65,10 @@ export default function Header() {
   }
 
   return (
-    <motion.div
-      animate={{ y: isInView ? 0 : "-100vh" }}
-      transition={{ duration: 0.2, delay: 0.25, ease: "easeInOut" }}
-      className="h-menu-container"
-      onMouseLeave={() => setHoveredMenuIndex(null)}
-    >
-      <div style={{}}>
+    <>
+      <div>
         <label class="hamburger">
-          <input type="checkbox" />
+          <input type="checkbox" onChange={() => setIsMenuOpen(!isMenuOpen)} />
           <svg viewBox="0 0 32 32">
             <path
               class="line line-top-bottom"
@@ -78,134 +78,142 @@ export default function Header() {
           </svg>
         </label>
       </div>
-      <div className="h-menu-lwrapper">
-        {homeMenus.map((menu, index) => {
-          return (
-            <div
-              className="h-menu-title"
-              key={index}
-              onMouseEnter={() => setHoveredMenuIndex(index)}
-            >
-              {menu.title}
-              {hoveredMenuIndex === index && (
-                <div
-                  className="h-menu-subtitle-wrapper"
-                  onMouseEnter={() => setHoveredMenuIndex(index)}
-                  onMouseLeave={() => setHoveredMenuIndex(null)}
+      <motion.div
+        animate={{ y: isInView ? 0 : "-100vh" }}
+        transition={{ duration: 0.2, delay: 0.25, ease: "easeInOut" }}
+        className="h-menu-container"
+        style={{ display: isMenuOpen ? "none" : "flex" }}
+        onMouseLeave={() => setHoveredMenuIndex(null)}
+      >
+        <div className="h-menu-lwrapper">
+          {homeMenus.map((menu, index) => {
+            return (
+              <div
+                className="h-menu-title"
+                key={index}
+                onMouseEnter={() => setHoveredMenuIndex(index)}
+              >
+                {menu.title}
+                {hoveredMenuIndex === index && (
+                  <div
+                    className="h-menu-subtitle-wrapper"
+                    onMouseEnter={() => setHoveredMenuIndex(index)}
+                    onMouseLeave={() => setHoveredMenuIndex(null)}
+                  >
+                    {menu.subtitles.map((subtitle, index) => {
+                      return (
+                        <div className="h-menu-subtitle" key={index}>
+                          {subtitle}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="h-menu-rwrapper">
+          <span>
+            {/* <i class="fa-solid fa-magnifying-glass"></i> */}
+            <div class="h-search-wrapper">
+              <button class="h-search-icon">
+                <svg
+                  width="25px"
+                  height="25px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  {menu.subtitles.map((subtitle, index) => {
-                    return (
-                      <div className="h-menu-subtitle" key={index}>
-                        {subtitle}
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+                  <path
+                    d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
+                    stroke="#fff"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path
+                    d="M22 22L20 20"
+                    stroke="#fff"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+              <input
+                type="text"
+                name="text"
+                class="h-search-input"
+                placeholder="Search.."
+              />
             </div>
-          );
-        })}
-      </div>
+          </span>
 
-      <div className="h-menu-rwrapper">
-        <span>
-          {/* <i class="fa-solid fa-magnifying-glass"></i> */}
-          <div class="h-search-wrapper">
-            <button class="h-search-icon">
-              <svg
-                width="25px"
-                height="25px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                  stroke="#fff"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-                <path
-                  d="M22 22L20 20"
-                  stroke="#fff"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></path>
-              </svg>
-            </button>
-            <input
-              type="text"
-              name="text"
-              class="h-search-input"
-              placeholder="Search.."
-            />
-          </div>
-        </span>
-
-        <span
-          style={{ fontSize: "1.3em" }}
-          onMouseEnter={() => setHoveredMenuIndex("account")}
-        >
-          <i class="fa-solid fa-user"></i>
-        </span>
-
-        {hoveredMenuIndex === "account" && (
-          <div
-            className="static-panel"
+          <span
+            style={{ fontSize: "1.3em" }}
             onMouseEnter={() => setHoveredMenuIndex("account")}
-            onMouseLeave={() => setHoveredMenuIndex(null)}
           >
+            <i class="fa-solid fa-user"></i>
+          </span>
+
+          {hoveredMenuIndex === "account" && (
             <div
-              style={{
-                margin: "1em",
-              }}
+              className="static-panel"
+              onMouseEnter={() => setHoveredMenuIndex("account")}
+              onMouseLeave={() => setHoveredMenuIndex(null)}
             >
               <div
                 style={{
-                  textAlign: "center",
-                  marginBottom: "1em",
+                  margin: "1em",
                 }}
               >
-                <button class="pushable">
-                  <span class="shadow"></span>
-                  <span class="edge"></span>
-                  <span class="front" onClick={() => navigate("/login")}>
-                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                <div
+                  style={{
+                    textAlign: "center",
+                    marginBottom: "1em",
+                  }}
+                >
+                  <button class="pushable">
+                    <span class="shadow"></span>
+                    <span class="edge"></span>
+                    <span class="front" onClick={() => navigate("/login")}>
+                      <i class="fa-solid fa-right-to-bracket"></i> Login
+                    </span>
+                  </button>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  Don't have account?{" "}
+                  <span style={{ color: "rgb(255,69,0)", cursor: "pointer" }}>
+                    Sign Up
                   </span>
-                </button>
-              </div>
-              <div style={{ textAlign: "center" }}>
-                Don't have account?{" "}
-                <span style={{ color: "rgb(255,69,0)", cursor: "pointer" }}>
-                  Sign Up
-                </span>
-              </div>
-              <hr style={{ color: "white !important" }} />
-              <div
-                style={{
-                  padding: "10px, 20px",
-                  width: "100%",
-                  display: "grid",
-                  gridTemplateColumns: "auto auto ",
-                }}
-                className="static-panel-subtitle"
-              >
-                <div className="static-panel-subtitle">Your Account</div>
-                <div className="static-panel-subtitle">Your Orders</div>
-                <div className="static-panel-subtitle">Your Wishlist</div>
-                <div className="static-panel-subtitle">Your Favorites</div>
+                </div>
+                <hr style={{ color: "white !important" }} />
+                <div
+                  style={{
+                    padding: "10px, 20px",
+                    width: "100%",
+                    display: "grid",
+                    gridTemplateColumns: "auto auto ",
+                  }}
+                  className="static-panel-subtitle"
+                >
+                  <div className="static-panel-subtitle">Your Account</div>
+                  <div className="static-panel-subtitle">Your Orders</div>
+                  <div className="static-panel-subtitle">Your Wishlist</div>
+                  <div className="static-panel-subtitle">Your Favorites</div>
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <span style={{ fontSize: "1.3em" }}>
-          <span className="h-cart-count">0</span>
-          <i class="fa-solid fa-cart-shopping"></i>
-        </span>
-      </div>
-    </motion.div>
+          <span style={{ fontSize: "1.3em" }}>
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span className="h-cart-count">0</span>
+          </span>
+        </div>
+      </motion.div>
+    </>
   );
 }

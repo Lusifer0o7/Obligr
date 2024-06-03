@@ -66,32 +66,41 @@ exports.createHomeSlider = [
   upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
     const { title, description } = req.body;
-
-    const image = {
-      data: fs.readFileSync(
-        path.join(__dirname, "../utils/uploads/", req.file.filename)
-      ),
-      contentType: req.file.mimetype,
-    };
+    const { filename, path, size } = req.file;
 
     const homeSlider = new HomeSlider({
       title,
       description,
-      image,
+      image: {
+        filename,
+        path,
+        size,
+      },
     });
 
     await homeSlider.save();
 
-    res
-      .status(201)
-      .json({ message: "Image uploaded and data saved successfully!" });
+    res.status(201).json({
+      message: "Image uploaded and data saved successfully!",
+
+      homeSlider,
+    });
   }),
 ];
 
 exports.updateHomeSlider = catchAsyncErrors(async (req, res, next) => {
+  const { title, description } = req.body;
+  var { filename, path, size } = req.file;
+  path = path.replaceAll("\\", "/");
+
   const newHomeSliderData = {
-    title: req.body.title,
-    description: req.body.description,
+    title,
+    description,
+    image: {
+      filename,
+      path,
+      size,
+    },
   };
 
   const homeSlider = await HomeSlider.findByIdAndUpdate(

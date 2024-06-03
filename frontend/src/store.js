@@ -43,6 +43,9 @@ import {
   allHomeMenuReducer,
   createHomeMenuReducer,
   HomeMenuReducer,
+  allHomeSliderReducer,
+  createHomeSliderReducer,
+  HomeSliderReducer,
 } from "./reducers/settingsReducer";
 
 // import { cartReducer } from "./reducers/cartReducer";
@@ -84,6 +87,9 @@ const reducer = combineReducers({
   allHomeMenus: allHomeMenuReducer,
   newHomeMenu: createHomeMenuReducer,
   HomeMenu: HomeMenuReducer,
+  allHomeSliders: allHomeSliderReducer,
+  newHomeSlider: createHomeSliderReducer,
+  HomeSlider: HomeSliderReducer,
 
   //   productReviews: productReviewsReducer,
   //   review: reviewReducer,

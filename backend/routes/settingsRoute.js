@@ -5,6 +5,7 @@ const {
   getAllMenus,
   updateMenu,
   createHomeSlider,
+  getAllHomeSliders,
 } = require("../controllers/settingsController");
 
 const { isAuthenticatedUser, authorizeMenus } = require("../middleware/auth");
@@ -20,5 +21,8 @@ router.route("/home-menu/:id").delete(deleteMenu).name = "Delete Home-Menus";
 //home slider routes
 router.route("/create/home-slider").post(createHomeSlider).name =
   "Create Home-Slider";
+
+router.route("/get/home-sliders").get(getAllHomeSliders).name =
+  "Get All Home-Slider";
 
 module.exports = router;

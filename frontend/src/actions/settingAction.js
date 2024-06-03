@@ -2,6 +2,9 @@ import {
   ALL_HOME_MENU_REQUEST,
   ALL_HOME_MENU_SUCCESS,
   ALL_HOME_MENU_FAIL,
+  ALL_HOME_SLIDER_REQUEST,
+  ALL_HOME_SLIDER_SUCCESS,
+  ALL_HOME_SLIDER_FAIL,
 } from "../constants/settingConstants";
 import { BASE_URL } from "../constants/urlConstants";
 import axios from "axios";
@@ -14,6 +17,16 @@ import { UPDATE_HOME_MENU_FAIL } from "../constants/settingConstants";
 import { DELETE_HOME_MENU_REQUEST } from "../constants/settingConstants";
 import { DELETE_HOME_MENU_SUCCESS } from "../constants/settingConstants";
 import { DELETE_HOME_MENU_FAIL } from "../constants/settingConstants";
+
+import { CREATE_HOME_SLIDER_REQUEST } from "../constants/settingConstants";
+import { CREATE_HOME_SLIDER_FAIL } from "../constants/settingConstants";
+import { CREATE_HOME_SLIDER_SUCCESS } from "../constants/settingConstants";
+import { UPDATE_HOME_SLIDER_REQUEST } from "../constants/settingConstants";
+import { UPDATE_HOME_SLIDER_SUCCESS } from "../constants/settingConstants";
+import { UPDATE_HOME_SLIDER_FAIL } from "../constants/settingConstants";
+import { DELETE_HOME_SLIDER_REQUEST } from "../constants/settingConstants";
+import { DELETE_HOME_SLIDER_SUCCESS } from "../constants/settingConstants";
+import { DELETE_HOME_SLIDER_FAIL } from "../constants/settingConstants";
 
 export const createHomeMenu = (homeMenuData) => async (dispatch) => {
   try {
@@ -78,6 +91,74 @@ export const deleteHomeMenu = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_HOME_MENU_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const createHomeSlider = (homeSliderData) => async (dispatch) => {
+  try {
+    dispatch({ type: CREATE_HOME_SLIDER_REQUEST });
+
+    const { data } = await axios.post(
+      `${BASE_URL}/api/v1/create/home-slider`,
+      homeSliderData
+    );
+
+    dispatch({ type: CREATE_HOME_SLIDER_SUCCESS, payload: data.homeSlider });
+  } catch (error) {
+    dispatch({
+      type: CREATE_HOME_SLIDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const updateHomeSlider = (homeSliderData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_HOME_SLIDER_REQUEST });
+
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+
+    const { data } = await axios.put(
+      `${BASE_URL}/api/v1/update/home-slider`,
+      homeSliderData
+    );
+
+    dispatch({ type: UPDATE_HOME_SLIDER_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_HOME_SLIDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getAllHomeSliders = () => async (dispatch) => {
+  try {
+    dispatch({ type: ALL_HOME_SLIDER_REQUEST });
+
+    const { data } = await axios.get(`${BASE_URL}/api/v1/get/home-sliders`);
+
+    dispatch({ type: ALL_HOME_SLIDER_SUCCESS, payload: data.homeSliders });
+  } catch (error) {
+    dispatch({
+      type: ALL_HOME_SLIDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const deleteHomeSlider = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_HOME_SLIDER_REQUEST });
+
+    const { data } = await axios.delete(`${BASE_URL}/api/v1/home-slider/${id}`);
+
+    dispatch({ type: DELETE_HOME_SLIDER_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: DELETE_HOME_SLIDER_FAIL,
       payload: error.response.data.message,
     });
   }

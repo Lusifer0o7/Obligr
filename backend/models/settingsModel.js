@@ -26,8 +26,9 @@ const HomeSliderSchema = new mongoose.Schema(
     },
 
     image: {
-      data: Buffer,
-      contentType: String,
+      filename: String,
+      path: String,
+      size: Number,
     },
   },
   { timestamps: true }
