@@ -28,6 +28,9 @@ import UpdateRoles from "views/RoleViews/UpdateRoles";
 import WebsiteList from "views/WebsiteViews.js/WebsiteList";
 import CreateRole from "views/RoleViews/CreateRole";
 import ProductList from "views/ProductViews/ProductList";
+import HomeMenuSetting from "views/SettingViews/HomeMenuSetting";
+import HomeSliderSetting from "views/SettingViews/HomeSliderSetting";
+import HomeFooterSetting from "views/SettingViews/HomeFooterSetting";
 
 var routes = [
   {
@@ -42,12 +45,10 @@ var routes = [
     name: "Profile",
     icon: "fa-solid fa-address-card",
     component: <UserProfile />,
-    //layout: "/admin",
   },
   {
     name: "Manage User",
     icon: "fa-solid fa-users-gear",
-    //layout: "/admin",
     state: "hide",
     subMenu: [
       {
@@ -55,14 +56,12 @@ var routes = [
         icon: "fa-solid fa-list-ul",
         name: "User List",
         component: <UserList />,
-        //layout: "/admin",
       },
     ],
   },
   {
     name: "Website",
     icon: "fa-solid fa-globe",
-    //layout: "/admin",
     state: "hide",
     subMenu: [
       {
@@ -70,7 +69,6 @@ var routes = [
         icon: "fa-solid fa-wand-magic-sparkles",
         name: "Create Website",
         component: <CreateWebsite />,
-        // layout: "/admin",
       },
       {
         path: "/get/websites",
@@ -112,6 +110,34 @@ var routes = [
         icon: "fa-solid fa-file-pen",
         name: "Update Roles",
         component: <UpdateRoles />,
+        layout: "/admin",
+      },
+    ],
+  },
+  {
+    name: "Settings",
+    icon: "fa-solid fa-gear",
+    layout: "/admin",
+    subMenu: [
+      {
+        path: "/update/home-menus",
+        icon: "fa-solid fa-bars",
+        name: "Home Menu",
+        component: <HomeMenuSetting />,
+        layout: "/admin",
+      },
+      {
+        path: "/update/home-sliders",
+        icon: "fa-regular fa-images",
+        name: "Home Slider",
+        component: <HomeSliderSetting />,
+        layout: "/admin",
+      },
+      {
+        path: "/update/home-footer",
+        icon: "fa-regular fa-window-maximize",
+        name: "Home Footer",
+        component: <HomeFooterSetting />,
         layout: "/admin",
       },
     ],

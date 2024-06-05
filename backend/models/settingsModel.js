@@ -24,11 +24,50 @@ const HomeSliderSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-
     image: {
-      filename: String,
-      path: String,
-      size: Number,
+      filename: {
+        type: String,
+      },
+      path: {
+        type: String,
+      },
+      size: {
+        type: Number,
+      },
+    },
+  },
+  { timestamps: true }
+);
+
+const HomeFooterSchema = new mongoose.Schema(
+  {
+    heading: {
+      type: String,
+    },
+    subheading: {
+      type: String,
+    },
+
+    links: [
+      {
+        type: String,
+      },
+    ],
+
+    icons: [
+      {
+        type: String,
+      },
+    ],
+
+    contactInfo: {
+      address: String,
+      phone: [{ type: Number }],
+      email: [{ type: String }],
+    },
+
+    copyrightInfo: {
+      type: String,
     },
   },
   { timestamps: true }
@@ -37,5 +76,6 @@ const HomeSliderSchema = new mongoose.Schema(
 // Define MongoDB models
 const HomeMenu = mongoose.model("HomeMenu", HomeMenuSchema);
 const HomeSlider = mongoose.model("HomeSlider", HomeSliderSchema);
+const HomeFooter = mongoose.model("HomeFooter", HomeFooterSchema);
 
-module.exports = { HomeMenu, HomeSlider };
+module.exports = { HomeMenu, HomeSlider, HomeFooter };

@@ -6,6 +6,10 @@ const {
   updateMenu,
   createHomeSlider,
   getAllHomeSliders,
+  getHomeFooter,
+  updateHomeFooter,
+  updateHomeSlider,
+  deleteHomeSlider,
 } = require("../controllers/settingsController");
 
 const { isAuthenticatedUser, authorizeMenus } = require("../middleware/auth");
@@ -24,5 +28,16 @@ router.route("/create/home-slider").post(createHomeSlider).name =
 
 router.route("/get/home-sliders").get(getAllHomeSliders).name =
   "Get All Home-Slider";
+
+router.route("/update/home-sliders").put(updateHomeSlider).name =
+  "Update Home-Slider";
+
+router.route("/delete/home-slider").delete(deleteHomeSlider).name =
+  "Delete Home-Slider";
+
+//home footer routes
+router.route("/get/home-footer").get(getHomeFooter).name = "Get Home-Footer";
+router.route("/update/home-footer").get(updateHomeFooter).name =
+  "Update Home-Footer";
 
 module.exports = router;

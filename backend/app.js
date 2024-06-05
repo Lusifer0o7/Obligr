@@ -31,7 +31,7 @@ app.use("/api/v1", permission);
 app.use("/api/v1", website);
 app.use("/api/v1", homeSetting);
 
-//getRoutes(app);
+// getRoutes(app);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 

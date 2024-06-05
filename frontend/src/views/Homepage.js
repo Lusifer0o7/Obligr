@@ -482,7 +482,7 @@ export default function Homepage() {
           ))}
         </div> */}
 
-        <div style={{ margin: "2em", padding: "5em 0" }}>
+        <div style={{ padding: "5em 0" }}>
           <ParallaxText baseVelocity={-5}>Gloraglam</ParallaxText>
           <ParallaxText baseVelocity={5}>& Shop Verities Online </ParallaxText>
         </div>

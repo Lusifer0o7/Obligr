@@ -1,10 +1,9 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { HomeMenu, HomeSlider } = require("../models/settingsModel");
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
+const { HomeMenu, HomeSlider, HomeFooter } = require("../models/settingsModel");
 const upload = require("../middleware/uploadFiles");
+
+// Home Header/Menu
 
 exports.createMenu = catchAsyncErrors(async (req, res, next) => {
   const { title, subtitles } = req.body;
@@ -65,16 +64,17 @@ exports.deleteMenu = catchAsyncErrors(async (req, res, next) => {
 exports.createHomeSlider = [
   upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
-    const { title, description } = req.body;
-    const { filename, path, size } = req.file;
+    const { title, description, image } = req.body;
+
+    const { name, path, size } = req.file;
 
     const homeSlider = new HomeSlider({
       title,
       description,
       image: {
-        filename,
-        path,
-        size,
+        filename: image.name,
+
+        size: image.size,
       },
     });
 
@@ -83,7 +83,7 @@ exports.createHomeSlider = [
     res.status(201).json({
       message: "Image uploaded and data saved successfully!",
 
-      homeSlider,
+      // homeSlider,
     });
   }),
 ];
@@ -143,5 +143,42 @@ exports.deleteHomeSlider = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "HomeSlider Deleted Successfully",
+  });
+});
+
+//Home Footer
+
+exports.getHomeFooter = catchAsyncErrors(async (req, res, next) => {
+  const homeFooter = await HomeFooter.find();
+
+  res.status(200).json({
+    success: true,
+    homeFooter,
+  });
+});
+
+exports.updateHomeFooter = catchAsyncErrors(async (req, res, next) => {
+  const newHomeFooterData = {
+    heading: req.body.heading,
+    subheading: req.body.subheading,
+    links: req.body.links,
+    icons: req.body.icons,
+    contactInfo: req.body.contactInfo,
+    copyrightInfo: req.body.copyrightInfo,
+  };
+
+  const footer = await HomeFooter.findByIdAndUpdate(
+    req.body.footerId,
+    newHomeFooterData,
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
+
+  res.status(200).json({
+    success: true,
+    footer,
   });
 });

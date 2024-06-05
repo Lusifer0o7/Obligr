@@ -30,6 +30,13 @@ import {
   UPDATE_HOME_SLIDER_FAIL,
   UPDATE_HOME_SLIDER_RESET,
   DELETE_HOME_SLIDER_RESET,
+  HOME_FOOTER_REQUEST,
+  HOME_FOOTER_SUCCESS,
+  HOME_FOOTER_FAIL,
+  UPDATE_HOME_FOOTER_REQUEST,
+  UPDATE_HOME_FOOTER_SUCCESS,
+  UPDATE_HOME_FOOTER_FAIL,
+  UPDATE_HOME_FOOTER_RESET,
 } from "../constants/settingConstants";
 
 export const createHomeMenuReducer = (state = { newHomeMenu: {} }, action) => {
@@ -271,6 +278,75 @@ export const allHomeSliderReducer = (
       return {
         loading: false,
         error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getHomeFooterReducer = (state = { getHomeFooter: {} }, action) => {
+  switch (action.type) {
+    case HOME_FOOTER_REQUEST:
+      return {
+        loading: true,
+        homeFooter: [],
+      };
+
+    case HOME_FOOTER_SUCCESS:
+      return {
+        loading: false,
+        homeFooter: action.payload,
+      };
+
+    case HOME_FOOTER_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const HomeFooterReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_HOME_FOOTER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_HOME_FOOTER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+
+    case UPDATE_HOME_FOOTER_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case UPDATE_HOME_FOOTER_RESET:
+      return {
+        ...state,
+        isUpdated: false,
       };
 
     case CLEAR_ERRORS:

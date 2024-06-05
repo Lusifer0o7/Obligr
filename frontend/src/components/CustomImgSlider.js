@@ -32,7 +32,7 @@ function CustomImgSlider({ children }) {
 
   const slideNext = () => {
     setActiveIndex((val) => {
-      if (val >= homeSliders.length - 1) {
+      if (val >= homeSliders.length ?? -1) {
         return 0;
       } else {
         return val + 1;
@@ -43,7 +43,7 @@ function CustomImgSlider({ children }) {
   const slidePrev = () => {
     setActiveIndex((val) => {
       if (val <= 0) {
-        return homeSliders.length - 1;
+        return homeSliders.length ?? -1;
       } else {
         return val - 1;
       }
@@ -62,6 +62,10 @@ function CustomImgSlider({ children }) {
       setSlideDone(true);
     }
   };
+
+  if (typeof loading === "undefined" || loading) {
+    return <></>;
+  }
 
   return (
     <div

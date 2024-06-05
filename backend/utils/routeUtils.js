@@ -24,6 +24,7 @@ const getRoutes = (app) => {
       name: route.name,
       path: route.path,
     });
+
     if (!existingPermission) {
       // If route is not in permissions collection, save it
       const newPermission = new Permission({

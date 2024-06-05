@@ -5,6 +5,12 @@ import {
   ALL_HOME_SLIDER_REQUEST,
   ALL_HOME_SLIDER_SUCCESS,
   ALL_HOME_SLIDER_FAIL,
+  HOME_FOOTER_REQUEST,
+  HOME_FOOTER_SUCCESS,
+  HOME_FOOTER_FAIL,
+  UPDATE_HOME_FOOTER_REQUEST,
+  UPDATE_HOME_FOOTER_SUCCESS,
+  UPDATE_HOME_FOOTER_FAIL,
 } from "../constants/settingConstants";
 import { BASE_URL } from "../constants/urlConstants";
 import axios from "axios";
@@ -159,6 +165,39 @@ export const deleteHomeSlider = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: DELETE_HOME_SLIDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const getHomeFooter = () => async (dispatch) => {
+  try {
+    dispatch({ type: HOME_FOOTER_REQUEST });
+
+    const { data } = await axios.get(`${BASE_URL}/api/v1/get/home-footer`);
+
+    dispatch({ type: HOME_FOOTER_SUCCESS, payload: data.footer });
+  } catch (error) {
+    dispatch({
+      type: HOME_FOOTER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+export const updateHomeFooter = (homeFooterData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_HOME_FOOTER_REQUEST });
+
+    const { data } = await axios.put(
+      `${BASE_URL}/api/v1/update/home-footer`,
+      homeFooterData
+    );
+
+    dispatch({ type: UPDATE_HOME_FOOTER_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_HOME_FOOTER_FAIL,
       payload: error.response.data.message,
     });
   }
