@@ -28,11 +28,11 @@ exports.getAllMenus = catchAsyncErrors(async (req, res, next) => {
 
 exports.updateMenu = catchAsyncErrors(async (req, res, next) => {
   const newMenuData = {
-    title: req.body.title,
-    subtitles: req.body.subtitles,
+    id: req.body.menuId,
+    subtitles: req.body.subtitle,
   };
 
-  const menu = await HomeMenu.findByIdAndUpdate(req.body.menuId, newMenuData, {
+  const menu = await HomeMenu.updateOne(req.body.menuId, newMenuData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,

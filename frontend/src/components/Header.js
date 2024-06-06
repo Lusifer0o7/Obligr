@@ -78,6 +78,7 @@ export default function Header() {
           </svg>
         </label>
       </div>
+
       <motion.div
         animate={{ y: isInView ? 0 : "-100vh" }}
         transition={{ duration: 0.2, delay: 0.25, ease: "easeInOut" }}

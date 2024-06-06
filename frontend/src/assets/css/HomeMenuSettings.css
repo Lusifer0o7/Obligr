@@ -1,12 +1,95 @@
-.title-block,
+.title-block-container {
+  margin: 10px 10px;
+  padding: 20px;
+}
+.title-block {
+  display: flex;
+  margin: 2px;
+}
 .subtitle-block {
-  margin: 10px 0;
+  display: flex;
+  margin: 2px;
 }
 
-input {
-  margin-right: 10px;
+.h-menu-preview-container {
+  height: 80px;
+  background: rgb(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
 }
 
-button {
-  margin-right: 5px;
+.h-menu-preview-lwrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+}
+
+.h-menu-preview-title {
+  text-transform: uppercase;
+  position: relative;
+  height: 100%;
+  font-size: 1.2em;
+}
+
+.h-menu-preview-title-cross {
+  position: absolute;
+  top: -13px;
+  right: -25px;
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  padding-bottom: 22px;
+  cursor: pointer;
+  color: rgb(255, 0, 0);
+}
+.h-menu-preview-title-cross:hover {
+  background-color: rgb(255, 0, 0);
+  color: rgb(255, 255, 255);
+}
+
+.h-menu-preview-subtitle-wrapper {
+  position: absolute;
+  top: 113%;
+  left: 50%;
+  min-width: 15vw;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 10px;
+  margin-top: 3.1vh;
+  backdrop-filter: blur(10px);
+  box-shadow: 2px 2px 5px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.h-menu-preview-subtitle {
+  margin: 1.5em;
+  font-size: 0.7em;
+  width: 100%;
+  text-align: center;
+}
+
+.h-menu-preview-subtitle-cross {
+  position: relative;
+  bottom: 10px;
+  left: 5px;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  color: white;
+}
+.h-menu-preview-subtitle-cross:hover {
+  color: red;
 }

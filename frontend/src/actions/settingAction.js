@@ -59,7 +59,7 @@ export const updateHomeMenu = (homeMenuData) => async (dispatch) => {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     const { data } = await axios.put(
-      `${BASE_URL}/api/v1/update/home-menu`,
+      `${BASE_URL}/api/v1/update/home-menus`,
       homeMenuData
     );
 
@@ -176,7 +176,7 @@ export const getHomeFooter = () => async (dispatch) => {
 
     const { data } = await axios.get(`${BASE_URL}/api/v1/get/home-footer`);
 
-    dispatch({ type: HOME_FOOTER_SUCCESS, payload: data.footer });
+    dispatch({ type: HOME_FOOTER_SUCCESS, payload: data.homeFooter });
   } catch (error) {
     dispatch({
       type: HOME_FOOTER_FAIL,

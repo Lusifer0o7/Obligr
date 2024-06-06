@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getHomeFooter } from "actions/settingAction";
+import Loader from "components/Loader";
 
 export default function HomeFooterSetting() {
+  const dispatch = useDispatch();
+  const { loading, homeFooter, error } = useSelector(
+    (state) => state.getHomeFooter
+  );
+
   const [formData, setFormData] = useState({
     heading: "",
     subheading: "",
@@ -14,6 +22,10 @@ export default function HomeFooterSetting() {
     },
     copyrightInfo: "",
   });
+
+  useEffect(() => {
+    dispatch(getHomeFooter());
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,8 +105,167 @@ export default function HomeFooterSetting() {
     console.log(formData);
   };
 
+  if (typeof loading === "undefined" || loading) {
+    return <Loader />;
+  }
+
   return (
     <div className="content">
+      <div>
+        <div
+          style={{
+            width: "100%",
+            margin: "0 auto",
+            padding: "3rem",
+          }}
+        >
+          <header
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderBottom: "1px solid #2d2d2d",
+              paddingBottom: "3rem",
+            }}
+          >
+            <div>
+              <img
+                src="https://placehold.co/100x100"
+                alt="Midday logo"
+                style={{ height: "2rem" }}
+              />
+              <h1
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: "600",
+                  marginTop: "0.75rem",
+                }}
+              >
+                {homeFooter[0].heading}
+              </h1>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <p
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "300",
+                }}
+              >
+                {homeFooter[0].subheading}
+              </p>
+            </div>
+          </header>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: "3rem",
+            }}
+          >
+            <div style={{ width: "25%" }}>
+              <h2
+                style={{
+                  fontWeight: "600",
+                  fontSize: "1.125rem",
+                  marginBottom: "0.75rem",
+                }}
+              >
+                Links
+              </h2>
+              <ul>
+                {homeFooter[0].links.map((link, index) => {
+                  return (
+                    <li key={index} style={{ marginBottom: "0.5rem" }}>
+                      {link}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <div style={{ width: "25%" }}>
+              <h2
+                style={{
+                  fontWeight: "600",
+                  fontSize: "1.125rem",
+                  marginBottom: "0.75rem",
+                }}
+              >
+                Contact Us
+              </h2>
+
+              <div>
+                <span>Address : </span>
+                <span style={{ marginBottom: "0.5rem" }}>
+                  {homeFooter[0].address}
+                </span>
+              </div>
+
+              <div>
+                <span>Phone : </span>
+
+                {homeFooter[0].phone.map((mobile) => {
+                  return <span>{mobile}</span>;
+                })}
+              </div>
+
+              <div>
+                <span>Email : </span>
+
+                {homeFooter[0].email.map((mail) => {
+                  return <span>{mail}</span>;
+                })}
+              </div>
+            </div>
+            <div style={{ width: "25%", textAlign: "right" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: "1rem",
+                  marginBottom: "0.75rem",
+                  color: "black",
+                }}
+              >
+                <i class="fa-solid fa-star"></i>
+                <span>Star</span>
+                <span>1.8K</span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: "1rem",
+                  color: "black",
+                  fontSize: "150%",
+                }}
+              >
+                {homeFooter[0].icons.map((icon) => {
+                  return <i class={`${icon}`}></i>;
+                })}
+              </div>
+              <div
+                style={{
+                  borderTop: "1px solid #2d2d2d",
+                  marginTop: "3rem",
+                  paddingTop: "0.75rem",
+                }}
+              ></div>
+            </div>
+          </div>
+          <footer
+            style={{
+              color: "#a0aec0",
+              fontSize: "0.875rem",
+              marginTop: "3rem",
+              textAlign: "right",
+            }}
+          >
+            {homeFooter[0].copyrightInfo}
+          </footer>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div>
           <label>Heading:</label>

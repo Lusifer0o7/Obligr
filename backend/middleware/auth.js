@@ -16,10 +16,8 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHander("Please Login to access this resource", 401));
   }
 
-  const decodedData = jwt.verify(
-    token,
-    process.env.JWT_SECRET ?? "jwtsecretkey"
-  );
+  //const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+  const decodedData = jwt.verify(token, `jwtsecretkey`);
 
   req.user = await User.findById(decodedData.id).populate({
     path: "role",

@@ -60,15 +60,21 @@ const HomeFooterSchema = new mongoose.Schema(
       },
     ],
 
-    contactInfo: {
-      address: String,
-      phone: [{ type: Number }],
-      email: [{ type: String }],
-    },
-
-    copyrightInfo: {
+    address: {
       type: String,
     },
+
+    phone: [
+      {
+        type: Number,
+      },
+    ],
+
+    email: [
+      {
+        type: String,
+      },
+    ],
   },
   { timestamps: true }
 );

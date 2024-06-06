@@ -296,7 +296,7 @@ export const getHomeFooterReducer = (state = { getHomeFooter: {} }, action) => {
     case HOME_FOOTER_REQUEST:
       return {
         loading: true,
-        homeFooter: [],
+        homeFooter: {},
       };
 
     case HOME_FOOTER_SUCCESS:
