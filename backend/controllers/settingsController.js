@@ -1,7 +1,9 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const { HomeMenu, HomeSlider, HomeFooter } = require("../models/settingsModel");
+const s3 = require("../config/aws-config");
 const upload = require("../middleware/uploadFiles");
+const fs = require("fs");
 
 // Home Header/Menu
 
@@ -64,26 +66,36 @@ exports.deleteMenu = catchAsyncErrors(async (req, res, next) => {
 exports.createHomeSlider = [
   upload.single("image"),
   catchAsyncErrors(async (req, res, next) => {
-    const { title, description, image } = req.body;
+    const { title, description } = req.body;
 
-    const { name, path, size } = req.file;
+    console.log("==>", req.file);
+    // Upload image to S3
+    const uploadParams = {
+      Bucket: "thestoreline",
+      Key: req.file.originalname,
+      Body: fs.createReadStream(req.file.path),
+    };
 
-    const homeSlider = new HomeSlider({
-      title,
-      description,
-      image: {
-        filename: image.name,
+    s3.upload(uploadParams, async (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Failed to upload image to S3" });
+      }
 
-        size: image.size,
-      },
-    });
+      const imageUrl = data.Location;
 
-    await homeSlider.save();
+      const homeSlider = new HomeSlider({
+        title,
+        description,
+        image: imageUrl,
+      });
 
-    res.status(201).json({
-      message: "Image uploaded and data saved successfully!",
+      await homeSlider.save();
 
-      // homeSlider,
+      res.status(201).json({
+        message: "Image uploaded and data saved successfully!",
+        homeSlider,
+      });
     });
   }),
 ];
